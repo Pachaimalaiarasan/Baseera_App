@@ -1,137 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<title>Scheduled Orders</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<style>
-body {
-  margin: 0; background: linear-gradient(169deg,#f6f3ff 74%,#eae7fa 130%);
-  font-family: 'Segoe UI', Arial, sans-serif;
-}
-.header-bar {
-  background: #fff;
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
-  box-shadow: 0 6px 32px rgba(102,66,176,0.09);
-  padding: 28px 0 16px 0;
-  position: sticky;
-  top: 0;
-  z-index: 4;
-}
-.header-bar h2 {
-  margin: 0 0 12px 0;
-  font-size: 2rem;
-  font-weight: 800;
-  color: #442d95;
-  letter-spacing: .7px;
-  text-align: center;
-  text-shadow:0 1.5px 9px #e7e3fc;
-}
-.search-row {
-  max-width: 520px;
-  margin: 12px auto 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  align-items: flex-end;
-}
-.search-box {
-  background: #f1effa;
-  flex: 1 1 195px;
-  display: flex;
-  align-items: center;
-  border-radius: 14px;
-  border: 1.7px solid #f1ebf9;
-  box-shadow: 0 3px 12px rgba(110,95,200,0.06);
-}
-.search-box input {
-  border: none;
-  outline: none;
-  background: transparent;
-  flex: 1;
-  font-size: 1.07rem;
-  color: #392685;
-  padding: 13px 0 13px 13px;
-  font-weight: 500;
-  border-radius: 13px;
-}
-.search-box .icon {
-  color: #8a7cef;
-  font-size: 1.39em;
-  margin-left: 13px;
-}
+  <meta charset="UTF-8" />
+  <title>Scheduled Orders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(169deg, #f6f3ff 74%, #eae7fa 130%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
 
-/* category tabs style */
-.category-tabs {
-  display:flex;
-  gap:11px;
-  padding:7px 3px 1px 3px;
-  margin-left:5px;
-  margin-right:5px;
-  border-radius:15px;
-  background: none;
-  justify-content: space-evenly;
-  align-items: center;
-}
-.category-tab {
-  background:transparent;
-  border-radius: 15px;
-  padding:8.5px 18px;
-  font-size:1.04rem;
-  font-weight:600;
-  color:#646466;
-  border:none;
-  border-radius: 0px;
-  outline:none;
-  cursor:pointer;
-  letter-spacing:.01em;
-  transition:border .13s, color .13s, box-shadow .12s;
-  /* border-bottom:1.2px solid #1b4edb; */
-  /* box-shadow: 0 1px 4px rgba(140,110,215,.07); */
-}
-.category-tab.active {
-  /* background: linear-gradient(95deg,#846df1 70%,#6fb6ea 116%); */
-  color:#000000;
-  /* box-shadow:0 3px 14px #a883fa36, 0 1px 9px #e7e3fc37; */
-  border-bottom:1.2px solid #3909e4;
-}
+    .header-bar {
+      background: #fff;
+      border-bottom-left-radius: 25px;
+      border-bottom-right-radius: 25px;
+      box-shadow: 0 6px 32px rgba(102, 66, 176, 0.09);
+      padding: 28px 0 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 4;
+    }
 
-/* order cards as in previous answer */
-.orders-list{max-width:540px;margin:0 auto;margin-top:23px;padding-bottom:40px;}
-.order-card{background:linear-gradient(135deg,#f9f8ff 84%,#f4f2fa 120%);
-  border-radius:22px;padding:18px 21px 14px 18px;margin-bottom:20px;
-  box-shadow:0 6px 32px rgba(120,80,209,0.09);
-  display:flex;flex-direction:column;gap:10px;border:2px solid #f0edff;
-  transition:box-shadow .10s,border .12s;}
-.order-card:hover{box-shadow:0 8px 32px rgba(128,99,239,.13);border:2px solid #a389ff;background:linear-gradient(137deg,#f7f2ff 74%,#efe8fe 120%);}
-.order-header{display:flex;align-items:center;gap:13px;margin-bottom:5px;}
-.order-id{background:#fff6e9;color:#7358e6;font-weight:700;font-size:1.07rem;border-radius:9px;
-  padding:3.5px 12px;border:1.1px solid #f7e5ff;box-shadow:0 1px 7px rgba(200,140,242,.07);}
-.order-status{padding:5.5px 17px;border-radius:17px;font-size:1rem;font-weight:700;
-  background:#eeeaff;color:#7b57db;margin-left:11px;letter-spacing:.02em;
-  border:1.3px solid #dddbfd;min-width:80px;text-align:center;text-shadow:0 0.8px 5px #eee9fc;}
-.status-completed{background:#eafbe9;color:#23904b;border-color:#bbeac0;}
-.status-pending{background:#fff5cf;color:#b99309;border-color:#ffde8a;}
-.status-cancelled{background:#ffeaea;color:#da3b3b;border-color:#ffc3bf;}
-.status-confirmed{background:#e9f9fc;color:#2697ac;border-color:#bae5f1;}
-.order-info-main{display:flex;align-items:center;justify-content:space-between;margin-top:11px;margin-bottom:4px;}
-.cust-main{display:flex;align-items:center;gap:13px;}
-.order-avatar{width:45px;height:45px;background:linear-gradient(120deg,#a979ec 70%,#7191ea 120%);border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.23rem;font-weight:700;box-shadow:0 2px 13px #cde5f755;}
-.cust-details{min-width:0;max-width:165px;}
-.cust-name{font-weight:700;font-size:1.09rem;color:#301a54;margin-bottom:2.5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;letter-spacing:0.01em}
-.cust-phone{font-size:.99rem;color:#a298ce;}
-.order-date{font-size:.99rem;color:#845eb2;text-align:right;font-weight:600}
-.order-other{margin-top:5px;color:#9a8ee1;font-size:.97rem;background:#f7f3fe;border-radius:9px;padding:7px 12px 6px 12px;font-weight:500;min-height:19px;}
-@media (max-width:600px){
-  .orders-list{max-width:99vw;}
-  .order-card{padding:12px 8px 11px 8px;}
-  .order-avatar{width:36px;height:36px;font-size:1.03rem;}
-  .header-bar h2{font-size:1.17rem;}
-  .search-row,.search-box,.filter-box{max-width:99vw;}
-}
-</style>
+    .header-bar h2 {
+      margin: 0 0 12px 0;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #442d95;
+      letter-spacing: .7px;
+      text-align: center;
+      text-shadow: 0 1.5px 9px #e7e3fc;
+    }
+
+    .search-row {
+      max-width: 520px;
+      margin: 12px auto 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      align-items: flex-end;
+    }
+
+    .search-box {
+      background: #f1effa;
+      flex: 1 1 195px;
+      display: flex;
+      align-items: center;
+      border-radius: 14px;
+      border: 1.7px solid #f1ebf9;
+      box-shadow: 0 3px 12px rgba(110, 95, 200, 0.06);
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      background: transparent;
+      flex: 1;
+      font-size: 1.07rem;
+      color: #392685;
+      padding: 13px 0 13px 13px;
+      font-weight: 500;
+      border-radius: 13px;
+    }
+
+    .search-box .icon {
+      color: #8a7cef;
+      font-size: 1.39em;
+      margin-left: 13px;
+    }
+
+    /* category tabs style */
+    .category-tabs {
+      display: flex;
+      gap: 11px;
+      padding: 7px 3px 1px 3px;
+      margin-left: 5px;
+      margin-right: 5px;
+      border-radius: 15px;
+      background: none;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+
+    .category-tab {
+      background: transparent;
+      border-radius: 15px;
+      padding: 8.5px 18px;
+      font-size: 1.04rem;
+      font-weight: 600;
+      color: #646466;
+      border: none;
+      border-radius: 0px;
+      outline: none;
+      cursor: pointer;
+      letter-spacing: .01em;
+      transition: border .13s, color .13s, box-shadow .12s;
+      /* border-bottom:1.2px solid #1b4edb; */
+      /* box-shadow: 0 1px 4px rgba(140,110,215,.07); */
+    }
+
+    .category-tab.active {
+      /* background: linear-gradient(95deg,#846df1 70%,#6fb6ea 116%); */
+      color: #000000;
+      /* box-shadow:0 3px 14px #a883fa36, 0 1px 9px #e7e3fc37; */
+      border-bottom: 1.2px solid #3909e4;
+    }
+
+    /* order cards as in previous answer */
+    .orders-list {
+      max-width: 540px;
+      margin: 0 auto;
+      margin-top: 23px;
+      padding-bottom: 40px;
+    }
+
+    .order-card {
+      background: linear-gradient(135deg, #f9f8ff 84%, #f4f2fa 120%);
+      border-radius: 22px;
+      padding: 18px 21px 14px 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 32px rgba(120, 80, 209, 0.09);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 2px solid #f0edff;
+      transition: box-shadow .10s, border .12s;
+    }
+
+    .order-card:hover {
+      box-shadow: 0 8px 32px rgba(128, 99, 239, .13);
+      border: 2px solid #a389ff;
+      background: linear-gradient(137deg, #f7f2ff 74%, #efe8fe 120%);
+    }
+
+    .order-header {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 5px;
+    }
+
+    .order-id {
+      background: #fff6e9;
+      color: #7358e6;
+      font-weight: 700;
+      font-size: 1.07rem;
+      border-radius: 9px;
+      padding: 3.5px 12px;
+      border: 1.1px solid #f7e5ff;
+      box-shadow: 0 1px 7px rgba(200, 140, 242, .07);
+    }
+
+    .order-status {
+      padding: 5.5px 17px;
+      border-radius: 17px;
+      font-size: 1rem;
+      font-weight: 700;
+      background: #eeeaff;
+      color: #7b57db;
+      margin-left: 11px;
+      letter-spacing: .02em;
+      border: 1.3px solid #dddbfd;
+      min-width: 80px;
+      text-align: center;
+      text-shadow: 0 0.8px 5px #eee9fc;
+    }
+
+    .status-completed {
+      background: #eafbe9;
+      color: #23904b;
+      border-color: #bbeac0;
+    }
+
+    .status-pending {
+      background: #fff5cf;
+      color: #b99309;
+      border-color: #ffde8a;
+    }
+
+    .status-cancelled {
+      background: #ffeaea;
+      color: #da3b3b;
+      border-color: #ffc3bf;
+    }
+
+    .status-confirmed {
+      background: #e9f9fc;
+      color: #2697ac;
+      border-color: #bae5f1;
+    }
+
+    .order-info-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 11px;
+      margin-bottom: 4px;
+    }
+
+    .cust-main {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .order-avatar {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(120deg, #a979ec 70%, #7191ea 120%);
+      border-radius: 50%;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.23rem;
+      font-weight: 700;
+      box-shadow: 0 2px 13px #cde5f755;
+    }
+
+    .cust-details {
+      min-width: 0;
+      max-width: 165px;
+    }
+
+    .cust-name {
+      font-weight: 700;
+      font-size: 1.09rem;
+      color: #301a54;
+      margin-bottom: 2.5px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      letter-spacing: 0.01em
+    }
+
+    .cust-phone {
+      font-size: .99rem;
+      color: #a298ce;
+    }
+
+    .order-date {
+      font-size: .99rem;
+      color: #845eb2;
+      text-align: right;
+      font-weight: 600
+    }
+
+    .order-other {
+      margin-top: 5px;
+      color: #9a8ee1;
+      font-size: .97rem;
+      background: #f7f3fe;
+      border-radius: 9px;
+      padding: 7px 12px 6px 12px;
+      font-weight: 500;
+      min-height: 19px;
+    }
+
+    @media (max-width:600px) {
+      .orders-list {
+        max-width: 99vw;
+      }
+
+      .order-card {
+        padding: 12px 8px 11px 8px;
+      }
+
+      .order-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 1.03rem;
+      }
+
+      .header-bar h2 {
+        font-size: 1.17rem;
+      }
+
+      .search-row,
+      .search-box,
+      .filter-box {
+        max-width: 99vw;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="header-bar">
     <h2>Scheduled Orders</h2>
@@ -151,78 +305,78 @@ body {
   </div>
   <div id="orders-list" class="orders-list"></div>
 
-<script>
-let allOrders = [];
-let filteredOrders = [];
-let currentStatusFilter = "";
+  <script>
+    let allOrders = [];
+    let filteredOrders = [];
+    let currentStatusFilter = "";
 
-document.addEventListener("DOMContentLoaded", function () {
-  fetch('../Backend/get_all_orders.php')
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === "success" && Array.isArray(data.orders)) {
-        allOrders = data.orders;
-        filteredOrders = allOrders;
-        renderOrders(filteredOrders);
-      } else {
-        document.getElementById('orders-list').innerHTML =
-          '<div style="color:#b55;margin:30px 15px;text-align:center;">Failed to load orders.</div>';
-      }
-    })
-    .catch(() => {
-      document.getElementById('orders-list').innerHTML =
-        '<div style="color:#b55;margin:30px 15px;text-align:center;">Network error loading orders.</div>';
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('../Backend/get_all_orders.php')
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "success" && Array.isArray(data.orders)) {
+            allOrders = data.orders;
+            filteredOrders = allOrders;
+            renderOrders(filteredOrders);
+          } else {
+            document.getElementById('orders-list').innerHTML =
+              '<div style="color:#b55;margin:30px 15px;text-align:center;">Failed to load orders.</div>';
+          }
+        })
+        .catch(() => {
+          document.getElementById('orders-list').innerHTML =
+            '<div style="color:#b55;margin:30px 15px;text-align:center;">Network error loading orders.</div>';
+        });
+
+      // Attach category tabs
+      document.querySelectorAll('.category-tab').forEach(tab => {
+        tab.onclick = function () {
+          document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          currentStatusFilter = this.getAttribute('data-status');
+          filterOrders();
+        }
+      });
     });
 
-  // Attach category tabs
-  document.querySelectorAll('.category-tab').forEach(tab=>{
-    tab.onclick = function(){
-      document.querySelectorAll('.category-tab').forEach(t=>t.classList.remove('active'));
-      this.classList.add('active');
-      currentStatusFilter = this.getAttribute('data-status');
+    function searchOrders() {
       filterOrders();
     }
-  });
-});
 
-function searchOrders() {
-  filterOrders();
-}
+    function filterOrders() {
+      const query = document.getElementById('search-input').value.trim().toLowerCase();
+      const statusVal = currentStatusFilter;
 
-function filterOrders() {
-  const query = document.getElementById('search-input').value.trim().toLowerCase();
-  const statusVal = currentStatusFilter;
-
-  filteredOrders = allOrders.filter(order => {
-    let matchStatus = !statusVal || (order.order_status && order.order_status.toLowerCase() === statusVal);
-    let matchSearch = !query ||
-      (order.order_id && String(order.order_id).includes(query))
-      || (order.customer_name && order.customer_name.toLowerCase().includes(query))
-      || (order.customer_phone && String(order.customer_phone).includes(query));
-    return matchStatus && matchSearch;
-  });
-  renderOrders(filteredOrders);
-}
-
-// Render orders, styled as floating cards
-function renderOrders(list) {
-  let html = "";
-  if (!list.length) {
-    html = '<div style="text-align:center;padding:33px;color:#aaa9cc;font-size:1.08rem;">No orders found.</div>';
-  }
-  list.forEach(order => {
-    let initials = getInitials(order.customer_name || '');
-    let statusClass = '';
-    if (order.order_status) {
-      let s = order.order_status.toLowerCase();
-      if (s === 'completed') statusClass = 'status-completed';
-      else if (s === 'pending') statusClass = 'status-pending';
-      else if (s === 'cancelled') statusClass = 'status-cancelled';
-      else if (s === 'confirmed') statusClass = 'status-confirmed';
+      filteredOrders = allOrders.filter(order => {
+        let matchStatus = !statusVal || (order.order_status && order.order_status.toLowerCase() === statusVal);
+        let matchSearch = !query ||
+          (order.order_id && String(order.order_id).includes(query))
+          || (order.customer_name && order.customer_name.toLowerCase().includes(query))
+          || (order.customer_phone && String(order.customer_phone).includes(query));
+        return matchStatus && matchSearch;
+      });
+      renderOrders(filteredOrders);
     }
-    let date = (order.order_date && order.order_date.length > 0) ?
-      formatDate(order.order_date) : '';
-    html += `
+
+    // Render orders, styled as floating cards
+    function renderOrders(list) {
+      let html = "";
+      if (!list.length) {
+        html = '<div style="text-align:center;padding:33px;color:#aaa9cc;font-size:1.08rem;">No orders found.</div>';
+      }
+      list.forEach(order => {
+        let initials = getInitials(order.customer_name || '');
+        let statusClass = '';
+        if (order.order_status) {
+          let s = order.order_status.toLowerCase();
+          if (s === 'completed') statusClass = 'status-completed';
+          else if (s === 'pending') statusClass = 'status-pending';
+          else if (s === 'cancelled') statusClass = 'status-cancelled';
+          else if (s === 'confirmed') statusClass = 'status-confirmed';
+        }
+        let date = (order.order_date && order.order_date.length > 0) ?
+          formatDate(order.order_date) : '';
+        html += `
     <div class="order-card">
       <div class="order-header">
         <span class="order-id">Order #${order.order_id || '-'}</span>
@@ -242,29 +396,30 @@ function renderOrders(list) {
         ${order.order_desc ? escapeHtml(order.order_desc) : ''}
       </div>
     </div>`;
-  });
-  document.getElementById('orders-list').innerHTML = html;
-}
+      });
+      document.getElementById('orders-list').innerHTML = html;
+    }
 
-// Helpers
-function getInitials(name) {
-  name = (name || '').trim();
-  if (!name) return "#";
-  let parts = name.split(' ').filter(Boolean);
-  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-}
-function escapeHtml(text) {
-  return text == null ? '' : text.replace(/[&<>"'`=\/]/g, function (s) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', "/": '&#47;','=':'&#61;','`':'&#96;'}[s]) });
-}
-function capitalize(w) { return w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : ''; }
-function formatDate(str) {
-  let d = new Date(str);
-  if (!isNaN(d.getTime())) {
-    return d.toLocaleDateString('en-IN', { day: "2-digit", month: "short", year: "numeric" });
-  }
-  return str;
-}
-</script>
+    // Helpers
+    function getInitials(name) {
+      name = (name || '').trim();
+      if (!name) return "#";
+      let parts = name.split(' ').filter(Boolean);
+      if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    function escapeHtml(text) {
+      return text == null ? '' : text.replace(/[&<>"'`=\/]/g, function (s) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', "/": '&#47;', '=': '&#61;', '`': '&#96;' }[s]) });
+    }
+    function capitalize(w) { return w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : ''; }
+    function formatDate(str) {
+      let d = new Date(str);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleDateString('en-IN', { day: "2-digit", month: "short", year: "numeric" });
+      }
+      return str;
+    }
+  </script>
 </body>
+
 </html>

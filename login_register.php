@@ -169,6 +169,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     } else {
         payload.username = loginValue.toLowerCase();
     }
+    
 
     fetch('Backend/auth.php', {
         method: 'POST',

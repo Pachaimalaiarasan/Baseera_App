@@ -88,8 +88,8 @@ if ($action === 'register') {
             throw new Exception($stmt->error);
         }
         $stmt->close();
-
         $conn->commit();
+        
         echo json_encode(["status" => "success", "message" => "User registered successfully"]);
     } catch (Exception $e) {
         $conn->rollback();
