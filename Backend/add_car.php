@@ -17,12 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['carNumber']) && isset(
 
         // Step 2: Handle car image upload (if provided)
         if ($image) {
-            $uploadDir = __DIR__ . "/uploads/cars/$carId/";
+            $uploadDir = __DIR__ . "/uploads/cars/";
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true); // Create folder recursively
             }
             $imageFileName = uniqid() . '_' . basename($image['name']);
-            $imagePath = "uploads/cars/$carId/" . $imageFileName;
+            $imagePath = "uploads/cars/" . $imageFileName;
             $fullPath = $uploadDir . $imageFileName;
             if (move_uploaded_file($image['tmp_name'], $fullPath)) {
                 // Step 3: Update car record with image path (store relative path)
