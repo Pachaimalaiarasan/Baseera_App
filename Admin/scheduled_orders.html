@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Scheduled Orders</title>
@@ -8,10 +7,9 @@
   <style>
     body {
       margin: 0;
-      background: linear-gradient(169deg, #f6f3ff 74%, #eae7fa 130%);
+      background: #faf4ff;
       font-family: 'Segoe UI', Arial, sans-serif;
     }
-
     .header-bar {
       background: #fff;
       border-bottom-left-radius: 25px;
@@ -22,7 +20,6 @@
       top: 0;
       z-index: 4;
     }
-
     .header-bar h2 {
       margin: 0 0 12px 0;
       font-size: 2rem;
@@ -32,7 +29,6 @@
       text-align: center;
       text-shadow: 0 1.5px 9px #e7e3fc;
     }
-
     .search-row {
       max-width: 520px;
       margin: 12px auto 0 auto;
@@ -41,7 +37,6 @@
       gap: 9px;
       align-items: flex-end;
     }
-
     .search-box {
       background: #f1effa;
       flex: 1 1 195px;
@@ -51,7 +46,6 @@
       border: 1.7px solid #f1ebf9;
       box-shadow: 0 3px 12px rgba(110, 95, 200, 0.06);
     }
-
     .search-box input {
       border: none;
       outline: none;
@@ -63,14 +57,11 @@
       font-weight: 500;
       border-radius: 13px;
     }
-
     .search-box .icon {
       color: #8a7cef;
       font-size: 1.39em;
       margin-left: 13px;
     }
-
-    /* category tabs style */
     .category-tabs {
       display: flex;
       gap: 11px;
@@ -82,7 +73,6 @@
       justify-content: space-evenly;
       align-items: center;
     }
-
     .category-tab {
       background: transparent;
       border-radius: 15px;
@@ -91,208 +81,158 @@
       font-weight: 600;
       color: #646466;
       border: none;
-      border-radius: 0px;
       outline: none;
       cursor: pointer;
       letter-spacing: .01em;
       transition: border .13s, color .13s, box-shadow .12s;
-      /* border-bottom:1.2px solid #1b4edb; */
-      /* box-shadow: 0 1px 4px rgba(140,110,215,.07); */
     }
-
     .category-tab.active {
-      /* background: linear-gradient(95deg,#846df1 70%,#6fb6ea 116%); */
       color: #000000;
-      /* box-shadow:0 3px 14px #a883fa36, 0 1px 9px #e7e3fc37; */
       border-bottom: 1.2px solid #3909e4;
     }
-
-    /* order cards as in previous answer */
     .orders-list {
       max-width: 540px;
       margin: 0 auto;
       margin-top: 23px;
       padding-bottom: 40px;
     }
-
     .order-card {
-      background: linear-gradient(135deg, #f9f8ff 84%, #f4f2fa 120%);
-      border-radius: 22px;
-      padding: 18px 21px 14px 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 6px 32px rgba(120, 80, 209, 0.09);
+      background: #fff;
+      border-radius: 19px;
+      box-shadow: 0 6px 32px rgba(120, 80, 209, 0.07);
+      border: 2px solid #efe8fa;
+      margin-bottom: 28px;
+      padding: 22px 22px 16px 22px;
+      position: relative;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      border: 2px solid #f0edff;
-      transition: box-shadow .10s, border .12s;
     }
-
-    .order-card:hover {
-      box-shadow: 0 8px 32px rgba(128, 99, 239, .13);
-      border: 2px solid #a389ff;
-      background: linear-gradient(137deg, #f7f2ff 74%, #efe8fe 120%);
-    }
-
-    .order-header {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      margin-bottom: 5px;
-    }
-
-    .order-id {
-      background: #fff6e9;
-      color: #7358e6;
-      font-weight: 700;
-      font-size: 1.07rem;
-      border-radius: 9px;
-      padding: 3.5px 12px;
-      border: 1.1px solid #f7e5ff;
-      box-shadow: 0 1px 7px rgba(200, 140, 242, .07);
-    }
-
-    .order-status {
-      padding: 5.5px 17px;
-      border-radius: 17px;
-      font-size: 1rem;
-      font-weight: 700;
-      background: #eeeaff;
-      color: #7b57db;
-      margin-left: 11px;
-      letter-spacing: .02em;
-      border: 1.3px solid #dddbfd;
-      min-width: 80px;
-      text-align: center;
-      text-shadow: 0 0.8px 5px #eee9fc;
-    }
-
-    .status-completed {
-      background: #eafbe9;
-      color: #23904b;
-      border-color: #bbeac0;
-    }
-
-    .status-pending {
-      background: #fff5cf;
-      color: #b99309;
-      border-color: #ffde8a;
-    }
-
-    .status-cancelled {
-      background: #ffeaea;
-      color: #da3b3b;
-      border-color: #ffc3bf;
-    }
-
-    .status-confirmed {
-      background: #e9f9fc;
-      color: #2697ac;
-      border-color: #bae5f1;
-    }
-
-    .order-info-main {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 11px;
-      margin-bottom: 4px;
-    }
-
-    .cust-main {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-    }
-
-    .order-avatar {
-      width: 45px;
-      height: 45px;
-      background: linear-gradient(120deg, #a979ec 70%, #7191ea 120%);
-      border-radius: 50%;
+    .order-status-badge {
+      position: absolute;
+      right: 23px;
+      top: 23px;
       color: #fff;
+      background: #fff5cf;
+      color:#faad12;
+      border: 2px solid #ffe5a3;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-radius: 12px;
+      padding: 5px 20px;
+    }
+    .order-header-main {
+      font-size: 1.21rem;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 7px;
+      color: #2c285b;
+      letter-spacing: .02em;
+    }
+    .order-sub {
+      margin-bottom: 9px;
+      color: #3f386b;
+      font-size: 1.05rem;
+    }
+    .order-sub label {
+      font-size: .96rem;
+      color: #a19cb6;
+      font-weight: 400;
+      margin-right: 8px;
+    }
+    .order-meta {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.23rem;
-      font-weight: 700;
-      box-shadow: 0 2px 13px #cde5f755;
+      align-items: flex-end;
+      font-size: 1.05rem;
+      color: #5e5699;
+      margin-bottom: 0px;
     }
-
-    .cust-details {
-      min-width: 0;
-      max-width: 165px;
+    .order-meta .branch {
+      margin-right: 18px;
     }
-
-    .cust-name {
+    .order-meta .date {
+      color: #9b6fc2;
+      margin-left: auto;
+      font-size: 1.01em;
+    }
+    .service-row {
+      font-size: 1.04rem;
+      color: #715fa1;
+      margin-bottom: 6px;
+      margin-top: 3px;
+    }
+    .order-divider {
+      border-top: 1px solid #ece6f4;
+      margin: 14px 0 10px 0;
+    }
+    .order-amt-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.05rem;
+      margin-bottom: 1px;
+      color: #2f2456;
+    }
+    .order-amt-row:last-child {
       font-weight: 700;
+    }
+    .pay-status {
+      color: #e84848;
+      margin-top: 10px;
+      font-size: 1.08rem;
+      font-weight: 600;
+    }
+    .pay-mode {
+      color: #aaa;
+      font-size: .99rem;
+      margin-bottom: 3px;
+    }
+    .btn-row {
+      margin-top: 20px;
+      display: flex;
+      gap: 16px;
+      justify-content: space-between;
+    }
+    .accept-btn, .cancel-btn {
+      border: none;
       font-size: 1.09rem;
-      color: #301a54;
-      margin-bottom: 2.5px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      letter-spacing: 0.01em
+      font-weight: 600;
+      padding: 13px 0;
+      border-radius: 20px;
+      width: 48%;
+      box-shadow: 0 2px 8px #e7e3fc;
+      cursor: pointer;
+      transition:0.11s;
     }
-
-    .cust-phone {
-      font-size: .99rem;
-      color: #a298ce;
+    .accept-btn {
+      background: #2196f3;
+      color: #fff;
     }
-
-    .order-date {
-      font-size: .99rem;
-      color: #845eb2;
-      text-align: right;
-      font-weight: 600
+    .accept-btn:hover {
+      background: #176cb3;
     }
-
-    .order-other {
-      margin-top: 5px;
-      color: #9a8ee1;
-      font-size: .97rem;
-      background: #f7f3fe;
-      border-radius: 9px;
-      padding: 7px 12px 6px 12px;
-      font-weight: 500;
-      min-height: 19px;
+    .cancel-btn {
+      background: #eb4034;
+      color: #fff;
     }
-
+    .cancel-btn:hover {
+      background: #b72820;
+    }
     @media (max-width:600px) {
       .orders-list {
         max-width: 99vw;
       }
-
       .order-card {
-        padding: 12px 8px 11px 8px;
-      }
-
-      .order-avatar {
-        width: 36px;
-        height: 36px;
-        font-size: 1.03rem;
-      }
-
-      .header-bar h2 {
-        font-size: 1.17rem;
-      }
-
-      .search-row,
-      .search-box,
-      .filter-box {
-        max-width: 99vw;
+        padding: 13px 7px 13px 7px;
       }
     }
   </style>
 </head>
-
 <body>
   <div class="header-bar">
-    <h2>Scheduled Orders</h2>
+    <h2>Order Summary</h2>
     <div class="search-row">
       <div class="search-box">
-        <span class="icon">&#128269;</span>
-        <input id="search-input" type="text" placeholder="Search orders (name, id, phone)..." oninput="searchOrders()">
+        <span class="icon">🔍</span>
+        <input id="search-input" type="text" placeholder="Search by car name, customer, or e..." oninput="searchOrders()">
       </div>
     </div>
     <div class="category-tabs" id="category-tabs">
@@ -304,14 +244,20 @@
     </div>
   </div>
   <div id="orders-list" class="orders-list"></div>
-
   <script>
     let allOrders = [];
     let filteredOrders = [];
     let currentStatusFilter = "";
+    let carMap = {};
 
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch('../Backend/get_all_orders.php')
+    document.addEventListener("DOMContentLoaded", async function () {
+      const customerId = 1; // TODO: Set this dynamically, e.g., from login/session
+      
+      // 1. Fetch all cars for mapping car ids to car name/model (if desired)
+      await fetchCars(customerId);
+
+      // 2. Fetch all customer orders
+      fetch(`../Backend/get_customer_orders.php?customer_id=${customerId}`)
         .then(res => res.json())
         .then(data => {
           if (data.status === "success" && Array.isArray(data.orders)) {
@@ -319,107 +265,163 @@
             filteredOrders = allOrders;
             renderOrders(filteredOrders);
           } else {
-            document.getElementById('orders-list').innerHTML =
+            document.getElementById("orders-list").innerHTML =
               '<div style="color:#b55;margin:30px 15px;text-align:center;">Failed to load orders.</div>';
           }
         })
         .catch(() => {
-          document.getElementById('orders-list').innerHTML =
+          document.getElementById("orders-list").innerHTML =
             '<div style="color:#b55;margin:30px 15px;text-align:center;">Network error loading orders.</div>';
         });
 
-      // Attach category tabs
-      document.querySelectorAll('.category-tab').forEach(tab => {
+      document.querySelectorAll(".category-tab").forEach((tab) => {
         tab.onclick = function () {
-          document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-          this.classList.add('active');
-          currentStatusFilter = this.getAttribute('data-status');
+          document
+            .querySelectorAll(".category-tab")
+            .forEach((t) => t.classList.remove("active"));
+          this.classList.add("active");
+          currentStatusFilter = this.getAttribute("data-status");
           filterOrders();
-        }
+        };
       });
     });
+
+    async function fetchCars(customerId) {
+      carMap = {};
+      try {
+        let res = await fetch(`../Backend/get_car.php?customer_id=${customerId}`);
+        let data = await res.json();
+        if (data.status === "success" && Array.isArray(data.cars)) {
+          data.cars.forEach(car => {
+            carMap[car.car_id] = car.car_name || car.model || ''; // Adapt as per your cars table columns
+          });
+        }
+      } catch (e) {}
+    }
 
     function searchOrders() {
       filterOrders();
     }
-
     function filterOrders() {
-      const query = document.getElementById('search-input').value.trim().toLowerCase();
+      const query = document.getElementById("search-input").value
+        .trim()
+        .toLowerCase();
       const statusVal = currentStatusFilter;
-
-      filteredOrders = allOrders.filter(order => {
-        let matchStatus = !statusVal || (order.order_status && order.order_status.toLowerCase() === statusVal);
-        let matchSearch = !query ||
-          (order.order_id && String(order.order_id).includes(query))
-          || (order.customer_name && order.customer_name.toLowerCase().includes(query))
-          || (order.customer_phone && String(order.customer_phone).includes(query));
+      filteredOrders = allOrders.filter((order) => {
+        let orderStatus = (order.order_status || '').toLowerCase();
+        let matchStatus = !statusVal || orderStatus === statusVal;
+        let matchSearch =
+          !query ||
+          (order.order_id && String(order.order_id).includes(query)) ||
+          (order.customer_name &&
+            order.customer_name.toLowerCase().includes(query)) ||
+          (order.customer_phone &&
+            String(order.customer_phone).includes(query));
         return matchStatus && matchSearch;
       });
       renderOrders(filteredOrders);
     }
-
-    // Render orders, styled as floating cards
+    function present(val, fallback='') {
+      return (val!==null && val!==undefined && val!=='') ? val : fallback;
+    }
     function renderOrders(list) {
       let html = "";
       if (!list.length) {
-        html = '<div style="text-align:center;padding:33px;color:#aaa9cc;font-size:1.08rem;">No orders found.</div>';
+        html =
+          '<div style="text-align:center;padding:33px;color:#aaa9cc;font-size:1.08rem;">No orders found.</div>';
       }
-      list.forEach(order => {
-        let initials = getInitials(order.customer_name || '');
-        let statusClass = '';
-        if (order.order_status) {
-          let s = order.order_status.toLowerCase();
-          if (s === 'completed') statusClass = 'status-completed';
-          else if (s === 'pending') statusClass = 'status-pending';
-          else if (s === 'cancelled') statusClass = 'status-cancelled';
-          else if (s === 'confirmed') statusClass = 'status-confirmed';
+      list.forEach((order) => {
+        let s = present(order.order_status, "").toLowerCase();
+        // Use car_id if you want to map to car name/model from cars table
+        let car_name = present(order.car_name, present(order.vehicle_name, carMap[order.car_id] || ''));
+        let cust = present(order.customer_name, present(order.cust_name, ''));
+        let employee = present(order.employee_name, present(order.staff_name, ''));
+        let branch = present(order.branch, present(order.branch_name, ''));
+        let date = present(order.order_date, present(order.date, ''));
+        let service = present(order.service_name, present(order.service, ''));
+        let plan = present(order.plan_name, present(order.plan, ''));
+        let cgst = present(order.cgst, '0');
+        let sgst = present(order.sgst, '0');
+        let total = present(order.total_amount, present(order.order_total, '0'));
+        let payment_status = present(order.payment_status, '');
+        let payment_mode = present(order.payment_mode, '');
+        let badge = "";
+        if (s === "pending")
+          badge = `<div class="order-status-badge">Pending</div>`;
+        else if (s === "confirmed")
+          badge = `<div class="order-status-badge" style="background:#e9f9fc; color:#2697ac; border-color:#bae5f1;">Confirmed</div>`;
+        else if (s === "completed")
+          badge = `<div class="order-status-badge" style="background:#eafbe9; color:#23904b; border-color:#bbeac0;">Completed</div>`;
+        else if (s === "cancelled")
+          badge = `<div class="order-status-badge" style="background:#ffeaea; color:#da3b3b; border-color:#ffc3bf;">Rejected</div>`;
+        let date_disp = "";
+        if (date && !isNaN(new Date(date).getTime()))
+          date_disp = formatDate(date);
+        let buttonsHtml = "";
+        if (s === "pending") {
+          buttonsHtml = `
+            <div class="btn-row">
+              <button class="cancel-btn" onclick="updateOrderStatus(${order.order_id}, 'cancelled')">Cancel Order</button>
+              <button class="accept-btn" onclick="updateOrderStatus(${order.order_id}, 'confirmed')">Accept Order</button>
+            </div>
+          `;
         }
-        let date = (order.order_date && order.order_date.length > 0) ?
-          formatDate(order.order_date) : '';
         html += `
-    <div class="order-card">
-      <div class="order-header">
-        <span class="order-id">Order #${order.order_id || '-'}</span>
-        ${order.order_status ? `<span class="order-status ${statusClass}">${capitalize(order.order_status)}</span>` : ''}
-      </div>
-      <div class="order-info-main">
-        <div class="cust-main">
-          <div class="order-avatar">${initials}</div>
-          <div class="cust-details">
-            <div class="cust-name">${escapeHtml(order.customer_name || '')}</div>
-            <div class="cust-phone">${escapeHtml(order.customer_phone || '')}</div>
+          <div class="order-card">
+            ${badge}
+            <div class="order-header-main">${car_name}</div>
+            <div class="order-sub"><label>Customer:</label> ${cust}</div>
+            <div class="order-sub"><label>Employee:</label> ${employee}</div>
+            <div class="order-meta">
+              <div class="branch">Branch: ${branch}</div>
+              <div class="date">${date_disp}</div>
+            </div>
+            <div class="service-row">${service} : ${plan}</div>
+            <div class="order-divider"></div>
+            <div class="order-amt-row">CGST <div>₹${cgst}/-</div></div>
+            <div class="order-amt-row">SGST <div>₹${sgst}/-</div></div>
+            <div class="order-amt-row" style="font-weight:700;">Order Total <div>₹${total}/-</div></div>
+            <div class="pay-status">Payment Status: ${payment_status||'unpaid'}</div>
+            <div class="pay-mode">Payment Mode: ${payment_mode}</div>
+            ${buttonsHtml}
           </div>
-        </div>
-        <div class="order-date">${date}</div>
-      </div>
-      <div class="order-other">
-        ${order.order_desc ? escapeHtml(order.order_desc) : ''}
-      </div>
-    </div>`;
+        `;
       });
-      document.getElementById('orders-list').innerHTML = html;
+      document.getElementById("orders-list").innerHTML = html;
     }
-
-    // Helpers
-    function getInitials(name) {
-      name = (name || '').trim();
-      if (!name) return "#";
-      let parts = name.split(' ').filter(Boolean);
-      if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
-      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    }
-    function escapeHtml(text) {
-      return text == null ? '' : text.replace(/[&<>"'`=\/]/g, function (s) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', "/": '&#47;', '=': '&#61;', '`': '&#96;' }[s]) });
-    }
-    function capitalize(w) { return w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : ''; }
     function formatDate(str) {
       let d = new Date(str);
       if (!isNaN(d.getTime())) {
-        return d.toLocaleDateString('en-IN', { day: "2-digit", month: "short", year: "numeric" });
+        return d.toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
       }
       return str;
     }
+    function capitalize(w) {
+      return w ? w.toUpperCase() + w.slice(1).toLowerCase() : "";
+    }
+    function updateOrderStatus(orderId, newStatus) {
+      fetch("../Backend/update_order.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body:
+          `order_id=${encodeURIComponent(orderId)}&order_status=${encodeURIComponent(newStatus)}`,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === "success") {
+            setTimeout(() => {
+              location.reload();
+            }, 300);
+          } else {
+            alert("Failed to update order: " + data.message);
+          }
+        })
+        .catch(() => alert("Network error updating order."));
+    }
   </script>
 </body>
-
 </html>

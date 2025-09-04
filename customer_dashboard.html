@@ -2,530 +2,778 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Car App Home</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <style>
-        body {
-            margin: 0;
-            background: #fff;
-            font-family: Arial;
-            min-height: 100vh;
-        }
+  <meta charset="UTF-8" />
+  <title>Car App Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <style>
+    /* Base and typography */
+    body {
+      margin: 0;
+      background: #fff;
+      font-family: Arial, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      color: #222;
+      overflow-x: hidden;
+    }
 
-        .top-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 1.6rem 0.5rem 1.2rem;
-        }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.6rem 0.5rem 1.2rem;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #fafafa;
+      border-bottom: 1px solid #eee;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-        .avatar {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            border: 2px solid #eee;
-            object-fit: cover;
-            background: #e5ecf0;
-        }
+    .avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 2px solid #eee;
+      background: #e5ecf0;
+      object-fit: cover;
+    }
 
-        .select-wrap {
-            min-width: 160px;
-            position: relative;
-        }
+    .select-wrap {
+      min-width: 120px;
+      position: relative;
+      width: 100%;
+      max-width: 260px;
+    }
 
-        .branch-select {
-            min-width: 150px;
-            font-size: 1.1rem;
-            border: none;
-            border-bottom: 2px solid #bdbdbd;
-            background: #fff;
-            font-weight: 500;
-            outline: none;
-            padding-right: 20px;
-            appearance: none;
-            cursor: pointer;
-        }
+    .branch-select {
+      width: 100%;
+      font-size: 1.1rem;
+      border: none;
+      border-bottom: 2px solid #bdbdbd;
+      background: #fff;
+      font-weight: 500;
+      outline: none;
+      appearance: none;
+      padding-right: 20px;
+      cursor: pointer;
+    }
 
-        .select-arrow {
-            position: absolute;
-            right: 7px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
-            pointer-events: none;
-        }
+    .select-arrow {
+      position: absolute;
+      right: 7px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      pointer-events: none;
+    }
 
-        .section {
-            margin-left: 10px;
-            margin-right: 10px;
-        }
+    .section {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
 
-        .section-title {
-            font-size: 1.24em;
-            font-weight: 700;
-            margin: 22px 0 10px 0;
-        }
+    .section-title {
+      font-size: 1.24em;
+      font-weight: 700;
+      margin: 22px 0 10px 0;
+      color: #263055;
+    }
 
-        .offers-container {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
+    .offers-container {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
 
-        .offer-card {
-            flex: 1 0 44vw;
-            min-width: 110px;
-            max-width: 240px;
-            padding: 18px 12px 12px 12px;
-            color: #fff;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            font-size: 1em;
-            box-shadow: 0 1px 9px #0001;
-        }
+    .offer-card {
+      flex: 1 0 200px;
+      min-width: 110px;
+      max-width: 260px;
+      padding: 18px 12px 12px 12px;
+      color: #fff;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 1em;
+      box-shadow: 0 1px 9px #0001;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
 
-        .offer-black {
-            background: #111;
-        }
+    .offer-card:hover {
+      filter: brightness(1.1);
+    }
 
-        .offer-brown {
-            background: #765645;
-        }
+    .offer-black {
+      background: #111;
+    }
 
-        .claim-btn {
-            margin-top: 17px;
-            padding: 6px 25px;
-            border-radius: 18px;
-            border: none;
-            background: #fff;
-            color: #333;
-            font-weight: 500;
-            font-size: 1.13em;
-            cursor: pointer;
-        }
+    .offer-brown {
+      background: #765645;
+    }
 
-        .offer-brown .claim-btn {
-            color: #765645;
-        }
+    .claim-btn {
+      margin-top: 17px;
+      padding: 6px 25px;
+      border-radius: 18px;
+      border: none;
+      background: #fff;
+      color: #333;
+      font-weight: 500;
+      font-size: 1.13em;
+      cursor: pointer;
+    }
 
-        .services-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .offer-brown .claim-btn {
+      color: #765645;
+    }
 
-        .services-row .see-toggle {
-            color: #2596fd;
-            text-decoration: none;
-            font-size: 1em;
-            margin-left: auto;
-        }
+    .services-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
-        .add-car-link {
-            color: #2596fd;
-            text-decoration: none;
-            float: right;
-            font-size: 1.05em;
-        }
+    .add-car-link {
+      color: #2596fd;
+      text-decoration: none;
+      font-size: 1.05em;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
 
-        .cars-scroll {
-            overflow-x: auto;
-        }
+    .cars-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      gap: 12px;
+      padding-bottom: 8px;
+      scroll-padding-left: 10px;
+    }
 
-        .carcard-main {
-            background: #fff;
-            border-radius: 19px;
-            box-shadow: 0 3px 17px #0002;
-            margin-left: 8px;
-            margin-right: 8px;
-            min-width: 84vw;
-        }
+    .carcard-main {
+      background: #fff;
+      border-radius: 19px;
+      box-shadow: 0 3px 17px #0002;
+      min-width: 290px;
+      max-width: 97vw;
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      scroll-margin-left: 10px;
+    }
 
-        .car-left {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-        }
+    .car-img-holder {
+      width: 49px;
+      height: 49px;
+      border-radius: 50%;
+      background: #ededed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 18px;
+      overflow: hidden;
+    }
 
-        .car-img-holder {
-            width: 49px;
-            height: 49px;
-            border-radius: 50%;
-            background: #ededed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .car-img-holder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
 
-        .car-plate {
-            background: #ffe015;
-            color: #111;
-            padding: 4px 13px;
-            border-radius: 5px;
-            border: 2px solid #222;
-            font-family: monospace;
-            font-size: 1.13em;
-            box-shadow: 1px 1px 2px #0002;
-            margin-top: 0;
-        }
+    .car-plate {
+      background: #ffe015;
+      color: #111;
+      padding: 4px 13px;
+      border-radius: 5px;
+      border: 2px solid #222;
+      font-family: monospace;
+      font-size: 1.13em;
+      box-shadow: 1px 1px 2px #0002;
+      margin-top: 0;
+      display: inline-block;
+    }
 
-        .car-name {
-            font-size: 1.1em;
-            font-weight: 700;
-        }
+    .car-name {
+      font-size: 1.1em;
+      font-weight: 700;
+    }
 
-        .car-meta {
-            color: #222;
-            font-size: 0.96em;
-        }
+    .products-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 14px;
+      margin-top: 6px;
+      margin-bottom: 54px;
+    }
 
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 99;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            overflow: auto;
-            background: rgba(30, 30, 50, 0.14);
-        }
+    .product-card {
+      border-radius: 16px;
+      box-shadow: 0 1px 9px #0001;
+      background: #fff;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: box-shadow 0.2s ease;
+    }
 
-        .modal-content {
-            background: #faf6fa;
-            margin: 30px auto;
-            padding: 22px 14px 17px 14px;
-            border-radius: 18px;
-            max-width: 95vw;
-            width: 340px;
-            min-height: 370px;
-            box-shadow: 0 4px 22px #0002;
-        }
+    .product-card:hover {
+      box-shadow: 0 4px 17px #0004;
+    }
 
-        .modal-title {
-            font-size: 1.21em;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      border-radius: 12px;
+      margin-bottom: 9px;
+      background: #f7f7f7;
+    }
 
-        .modal-close {
-            color: #888;
-            font-size: 1.55em;
-            float: left;
-            cursor: pointer;
-            margin-right: 7px;
-        }
+    .product-name {
+      font-weight: 700;
+      font-size: 1.03em;
+      margin-bottom: 4px;
+      color: #2a2a2a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-        .modal-form label {
-            font-size: 1.05em;
-            margin-bottom: 2px;
-        }
+    .product-price-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.97em;
+    }
 
-        .modal-form input {
-            width: 100%;
-            margin-bottom: 15px;
-            margin-top: 6px;
-            border-radius: 6px;
-            border: 1.7px solid #94cffa;
-            font-size: 1.08em;
-            padding: 9px;
-        }
+    .product-price {
+      color: #1976d2;
+      font-weight: 600;
+    }
 
-        .modal-form .modal-btn {
-            width: 98%;
-            background: #2196f3;
-            color: #fff;
-            padding: 10px;
-            border-radius: 22px;
-            font-weight: 700;
-            font-size: 1.09em;
-            border: none;
-            margin: 11px auto 0 auto;
-            display: block;
-        }
+    .product-original-price {
+      text-decoration: line-through;
+      color: #999;
+    }
 
-        .modal-form .img-btn {
-            display: block;
-            margin: 14px auto 17px auto;
-            background: #eaf4fa;
-            color: #1976d2;
-            border-radius: 9px;
-            border: 2px solid #90caf9;
-            padding: 11px 19px;
-            font-size: 1.09em;
-        }
+    .product-discount {
+      background: #ffd54f;
+      font-weight: 600;
+      color: #5d4000;
+      padding: 1px 8px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      user-select: none;
+    }
 
-        .img-upload-box {
-            width: 85px;
-            height: 85px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2.2px solid #60baff;
-            border-radius: 14px;
-            font-size: 2.7em;
-            color: #aaa;
-            margin: 6px auto;
-        }
+    .modal {
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(30, 30, 50, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
 
-        .bottom-nav {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100vw;
-            background: #232323;
-            border-top-left-radius: 22px;
-            border-top-right-radius: 22px;
-            box-shadow: 0 -2px 16px #0002;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 70px;
-            z-index: 9;
-        }
+    .modal.show {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-        .nav-item {
-            color: #bebebe;
-            text-align: center;
-            flex: 1;
-            padding-top: 5px;
-            font-size: 1rem;
-            transition: color 0.13s;
-        }
+    .modal-content {
+      background: #faf6fa;
+      border-radius: 18px;
+      max-width: 95vw;
+      width: 340px;
+      min-height: 350px;
+      padding: 22px 14px 17px 14px;
+      box-shadow: 0 4px 22px #0002;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .nav-item.active {
-            color: #1976d2;
-        }
+    .modal-title {
+      font-size: 1.21em;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .nav-item i {
-            display: block;
-            font-size: 1.18rem;
-            margin-bottom: 2px;
-        }
-    </style>
+    .modal-close {
+      color: #888;
+      font-size: 1.55em;
+      cursor: pointer;
+      margin-right: 7px;
+      float: left;
+      user-select: none;
+    }
+
+    .modal-form label {
+      font-size: 1.05em;
+      margin-bottom: 2px;
+      display: block;
+    }
+
+    .modal-form input {
+      width: 100%;
+      margin-bottom: 15px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1.7px solid #94cffa;
+      font-size: 1.08em;
+      padding: 9px;
+      box-sizing: border-box;
+    }
+
+    .modal-form .modal-btn {
+      width: 98%;
+      background: #2196f3;
+      color: #fff;
+      padding: 10px;
+      border-radius: 22px;
+      font-weight: 700;
+      font-size: 1.09em;
+      border: none;
+      margin: 11px auto 0 auto;
+      display: block;
+      cursor: pointer;
+    }
+
+    .modal-form .img-btn {
+      display: block;
+      margin: 14px auto 17px auto;
+      background: #eaf4fa;
+      color: #1976d2;
+      border-radius: 9px;
+      border: 2px solid #90caf9;
+      padding: 11px 19px;
+      font-size: 1.09em;
+      cursor: pointer;
+    }
+
+    .img-upload-box {
+      width: 85px;
+      height: 85px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2.2px solid #60baff;
+      border-radius: 14px;
+      font-size: 2.7em;
+      color: #aaa;
+      margin: 6px auto;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      background: #232323;
+      border-top-left-radius: 22px;
+      border-top-right-radius: 22px;
+      box-shadow: 0 -2px 16px #0002;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 64px;
+      z-index: 9;
+    }
+
+    .nav-item {
+      color: #bebebe;
+      text-align: center;
+      flex: 1;
+      padding-top: 5px;
+      font-size: 1rem;
+      transition: color 0.13s;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: #1976d2;
+    }
+
+    .nav-item i {
+      display: block;
+      font-size: 1.18rem;
+      margin-bottom: 2px;
+    }
+
+    @media (max-width: 900px) {
+      .offers-container {
+        flex-direction: column;
+      }
+
+      .offer-card {
+        max-width: 99vw;
+        width: 100%;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      .section-title {
+        font-size: 1.07em;
+      }
+
+      .carcard-main {
+        min-width: 94vw;
+      }
+
+      .bottom-nav {
+        height: 60px;
+      }
+
+      .modal-content {
+        width: 95vw;
+        min-height: auto;
+        padding: 16px 12px;
+      }
+    }
+
+    @media (max-width: 400px) {
+
+      .car-img-holder,
+      .avatar {
+        width: 38px;
+        height: 38px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <img src="https://i.imgur.com/47q4t7y.png" alt="Profile" class="avatar">
-        <!-- <img src="/Backend/uploads/cars/68b02dbb6684a_client-say (3).png" alt="Profile" class="avatar"> -->
-        <div class="select-wrap">
-            <select class="branch-select" id="branchDropdown" onchange="onBranchChange()">
-                <option selected disabled>Select Branch</option>
-            </select>
-            <span class="select-arrow"><i class="bi bi-caret-down-fill"></i></span>
-        </div>
+  <div class="top-bar">
+    <img src="https://i.imgur.com/47q4t7y.png" alt="Profile" class="avatar" />
+    <div class="select-wrap">
+      <select class="branch-select" id="branchDropdown" onchange="onBranchChange()">
+        <option selected disabled>Select Branch</option>
+      </select>
+      <span class="select-arrow"><i class="bi bi-caret-down-fill"></i></span>
     </div>
-
-    <!-- Main Section -->
-    <div id="mainPage" class="section" style="display:block;">
-        <div style="margin-bottom:20px;">
-            <div class="section-title">#Special Offers</div>
-            <div class="offers-container">
-                <div class="offer-card offer-black">
-                    <div>For First Order Get<br>Up to 30%</div>
-                    <button class="claim-btn">Claim</button>
-                </div>
-                <div class="offer-card offer-brown">
-                    <div>Product Discount<br>Up to 150</div>
-                    <button class="claim-btn">Claim</button>
-                </div>
-            </div>
-        </div>
-        <div class="services-row" style="margin-bottom:10px;">
-            <div class="section-title" style="margin-bottom:0;">Services</div>
-            <a class="see-toggle" id="showLessLink" href="#" style="">Show Less</a>
-        </div>
-        <div id="servicesList" style="margin-bottom:17px; margin-left:13px;"></div>
-        <div style="display:flex;align-items:center;margin-bottom:3px;">
-            <div class="section-title" style="margin-bottom:0;">My Cars</div>
-            <a href="#" class="add-car-link" onclick="openAddCarModal();return false;"><i class="bi bi-plus-lg"></i> Add
-                Car</a>
-        </div>
-        <div id="carsList" class="cars-scroll"></div>
-        <div class="section-title" style="margin-bottom:7px; margin-top:10px;">Trending Products</div>
-        <div style="text-align:center; color:#444; margin-bottom:54px; font-size: 1.1em;">
-            No products available
-        </div>
+  </div>
+  <div id="mainPage" class="section">
+    <div id="pleaseSelectMsg" style="margin: 69px auto 0 auto; color: #1a1a1a; font-size: 1.28em; text-align: center">
+      Please select a branch
     </div>
-
-    <!-- Add Car Modal Popup -->
-    <div id="addCarModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeAddCarModal()">&larr;</span>
-            <span class="modal-title">Add Car <span style="float:right;font-size:0.8em;font-weight:400;">Customer ID:
-                    <span id="modalCustomerId">1</span></span></span>
-            <div id="addCarError" style="color:red; font-size:1em; margin-bottom:7px; text-align:center;"></div>
-            <form id="addCarForm" class="modal-form" enctype="multipart/form-data">
-                <input type="hidden" id="customerIdInput" name="customerId" value="1">
-                <div class="img-upload-box" id="imgBox">
-                    <i class="bi bi-car-front"></i>
-                </div>
-                <button class="img-btn" type="button" onclick="document.getElementById('carImageInput').click();">Select
-                    Image</button>
-                <input type="file" id="carImageInput" name="carImage" accept="image/*" style="display:none;"
-                    onchange="showPreviewImage(event)">
-                <label for="carNumberInput">Car Number</label>
-                <input id="carNumberInput" name="carNumber" placeholder="Ex: TN-00-AA-0000" required autocomplete="off">
-                <label for="carNameInput">Car Name</label>
-                <input id="carNameInput" name="carName" required autocomplete="off">
-                <button class="modal-btn" type="submit">Add Car</button>
-            </form>
+    <div id="branchContent" style="display: none">
+      <div class="section-title" style="margin-top: 0">#Special Offers</div>
+      <div class="offers-container">
+        <div class="offer-card offer-black">
+          <div>For First Order Get<br />Up to 30%</div>
+          <button class="claim-btn">Claim</button>
         </div>
+        <div class="offer-card offer-brown">
+          <div>Product Discount<br />Up to 150</div>
+          <button class="claim-btn">Claim</button>
+        </div>
+      </div>
+      <div class="services-row" style="margin-bottom: 10px">
+        <div class="section-title" style="margin-bottom: 0">Services</div>
+      </div>
+      <div id="servicesList" style="margin-bottom: 17px; margin-left: 13px"></div>
+      <div style="display: flex; align-items: center; margin-bottom: 3px">
+        <div class="section-title" style="margin-bottom: 0">My Cars</div>
+        <a href="#" class="add-car-link" onclick="openAddCarModal();return false"><i class="bi bi-plus-lg"></i> Add
+          Car</a>
+      </div>
+      <div id="carsList" class="cars-scroll"></div>
+      <div class="section-title" style="margin-bottom: 7px; margin-top: 10px">
+        Trending Products
+      </div>
+      <div id="productsList" class="products-container"></div>
     </div>
+  </div>
 
-    <!-- Bottom Navigation Bar -->
-    <nav class="bottom-nav">
-        <div class="nav-item active">
-            <i class="bi bi-house-fill"></i>
-            <span>Home</span>
+  <!-- Add Car Modal -->
+  <div id="addCarModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="addCarTitle" tabindex="-1">
+    <div class="modal-content">
+      <span role="button" tabindex="0" aria-label="Close" class="modal-close" onclick="closeAddCarModal()"
+        onkeydown="if(event.key==='Enter' || event.key===' ') closeAddCarModal()">&larr;</span>
+      <h2 class="modal-title" id="addCarTitle">Add Car</h2>
+      <div id="addCarError" style="color: red; font-size: 1em; margin-bottom: 7px; text-align: center"></div>
+      <form id="addCarForm" enctype="multipart/form-data">
+        <input type="hidden" id="customerIdInput" name="customerId" value="1" />
+        <div class="img-upload-box" id="imgBoxAddCar">
+          <i class="bi bi-car-front"></i>
         </div>
-        <div class="nav-item">
-            <i class="bi bi-bag"></i>
-            <span>Orders</span>
-        </div>
-        <div class="nav-item">
-            <i class="bi bi-grid-3x3-gap"></i>
-            <span>Products</span>
-        </div>
-        <div class="nav-item">
-            <i class="bi bi-person"></i>
-            <span>Profile</span>
-        </div>
-    </nav>
+        <button class="img-btn" type="button" onclick="document.getElementById('carImageInput').click();"
+          aria-label="Select Car Image">
+          Select Image
+        </button>
+        <input type="file" id="carImageInput" name="carImage" accept="image/*" style="display: none"
+          onchange="showPreviewImage(event)" />
+        <label for="carNumberInput">Car Number</label>
+        <input id="carNumberInput" name="carNumber" placeholder="Ex: TN-00-AA-0000" required autocomplete="off"
+          aria-required="true" />
+        <label for="carNameInput">Car Name</label>
+        <input id="carNameInput" name="carName" required autocomplete="off" aria-required="true" />
+        <button class="modal-btn" type="submit">Add Car</button>
+      </form>
+    </div>
+  </div>
 
-    <script>
-        let currentBranchId = null;
-        let currentCustomerId = 1; // Change to real logged-in customer ID
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-nav" role="navigation" aria-label="Bottom Navigation">
+    <div class="nav-item active" tabindex="0" role="link" aria-current="page">
+      <i class="bi bi-house-fill"></i><span>Home</span>
+    </div>
+    <div class="nav-item" tabindex="0" role="link">
+      <i class="bi bi-bag"></i><span>Orders</span>
+    </div>
+    <div class="nav-item" tabindex="0" role="link">
+      <i class="bi bi-grid-3x3-gap"></i><span>Products</span>
+    </div>
+    <div class="nav-item" tabindex="0" role="link">
+      <i class="bi bi-person"></i><span>Profile</span>
+    </div>
+  </nav>
 
-window.onload = function () {
-    fetch('Backend/get_all_branches.php')
-        .then(resp => resp.json())
-        .then(data => {
-            if (data.status === "success" && data.branches) {
-                let dropdown = document.getElementById('branchDropdown');
-                data.branches.forEach((branch, index) => {
-                    let opt = document.createElement("option");
-                    opt.value = branch.branch_id;
-                    opt.textContent = branch.branch_name;
-                    dropdown.appendChild(opt);
-                });
+  <script>
+    let currentBranchId = null,
+      currentCustomerId = 1;
 
-                // Select the first branch by default if available
-                if (dropdown.options.length > 1) {
-                    dropdown.selectedIndex = 1;  // 0 is "Select Branch" disabled option
-                }
-
-                onBranchChange(); // Load details for selected branch
-            }
+    window.onload = function () {
+      fetch("Backend/get_all_branches.php")
+        .then((resp) => resp.json())
+        .then((data) => {
+          let dropdown = document.getElementById("branchDropdown");
+          dropdown.innerHTML = '<option selected disabled>Select Branch</option>';
+          if (data.status == "success" && data.branches) {
+            data.branches.forEach((branch) => {
+              let opt = document.createElement("option");
+              opt.value = branch.branch_id;
+              opt.textContent = branch.branch_name;
+              dropdown.appendChild(opt);
+            });
+          }
         });
-};
+    };
 
-        function onBranchChange() {
-            let dropdown = document.getElementById('branchDropdown');
-            if (dropdown.value && dropdown.selectedIndex > 0) {
-                currentBranchId = dropdown.value;
-                loadServices(currentBranchId);
-                loadCars();
-            } else {
-                document.getElementById("servicesList").innerHTML = "";
-                document.getElementById("carsList").innerHTML = "";
-                currentBranchId = null;
-            }
-        }
-        function loadServices(branchId) {
-            fetch('Backend/get_service_and_branch.php?branch_id=' + encodeURIComponent(branchId))
-                .then(res => res.json())
-                .then(data => {
-                    let html = "";
-                    if (data.status === "success" && data.mappings && data.mappings.length > 0) {
-                        data.mappings.forEach(item => {
-                            html += `<div style="margin:5px 0 7px 0;font-weight:500;color:#111;font-size:1.09em;">${item.service_name || item.name || "Service"}</div>`;
-                        });
-                    } else {
-                        html = '<div style="color:#888;">No services found for this branch.</div>';
-                    }
-                    document.getElementById("servicesList").innerHTML = html;
-                });
-        }
-function loadCars() {
-    fetch('Backend/get_car.php?customer_id=' + encodeURIComponent(currentCustomerId))
-        .then(res => res.json())
-        .then(data => {
-            let html = "";
-            if (data.status === "success" && data.cars && data.cars.length > 0) {
-                data.cars.forEach(car => {
-                    html += `
-                        <div class="carcard-main" style="display:flex;align-items:center;">
-                            <div class="car-img-holder" style="margin-right:18px;">
-                                    <img src="/Backend/uploads/cars/9/68ac73fc47952_2210_w018_n002_1385a_p30_1385.jpg" alt="Profile" class="avatar">
+    function onBranchChange() {
+      let val = document.getElementById("branchDropdown").value;
+      currentBranchId = val;
+      localStorage.setItem("selectedBranchId", val); // <-- Store in localStorage
+      document.getElementById("pleaseSelectMsg").style.display = val ? "none" : "block";
+      document.getElementById("branchContent").style.display = val ? "block" : "none";
+      if (val) {
+        loadServices(val);
+        loadCars();
+        loadProducts();
+      }
+    }
 
-                            </div>
-                            <div style="flex:1;display:flex;flex-direction:column;">
-                                <div style="display:flex;justify-content:space-between;align-items:center;">
-                                    <span class="car-name" style="font-weight:700;font-size:1.22em;margin-bottom:3px;">${car.car_name || "MYCAR"}</span>
-                                </div>
-                                <span class="car-plate" style="display:inline-block;margin-top:9px;padding:6px 18px 6px 18px;font-size:1.1em;background:#ffe015;color:#111;border-radius:7px;border:2.5px solid #222;font-family:monospace;box-shadow:1px 1px 2px #0002;">
-                                    ${car.car_number || ""}
-                                </span>
-                            </div>
-                        </div>
-                        <div style="height:18px;"></div>
-                    `;
-                });
-            } else {
-                html = '<div style="color:#999;text-align:center;margin:19px 0 5px 0;font-size:1em;">No cars found</div>';
-            }
-            document.getElementById("carsList").innerHTML = html;
+    function loadServices(branchId) {
+      fetch("Backend/get_service_and_branch.php?branch_id=" + encodeURIComponent(branchId))
+        .then((res) => res.json())
+        .then((data) => {
+          let list = document.getElementById("servicesList");
+          list.innerHTML = "";
+          let arr = [];
+          if (data.status === "success") {
+            if (Array.isArray(data.services)) arr = data.services;
+            else if (Array.isArray(data.mappings)) arr = data.mappings;
+          }
+          if (arr.length > 0) {
+            arr.forEach((item) => {
+              let div = document.createElement("div");
+              div.className = "offer-card";
+              div.style.background = "#f4f4f4";
+              div.style.color = "#222";
+              div.style.boxShadow = "0 2px 7px #deeffb";
+              div.style.minWidth = "110px";
+              div.textContent = item.service_name || item.name || "Service";
+
+              div.onclick = () => {
+                const sid = encodeURIComponent(item.service_id || item.id || "");
+                const sname = encodeURIComponent(item.service_name || item.name || "");
+                // Open in same tab
+                window.location.href = 'Customer/add_service_booking.html?service_id=' + sid + '&service_name=' + sname;
+              };
+              list.appendChild(div);
+            });
+          } else {
+            list.innerHTML = '<div style="color:#888;">No services found for this branch.</div>';
+          }
+        })
+        .catch((err) => {
+          document.getElementById("servicesList").innerHTML =
+            '<div style="color:#888;">Network error or invalid response</div>';
+          console.error("Failed to load services:", err);
         });
-}
+    }
 
-        // Modal logic for Add Car
-        function openAddCarModal() {
-            document.getElementById("addCarModal").style.display = "block";
-            document.getElementById("addCarError").innerHTML = "";
-            document.getElementById("customerIdInput").value = currentCustomerId;
-            document.getElementById("modalCustomerId").textContent = currentCustomerId;
-        }
-        function closeAddCarModal() {
-            document.getElementById("addCarModal").style.display = "none";
-            document.getElementById("addCarForm").reset();
-            document.getElementById("imgBox").innerHTML = '<i class="bi bi-car-front"></i>';
-        }
-        function showPreviewImage(event) {
-            const box = document.getElementById("imgBox");
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    box.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        document.getElementById("addCarForm").onsubmit = function (e) {
-            e.preventDefault();
-            const formData = new FormData(document.getElementById("addCarForm"));
-            fetch('Backend/add_car.php', { method: 'POST', body: formData })
-                .then(resp => resp.json())
-                .then(data => {
-                    if (data.status === "success") {
-                        closeAddCarModal();
-                        loadCars();
-                    } else {
-                        document.getElementById("addCarError").innerHTML = data.message || "Error adding car";
-                    }
-                }).catch(() => {
-                    document.getElementById("addCarError").innerHTML = "Network error";
-                });
-        }
-    </script>
+    function loadCars() {
+      fetch("Backend/get_car.php?customer_id=" + encodeURIComponent(currentCustomerId))
+        .then((res) => res.json())
+        .then((data) => {
+          let list = document.getElementById("carsList");
+          list.innerHTML = "";
+          if (data.status == "success" && data.cars && data.cars.length > 0) {
+            data.cars.forEach((car) => {
+              let img = car.car_image
+                ? `<img src="Backend/${car.car_image}" class="avatar" />`
+                : `<span class="car-img-holder"></span>`;
+              let elem = document.createElement("div");
+              elem.className = "carcard-main";
+              elem.style.display = "flex";
+              elem.style.alignItems = "center";
+              elem.style.marginBottom = "18px";
+              elem.innerHTML = `
+                <div class="car-img-holder" style="margin-right: 18px;">${img}</div>
+                <div style="flex: 1; display: flex; flex-direction: column;">
+                  <span class="car-name">${car.car_name || "MYCAR"}</span>
+                  <span class="car-plate">${car.car_number || ""}</span>
+                </div>
+              `;
+              list.appendChild(elem);
+            });
+          } else {
+            list.innerHTML =
+              '<div style="color:#999;text-align:center;margin:19px 0 5px 0;font-size:1em;">No cars found</div>';
+          }
+        });
+    }
+
+    function loadProducts() {
+      fetch("Backend/get_products.php")
+        .then((res) => res.json())
+        .then((data) => {
+          const productContainer = document.getElementById("productsList");
+          productContainer.innerHTML = "";
+          if (data.status === "success" && data.products) {
+            data.products.forEach((product) => {
+              const productCard = document.createElement("div");
+              productCard.className = "product-card";
+              const productImg = product.product_image
+                ? product.product_image
+                : "https://via.placeholder.com/150";
+              const discountHtml =
+                product.product_percentage_discount && product.product_percentage_discount > 0
+                  ? `<span class="product-discount">${product.product_percentage_discount}% OFF</span>`
+                  : "";
+              const originalPriceHtml =
+                product.product_percentage_discount && product.product_percentage_discount > 0
+                  ? `<span class="product-original-price">₹${product.product_sell_price.toFixed(
+                    2
+                  )}</span>`
+                  : "";
+              const discountedPrice = product.product_percentage_discount
+                ? product.product_sell_price *
+                (1 - product.product_percentage_discount / 100)
+                : product.product_sell_price;
+              productCard.innerHTML = `
+                <img src="Backend/${productImg}" alt="${product.product_name}" class="product-image" />
+                <div class="product-name" title="${product.product_name}">
+                  ${product.product_name}
+                </div>
+                <div class="product-price-section">
+                  <span class="product-price">₹${discountedPrice.toFixed(2)}</span>
+                  ${originalPriceHtml}
+                  ${discountHtml}
+                </div>
+              `;
+              productContainer.appendChild(productCard);
+            });
+          } else {
+            productContainer.innerHTML =
+              '<div style="color:#888; font-size: 1em; text-align: center;">No products available</div>';
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to load products:", err);
+          const productContainer = document.getElementById("productsList");
+          productContainer.innerHTML =
+            '<div style="color:#f00; font-size: 1em; text-align: center;">Failed to load products</div>';
+        });
+    }
+
+    function openAddCarModal() {
+      const modal = document.getElementById("addCarModal");
+      modal.classList.add("show");
+      document.getElementById("addCarError").innerText = "";
+      document.getElementById("addCarForm").reset();
+      document.getElementById("imgBoxAddCar").innerHTML = '<i class="bi bi-car-front"></i>';
+      document.body.style.overflow = "hidden";
+    }
+    function closeAddCarModal() {
+      const modal = document.getElementById("addCarModal");
+      modal.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    function showPreviewImage(event) {
+      const box = document.getElementById("imgBoxAddCar"),
+        file = event.target.files[0];
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+          box.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    document.getElementById("addCarForm").onsubmit = function (e) {
+      e.preventDefault();
+      const formData = new FormData(document.getElementById("addCarForm"));
+      fetch("Backend/add_car.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          if (data.status == "success") {
+            closeAddCarModal();
+            loadCars();
+          } else {
+            document.getElementById("addCarError").innerText =
+              data.message || "Error adding car";
+          }
+        })
+        .catch(() => {
+          document.getElementById("addCarError").innerText = "Network error";
+        });
+    };
+  </script>
 </body>
 
 </html>

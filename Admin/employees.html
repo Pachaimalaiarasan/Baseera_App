@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { margin:0; background: #f9f3fa; font-family: 'Segoe UI',sans-serif; color: #191919; }
+    .header { display:flex; align-items:center; gap:10px; padding:21px 16px 0; background: #f9f3fa;}
+    .header .back { font-size: 32px; cursor: pointer; color: #444;}
+    .header .title { flex:1;text-align:center; font-weight:bold; font-size:31px;}
+    .branch-row { width: 94%; margin: 0 auto 10px; }
+    .branch-select { width: 100%; font-size: 17px; padding: 11px 16px; border: none; border-bottom: 2px solid #ddd; background: #f9f3fa; border-radius: 6px 6px 0 0;margin-bottom:4px;font-weight:500;}
+    .search-box { width: 94%; margin: 10px auto 0; display: flex; align-items: center; background: #f9f3fa; border-radius: 16px; border: 1.5px solid #bbb; padding: 14px 17px; }
+    .search-icon { font-size: 24px; color:#959595; margin-right: 12px;}
+    .search-box input { border:none; background:transparent;font-size:19px;width:100%;outline:none;}
+    .list-wrap { width:96%;margin:25px auto 0;}
+    .emp-card { background: #fff; border-radius: 18px; padding:16px 16px 16px 0; display:flex; align-items:center; margin-bottom:19px; box-shadow: 0 2px 12px #c8bfcc26;}
+    .emp-avatar { width:43px;height:43px;background:#e8e7ea; border-radius:50%; display:flex;align-items:center;justify-content:center; margin:0 17px; font-size:28px;}
+    .emp-name { font-size:19px; font-weight:500; margin-right:auto;}
+    .icon-btn { cursor:pointer; background:none; border:none;outline:none;padding:0;margin:0 8px;}
+    .edit-icon {color:#2296f3;font-size:22px;}
+    .info-icon {color:#858484;font-size:22px;}
+    .del-icon {color:#f44336;font-size:26px;}
+    .add-btn-bar {position:fixed; left:0; right:0; bottom:20px; width:96%; margin:0 2%; text-align:center;}
+    .add-btn { width:100%;background:#2196f3; color:#fff; padding:18px 0; font-size:22px;font-weight:500;border:none;border-radius:14px;box-shadow:0 2px 7px #2196f344;cursor:pointer;}
+    /* Modal */
+    .modal-bg { position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(45,44,51,.38);z-index:998;display:none;align-items:center;justify-content:center;}
+    .modal-emp { background:#f7f0fa;border-radius:32px;box-shadow:0 4px 24px #9d7bb933;padding:29px 32px 32px; width:90vw; max-width:350px;z-index:999;display:flex;flex-direction:column; }
+    .modal-emp h2 {margin-top:0;font-size: 29px; margin-bottom:20px;}
+    .modal-emp label {margin-bottom:2px;font-size:17px;color:#5b576b;font-weight:500;}
+    .modal-emp input, .modal-emp button, .modal-emp .modal-upload-btn {width:100%;margin-bottom:18px;padding:13px 12px; border-radius:8px; border:1.2px solid #d6cfe3;font-size:18px;background:#f9f7ff;outline:none;}
+    .modal-btn-row { display:flex;gap:8px;justify-content:space-between;}
+    .modal-emp .modal-upload-btn {background: #ede5f8;border: none;color: #6b39b8;box-shadow:0 2px 5px #b697d523; font-size:18px;padding:13px 0;margin-bottom:17px; cursor:pointer;}
+    .modal-btn-row button { flex:1; background:none; border:none;font-size:19px; font-weight:500;}
+    .modal-emp .modal-add-btn {color:#5d3bc3;}
+    .modal-emp .modal-cancel-btn {color:#7e6799;}
+    .modal-emp .preview {margin:10px 0; width:55px;height:55px;display:flex;align-items:center;justify-content:center;}
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <span class="back" onclick="history.back()">&larr;</span>
+    <div class="title">Employee List</div>
+  </div>
+  <div class="branch-row">
+    <select class="branch-select" id="branchSelect"></select>
+  </div>
+  <div class="search-box">
+    <span class="search-icon">&#128269;</span>
+    <input id="searchInput" placeholder="Search by name, email or phone...">
+  </div>
+  <div class="list-wrap" id="empList"></div>
+  <div class="add-btn-bar" id="addBar" style="display:none;">
+    <button class="add-btn" onclick="openAddEmpModal()">Add Employee</button>
+  </div>
+  <!-- Employee Modal -->
+  <div class="modal-bg" id="empModalBg">
+    <form class="modal-emp" id="addEmpForm" enctype="multipart/form-data" autocomplete="off" onsubmit="return false;">
+      <h2>Add Employee</h2>
+      <input type="text" name="employeeName" placeholder="Name" required autocomplete="off">
+      <input type="email" name="employeeEmail" placeholder="Email" required autocomplete="off">
+      <input type="tel" name="employeePhone" placeholder="Number" pattern="[0-9]{10,18}" required autocomplete="off">
+      <button type="button" class="modal-upload-btn" onclick="document.getElementById('employeeImage').click()">Upload Photo</button>
+      <input type="file" id="employeeImage" name="employeeImage" accept="image/jpeg,image/png" style="display:none;">
+      <div class="preview" id="imgPreview"></div>
+      <div class="modal-btn-row">
+        <button type="button" class="modal-add-btn" onclick="addEmployee()">Add</button>
+        <button type="button" class="modal-cancel-btn" onclick="closeEmpModal()">Cancel</button>
+      </div>
+      <div class="error-msg" id="empErr"></div>
+    </form>
+  </div>
+<script>
+const API = "http://localhost/Baseera_App/Backend/";
+const ENDPOINTS = {
+  getBranches: `${API}get_branch.php`,
+  getAllEmps: `${API}get_employees.php`,
+  getEmpMappings: `${API}get_employee_and_branch.php`,
+  addEmp: `${API}add_employee.php`,
+  addEmpBranch: `${API}add_employee_and_branch.php`,
+};
+
+let allBranches = [];
+let allEmpMappings = [];
+let allEmployees = [];
+let showingEmps = [];
+let selectedBranch = 'all';
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadBranches();
+  await loadEmpMappings();
+  await loadEmployees();
+  document.getElementById("branchSelect").addEventListener("change", onBranchChange);
+  document.getElementById("searchInput").addEventListener("input", renderEmps);
+  document.getElementById("employeeImage").addEventListener("change", showImgPreview);
+
+  // Render for default "All Branches"
+  document.getElementById("addBar").style.display = "none";
+  renderEmps();
+});
+
+async function loadBranches() {
+  // Fetch all branches (populate select)
+  let select = document.getElementById("branchSelect");
+  select.innerHTML = "";
+  select.append(new Option("All Branches", "all"));
+  let res = await fetch(ENDPOINTS.getBranches).then(r=>r.json());
+  allBranches = res.branches;
+  for(let br of allBranches) {
+    let opt = document.createElement("option");
+    opt.value = br.branch_id;
+    opt.innerText = br.branch_name;
+    select.appendChild(opt);
+  }
+  select.value = "all";
+}
+
+async function loadEmpMappings() {
+  let res = await fetch(ENDPOINTS.getEmpMappings).then(r=>r.json());
+  allEmpMappings = res.mappings;
+}
+async function loadEmployees() {
+  let res = await fetch(ENDPOINTS.getAllEmps).then(r => r.json());
+  allEmployees = res.employees;
+  renderEmps();
+}
+
+function onBranchChange() {
+  selectedBranch = document.getElementById("branchSelect").value;
+  document.getElementById("addBar").style.display = (selectedBranch !== "all") ? "block" : "none";
+  renderEmps();
+}
+
+function renderEmps() {
+  let search = document.getElementById("searchInput").value.toLowerCase();
+  let list = document.getElementById("empList");
+  let branch = document.getElementById("branchSelect").value;
+  let filtered = allEmployees;
+  if(branch !== 'all') {
+    let allowedIds = allEmpMappings.filter(m => m.branch_id == branch).map(m => m.employee_id.toString());
+    filtered = filtered.filter(emp => allowedIds.includes(emp.employee_id.toString()));
+  }
+  if(search.length) {
+    filtered = filtered.filter(emp =>
+      (emp.employee_name && emp.employee_name.toLowerCase().includes(search)) ||
+      (emp.employee_email && emp.employee_email.toLowerCase().includes(search)) ||
+      (emp.employee_phone && emp.employee_phone.includes(search))
+    );
+  }
+  showingEmps = filtered;
+  list.innerHTML = "";
+  if(filtered.length === 0) {
+    list.innerHTML = "<div style='margin:32px auto;color:#aaa;font-size:21px;text-align:center;'>No employee found</div>";
+    return;
+  }
+  for(let emp of filtered) {
+    let div = document.createElement("div");
+    div.className = "emp-card";
+    let avatar = emp.employee_image
+      ? `<img src="${API}${emp.employee_image}" class="emp-avatar" style="object-fit:cover;">`
+      : `<span class="emp-avatar"></span>`;
+    div.innerHTML = `${avatar}
+      <span class="emp-name">${emp.employee_name || ''}</span>
+      <button class="icon-btn"><span class="edit-icon">&#9998;</span></button>
+      <button class="icon-btn"><span class="info-icon">&#8505;</span></button>
+      <button class="icon-btn" onclick="deleteEmployee('${emp.employee_id}')"><span class="del-icon">&#128465;</span></button>
+      `;
+    list.appendChild(div);
+  }
+}
+
+// --- Add Employee Modal logic ---
+function openAddEmpModal() {
+  document.getElementById("empModalBg").style.display = "flex";
+  document.getElementById("addEmpForm").reset();
+  document.getElementById("imgPreview").innerHTML = "";
+  document.getElementById("empErr").innerText = "";
+}
+function closeEmpModal() {
+  document.getElementById("empModalBg").style.display = "none";
+}
+function showImgPreview(e) {
+  const file = e.target.files[0];
+  const imgPreview = document.getElementById("imgPreview");
+  if (file) {
+    let reader = new FileReader();
+    reader.onload = function(ev) {
+      imgPreview.innerHTML = `<img src="${ev.target.result}" style="max-width:55px;max-height:55px;border-radius:50%;">`;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    imgPreview.innerHTML = "";
+  }
+}
+
+function addEmployee() {
+  let form = document.getElementById("addEmpForm");
+  let data = new FormData(form);
+  // Validate branch not 'all'
+  let branchId = document.getElementById("branchSelect").value;
+  if(branchId === "all") {
+    document.getElementById("empErr").innerText = "Please select a branch!";
+    return;
+  }
+  document.getElementById("empErr").innerText = "";
+  fetch(ENDPOINTS.addEmp, {
+    method: "POST",
+    body: data
+  }).then(r => r.json())
+    .then(res => {
+      if(res.status === "success") {
+        let empId = res.employee.employee_id;
+        // Map to branch
+        fetch(ENDPOINTS.addEmpBranch, {
+          method: "POST",
+          headers: {"Content-Type": "application/x-www-form-urlencoded"},
+          body: `branch_id=${encodeURIComponent(branchId)}&employee_id=${encodeURIComponent(empId)}`
+        }).then(rr => rr.json()).then(resp => {
+          closeEmpModal();
+          loadEmployees();
+          loadEmpMappings();
+        });
+      } else {
+        document.getElementById("empErr").innerText = res.message || "Failed to add employee";
+      }
+    }).catch(() => {
+      document.getElementById("empErr").innerText = "Network error. Try again.";
+    });
+}
+
+// You must implement deleteEmployee if you want the trash can to work!
+// function deleteEmployee(id) { ... }
+</script>
+</body>
+</html>
