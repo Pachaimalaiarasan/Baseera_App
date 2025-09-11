@@ -4,239 +4,594 @@
   <meta charset="UTF-8">
   <title>Products Admin Panel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { background: #fff; margin: 0; font-family: 'Segoe UI', sans-serif; }
-    .header { display: flex; align-items: center; padding: 18px 20px 0 14px; }
-    .avatar { width: 48px; height: 48px; border-radius: 50%; margin-right: 10px; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #333;}
-    .header .text-box { margin-right: auto; }
-    .header .welcome { color: #999; font-size: 18px; margin-bottom: -6px;}
-    .header .admin { font-weight: bold; font-size: 26px; }
-    .logout-btn { color: #e53935; font-weight: bold; font-size: 18px; border: none; background: none; cursor: pointer; }
-    .title { text-align: center; font-weight: bold; font-size: 32px; margin: 12px 0 6px; }
-    .branch-row { width: 94%; margin: 0 auto 10px; }
-    .branch-select { width: 100%; font-size: 17px; padding: 11px 16px; border: none; border-bottom: 2px solid #ddd; background: #fff; border-radius: 6px 6px 0 0;}
-    .search-box { width: 94%; margin: 10px auto 0; display: flex; align-items: center; background: #f2f2f2; border-radius: 20px; padding: 10px 15px; }
-    .search-box input { border: none; outline: none; background: transparent; font-size: 19px; width: 100%; }
-    .search-icon { font-size: 22px; color: #999; margin-right: 7px; }
-    .products-wrap { padding: 24px 8px 120px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-    .prod-card { background: #fff; box-shadow: 0 2px 11px 1px #ccc6; border-radius: 22px; width: 180px; min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin-bottom: 8px;}
-    .prod-card .stock-alert { position: absolute; bottom: 16px; left: 18px; color: #e53935; font-weight: 500; font-size: 15px;}
-    .prod-card .rating { position: absolute; top: 10px; right: 10px; background: #fff; border-radius: 999px; box-shadow: 0 2px 6px #bbb8; padding: 2px 10px; font-size: 15px; font-weight: 500; display: flex; align-items: center;}
-    .prod-card .rating span { color: #ffd600; margin-right: 2px;}
-    .prod-card .prod-name { margin-top: 28px; font-size: 20px; font-weight: 500; }
-    .prod-card .prod-price { font-size: 19px; font-weight: bold; margin: 3px 0 16px 0;}
-    .add-btn {width: 92%; margin: 5px 4%; position: fixed; bottom: 80px; left: 0; right: 0; z-index: 9;}
-    .add-btn button { width: 100%; padding: 20px 0; background: #2196f3; color: #fff; border-radius: 25px; border: none; font-weight: bold; font-size: 22px; box-shadow: 0 2px 7px #2196f34c; cursor: pointer;}
-    .modal-bg { position: fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,.23); display:flex; align-items:center; justify-content:center; z-index: 90;}
-    .modal { background: #fff8ff; border-radius: 24px; padding: 22px 14px 30px; box-shadow: 0 8px 32px #0003; width: 94vw; max-width: 420px; position: relative;}
-    .modal-close {position: absolute; right:20px; top:10px; font-size: 28px; color: #e53935; cursor:pointer;}
-    .img-upload-box { height:130px; background: #f5f5f7; border: 2px dashed #ddd; border-radius: 18px; margin-bottom: 18px; display: flex; flex-direction:column; align-items: center; justify-content: center; }
-    .img-upload-label { font-size: 38px; color: #aaa; cursor:pointer;}
-    .modal input, .modal textarea { width: 100%; margin-bottom: 10px; font-size: 18px; padding: 12px 16px; border-radius: 11px; border: 1.5px solid #eee; background: #f8f7fc;}
-    .modal-row { display:flex; gap: 10px;}
-    .modal input[type="file"] { display: none;}
-    .modal-btn {width:100%; margin-top: 10px; background: #2196f3; color: #fff; border: none; border-radius: 10px; padding: 18px 0; font-size: 21px; font-weight: bold; cursor:pointer;}
-    .bottom-nav { position: fixed; bottom: 0; left: 0; width:100vw; height: 70px; background: #171717; border-radius: 22px 22px 0 0; display: flex; justify-content: space-around; align-items: center; z-index: 98;}
-    .bottom-nav .nav-btn { display: flex; flex-direction: column; align-items: center; color: #cfcfd8; font-size: 15px;}
-    .bottom-nav .nav-btn.active { color: #2296f3; }
-    .bottom-nav .nav-btn .nav-img { font-size: 26px;}
-    .error-msg { color: #e53935; font-size: 17px; text-align: center; margin-bottom: 10px;}
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+  :root {
+    /* Theme Colors - Easily Customizable */
+    --primary-color: #4A90E2; 
+    --danger-color: #D0021B;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    
+    /* Layout & Backgrounds */
+    --bg-color: #F4F7FC;
+    --sidebar-bg: #FFFFFF;
+    --content-bg: #FFFFFF;
+    
+    /* Text & Borders */
+    --text-dark: #242A38;
+    --text-light: #8A94A6;
+    --border-color: #EAEFF7;
+
+    /* Sizing */
+    --sidebar-width: 250px;
+    --header-height: 70px;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--bg-color);
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .page-container {
+      display: flex;
+  }
+
+  /* --- Sidebar Navigation (Desktop) --- */
+  .sidebar {
+    min-width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--sidebar-bg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    z-index: 1100;
+  }
+  .sidebar-header {
+    padding: 0 24px 20px 24px;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  .nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-light);
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 14px 24px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    position: relative;
+  }
+  .nav-btn .nav-icon {
+    font-size: 20px;
+    width: 24px;
+    text-align: center;
+  }
+  .nav-btn:hover { color: var(--primary-color); }
+  .nav-btn.active {
+    color: var(--primary-color);
+    background-color: #F0F6FF;
+  }
+  .nav-btn.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background-color: var(--primary-color);
+    border-radius: 0 4px 4px 0;
+  }
+  
+  /* --- Main Content Area --- */
+  .content-wrapper {
+    flex-grow: 1;
+    margin-left:88px;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 24px;
+    background: var(--content-bg);
+    height: var(--header-height);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+  }
+  .header .title {
+    font-weight: 600;
+    font-size: 20px;
+  }
+  .header-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+  }
+  .add-btn {
+      background: var(--primary-color); color: #fff; padding: 10px 18px; font-size: 15px; font-weight: 500; border: none; border-radius: 8px; box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3); cursor: pointer; display: none; align-items: center; gap: 8px;
+  }
+
+  main { padding: 24px; }
+  .controls-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .branch-select-wrapper, .search-box {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--content-bg);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+  }
+  .branch-select-wrapper { position: relative; min-width: 250px; }
+  .branch-select { width: 100%; font-size: 16px; padding: 12px 16px; font-weight: 500; border: none; background: transparent; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
+  .select-arrow { position: absolute; right: 16px; pointer-events: none; color: var(--text-light); }
+  .search-box { flex-grow: 1; min-width: 300px; padding: 0 16px; }
+  .search-box:focus-within, .branch-select-wrapper:has(:focus) {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+  }
+  .search-icon { font-size: 18px; color: var(--text-light); margin-right: 12px;}
+  .search-box input { border: none; background: transparent; font-size: 16px; width: 100%; height: 46px; outline: none;}
+
+  /* Products grid - UPDATED FOR MINIMUM 2 COLUMNS */
+  .products-wrap {
+    display: grid;
+    /* This ensures a minimum of 2 columns, each at least 150px wide */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+  .prod-card {
+    background: var(--content-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .prod-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+  .prod-image {
+      width: 100%;
+      height: 120px; /* Reduced height for smaller cards */
+      object-fit: cover;
+      border-radius: 12px 12px 0 0;
+      background-color: var(--bg-color);
+  }
+  .prod-details {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+  }
+  .prod-card .stock-alert {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: var(--danger-color);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .prod-card .prod-name {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 4px 0;
+  }
+  .prod-card .prod-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0;
+  }
+  .prod-actions {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+  }
+  .icon-btn { cursor: pointer; background: none; border: none; outline: none; font-size: 14px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease;}
+  .icon-btn:hover { background-color: #f1f3f5; }
+  .edit-icon { color: var(--primary-color); }
+  .del-icon { color: var(--danger-color); }
+
+  /* Modal styling */
+  .modal-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.4); z-index: 1200; display: none; align-items: center; justify-content: center; padding: 16px; }
+  .modal { background: var(--content-bg); border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.1); padding: 24px; width: 100%; max-width: 420px; position: relative; }
+  .modal-close { position: absolute; right: 16px; top: 16px; font-size: 20px; color: var(--text-light); cursor: pointer; background: none; border: none;}
+  .img-upload-box { height: 130px; background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 12px; margin-bottom: 18px; display: flex; align-items: center; justify-content: center;}
+  .img-upload-label { font-size: 38px; color: var(--text-light); cursor: pointer;}
+  .modal input, .modal textarea { width: 100%; margin-bottom: 10px; font-size: 16px; padding: 12px; border-radius: 8px; border: 1.5px solid var(--border-color); background: var(--bg-color); }
+  .modal-row { display: flex; gap: 10px; }
+  .modal input[type="file"] { display: none; }
+  .modal-btn { width: 100%; margin-top: 10px; background: var(--primary-color); color: var(--white); border: none; border-radius: 8px; padding: 14px; font-size: 16px; font-weight: 500; cursor: pointer; }
+  .error-msg { color: var(--danger-color); font-size: 15px; text-align: center; margin-top: 10px; min-height: 20px;}
+
+  /* --- Responsive Styles --- */
+  @media (max-width: 767px) {
+    .sidebar { display: none; }
+    .content-wrapper { margin-left: 0; }
+    body { padding-bottom: 70px; }
+    .header { justify-content: center; position: static; }
+    .add-btn {
+        position: fixed; bottom: 85px; right: 16px; width: auto; padding: 12px;
+        border-radius: 50%; height: 56px; width: 56px; z-index: 999; display: inline-flex;
+    }
+    .add-btn-text { display: none; }
+    .controls-container { flex-direction: column; align-items: stretch; }
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 70px;
+      background: var(--sidebar-bg); display: flex; justify-content: space-around;
+      align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 1000;
+    }
+    .bottom-nav .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-light); font-size: 12px; font-weight: 500; text-decoration: none; }
+    .bottom-nav .nav-btn.active { color: var(--primary-color); }
+  }
+  /* Larger desktop screens */
+  @media (min-width: 992px) {
+      /* Products grid - UPDATED FOR MINIMUM 2 COLUMNS */
+/* Products grid - UPDATED FOR LARGER CARDS ON DESKTOP */
+  .products-wrap {
+    display: grid;
+    /* On small screens, cards are ~120px wide. On larger screens, they will be at least 220px wide. */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  }
+</style>
 </head>
 <body>
-  <div class="header">
-    <div class="avatar">👨‍💼</div>
-    <div class="text-box">
-      <div class="welcome">Welcome</div>
-      <div class="admin">Admin</div>
+
+<div class="page-container">
+    <nav class="sidebar">
+        <div class="sidebar-header">Admin Panel</div>
+        <ul class="nav-menu">
+            <li><a href="../admin_dashboard.html" class="nav-btn">
+                <i class="fa-solid fa-home nav-icon"></i> Home
+            </a></li>
+            <li><a href="scheduled_orders.html" class="nav-btn">
+                <i class="fa-solid fa-box-open nav-icon"></i> Orders
+            </a></li>
+            <li><a href="products.html" class="nav-btn active">
+                <i class="fa-solid fa-tags nav-icon"></i> Products
+            </a></li>
+            <li><a href="employees.html" class="nav-btn">
+                <i class="fa-solid fa-users nav-icon"></i> Employees
+            </a></li>
+        </ul>
+    </nav>
+    
+    <nav class="bottom-nav">
+        <a href="../admin_dashboard.html" class="nav-btn">
+            <i class="fa-solid fa-home nav-icon"></i> Home
+        </a>
+        <a href="scheduled_orders.html" class="nav-btn">
+            <i class="fa-solid fa-box-open nav-icon"></i> Orders
+        </a>
+        <a href="products.html" class="nav-btn active">
+            <i class="fa-solid fa-tags nav-icon"></i> Products
+        </a>
+        <a href="employees.html" class="nav-btn">
+            <i class="fa-solid fa-users nav-icon"></i> Employees
+        </a>
+    </nav>
+
+    <div class="content-wrapper">
+        <header class="header">
+            <h1 class="title">Products</h1>
+            <div class="header-actions">
+                <button class="add-btn" id="addBtn" onclick="openAddProductModal()">
+                    <i class="fa-solid fa-plus"></i>
+                    <span class="add-btn-text">Add Product</span>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="controls-container">
+                <div class="branch-select-wrapper">
+                    <select class="branch-select" id="branchSelect"></select>
+                    <i class="fa-solid fa-chevron-down select-arrow"></i>
+                </div>
+                <div class="search-box">
+                    <span class="search-icon"><i class="fa-solid fa-search"></i></span>
+                    <input placeholder="Search for products" id="searchInput">
+                </div>
+            </div>
+
+            <div class="products-wrap" id="productsWrap"></div>
+        </main>
     </div>
-    <button class="logout-btn" onclick="alert('Logout!');">Logout</button>
-  </div>
-  <div class="title">Products</div>
-  <div class="branch-row">
-    <select class="branch-select" id="branchSelect"></select>
-  </div>
-  <div class="search-box">
-    <span class="search-icon">🔍</span>
-    <input placeholder="Search for products" id="searchInput">
-  </div>
-  <div class="products-wrap" id="productsWrap"></div>
-  <div class="add-btn" id="addBtn" style="display:none;">
-    <button type="button" onclick="openAddProductModal()">Add Product</button>
-  </div>
-  <!-- Modal for add product -->
-  <div class="modal-bg" id="modalBg" style="display:none;">
-    <form class="modal" id="addProductForm" enctype="multipart/form-data" autocomplete="off">
-      <span class="modal-close" onclick="closeModal()">&times;</span>
-      <div class="img-upload-box">
-        <label class="img-upload-label" for="product_image">
-          <span id="previewImage">📷</span>
-          <input type="file" id="product_image" name="product_image" accept="image/png, image/jpeg">
-        </label>
-      </div>
-      <input type="text" name="product_name" placeholder="Product Name" required>
-      <div class="modal-row">
-        <input style="flex:1" type="number" step="0.01" name="product_buy_price" placeholder="Buy Price ($)" required>
-        <input style="flex:1" type="number" step="0.01" name="product_sell_price" placeholder="Sell Price ($)" required>
-      </div>
-      <input type="number" name="product_quantity" placeholder="Stock Quantity" required>
-      <input type="number" name="product_percentage_discount" min="0" max="100" placeholder="Discount Percentage (%)">
-      <textarea name="product_desc" placeholder="Product Description"></textarea>
-      <button class="modal-btn" type="submit">Add Product</button>
-      <div class="error-msg" id="errorMsg"></div>
+</div>
+  
+<div class="modal-bg" id="addProductModalBg" style="display:none;">
+    <form class="modal" id="addProductForm" onsubmit="handleAddProduct(event)">
+        <button type="button" class="modal-close" onclick="closeModal('addProductModalBg')"><i class="fa-solid fa-times"></i></button>
+        <h2>Add New Product</h2>
+        <div class="img-upload-box">
+            <label class="img-upload-label" for="addProductImage">
+                <span id="addProductPreview"><i class="fa-solid fa-camera"></i></span>
+                <input type="file" id="addProductImage" name="product_image" accept="image/png, image/jpeg">
+            </label>
+        </div>
+        <input type="text" name="product_name" placeholder="Product Name" required>
+        <div class="modal-row">
+            <input type="number" step="0.01" name="product_buy_price" placeholder="Buy Price (₹)" required>
+            <input type="number" step="0.01" name="product_sell_price" placeholder="Sell Price (₹)" required>
+        </div>
+        <input type="number" name="product_quantity" placeholder="Stock Quantity" required>
+        <input type="number" name="product_percentage_discount" min="0" max="100" placeholder="Discount (%)">
+        <textarea name="product_desc" placeholder="Product Description" rows="3"></textarea>
+        <div class="error-msg" id="addProductError"></div>
+        <button class="modal-btn" type="submit">Add Product</button>
     </form>
-  </div>
-  <div class="bottom-nav">
-    <div class="nav-btn"><span class="nav-img">⌂</span>Home</div>
-    <div class="nav-btn"><span class="nav-img">🛒</span>Orders</div>
-    <div class="nav-btn active"><span class="nav-img">⬜</span>Products</div>
-    <div class="nav-btn"><span class="nav-img">👤</span>Employees</div>
-  </div>
+</div>
+
+<div class="modal-bg" id="editProductModalBg" style="display:none;">
+    <form class="modal" id="editProductForm" onsubmit="handleUpdateProduct(event)">
+        <button type="button" class="modal-close" onclick="closeModal('editProductModalBg')"><i class="fa-solid fa-times"></i></button>
+        <h2>Edit Product</h2>
+        <input type="hidden" name="product_id">
+        <div class="img-upload-box">
+            <label class="img-upload-label" for="editProductImage">
+                <span id="editProductPreview"><i class="fa-solid fa-camera"></i></span>
+                <input type="file" id="editProductImage" name="product_image" accept="image/png, image/jpeg">
+            </label>
+        </div>
+        <input type="text" name="product_name" placeholder="Product Name" required>
+        <div class="modal-row">
+            <input type="number" step="0.01" name="product_buy_price" placeholder="Buy Price (₹)" required>
+            <input type="number" step="0.01" name="product_sell_price" placeholder="Sell Price (₹)" required>
+        </div>
+        <input type="number" name="product_quantity" placeholder="Stock Quantity" required>
+        <input type="number" name="product_percentage_discount" min="0" max="100" placeholder="Discount (%)">
+        <textarea name="product_desc" placeholder="Product Description" rows="3"></textarea>
+        <div class="error-msg" id="editProductError"></div>
+        <button class="modal-btn" type="submit">Save Changes</button>
+    </form>
+</div>
+
+
+<script src="../config.js"></script>
 <script>
-const API_BASE = "http://localhost/Baseera_App/Backend/";
-const ENDPOINTS = {
-  getBranches:        API_BASE + "get_branch.php",
-  getProducts:        API_BASE + "get_products.php",
-  getProductMappings: API_BASE + "get_product_and_branch.php",
-  addProduct:         API_BASE + "add_product.php",
-  addProductBranch:   API_BASE + "add_product_and_branch.php"
-};
+  const API_BASE = API;
+  const ENDPOINTS = {
+    getBranches:        `${API_BASE}get_branch.php`,
+    getProducts:        `${API_BASE}get_products.php`,
+    getProductMappings: `${API_BASE}get_product_and_branch.php`,
+    addProduct:         `${API_BASE}add_product.php`,
+    addProductBranch:   `${API_BASE}add_product_and_branch.php`,
+    updateProduct:      `${API_BASE}update_product.php`,
+    deleteProduct:      `${API_BASE}delete_product.php`,
+  };
 
-let allBranches = [{branch_id:'all',branch_name:'All Branches'}];
-let allMappings = [];
-let allProducts = [];
+  let allMappings = [];
+  let allProducts = [];
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadBranches();
-  loadProducts();
-  loadProductMappings();
-  document.getElementById("searchInput").addEventListener("input", renderProducts);
-  document.getElementById("branchSelect").addEventListener("change", onBranchChange);
-  document.getElementById("product_image").addEventListener("change", onImageChange);
-  document.getElementById("addProductForm").addEventListener("submit", handleAddProduct);
-});
+  document.addEventListener("DOMContentLoaded", () => {
+    loadInitialData();
+    document.getElementById("searchInput").addEventListener("input", renderProducts);
+    document.getElementById("branchSelect").addEventListener("change", onBranchChange);
+    document.getElementById("addProductImage").addEventListener("change", (e) => onImageChange(e, 'addProductPreview'));
+    document.getElementById("editProductImage").addEventListener("change", (e) => onImageChange(e, 'editProductPreview'));
+  });
+  
+  async function loadInitialData() {
+      await loadBranches();
+      await loadProductMappings();
+      await loadProducts();
+  }
 
-function loadBranches() {
-  fetch(ENDPOINTS.getBranches)
-    .then(res => res.json())
-    .then(data => {
-      let select = document.getElementById("branchSelect");
-      select.innerHTML = "";
-      let optionAll = document.createElement("option");
-      optionAll.value = 'all';
-      optionAll.innerText = "All Branches";
-      select.appendChild(optionAll);
-      for (let b of data.branches) {
-        let opt = document.createElement("option");
-        opt.value = b.branch_id;
-        opt.innerText = b.branch_name;
-        select.appendChild(opt);
-      }
-    });
-}
-function loadProducts() {
-  fetch(ENDPOINTS.getProducts)
-    .then(r=>r.json())
-    .then(res=>{
-      if(res.status==='success') {
-        allProducts = res.products;
-        renderProducts();
-      }
-    });
-}
-function loadProductMappings() {
-  fetch(ENDPOINTS.getProductMappings)
-    .then(r=>r.json())
-    .then(res=>{
-      if(res.status==='success'){
-        allMappings = res.mappings;
-      }
-    });
-}
-function onBranchChange() {
-  let v = document.getElementById("branchSelect").value;
-  document.getElementById("addBtn").style.display = (v !== 'all') ? 'block':'none';
-  renderProducts();
-}
-function renderProducts() {
-  let wrap = document.getElementById("productsWrap");
-  let q = document.getElementById("searchInput").value.toLowerCase();
-  let branchId = document.getElementById("branchSelect").value;
-  let showProds;
-  if(branchId==='all') {
-    showProds = allProducts;
-  } else {
-    let prodIds = allMappings.filter(m=>m.branch_id==branchId).map(m=>Number(m.product_id));
-    showProds = allProducts.filter(p=>prodIds.includes(Number(p.product_id)));
+  async function loadBranches() {
+    const res = await fetch(ENDPOINTS.getBranches).then(r => r.json());
+    const select = document.getElementById("branchSelect");
+    select.innerHTML = `<option value="all">All Branches</option>`;
+    if(res.branches) res.branches.forEach(b => select.add(new Option(b.branch_name, b.branch_id)));
   }
-  if(q) showProds = showProds.filter(p=>p.product_name.toLowerCase().includes(q));
-  wrap.innerHTML = '';
-  if(showProds.length===0) {
-    wrap.innerHTML = "<div style='font-size:18px;color:#aaa;text-align:center;margin-top:40px;'>No products found</div>";
-    return;
+
+  async function loadProducts() {
+    const res = await fetch(ENDPOINTS.getProducts).then(r => r.json());
+    if (res.status === 'success') {
+      allProducts = res.products;
+      renderProducts();
+    }
   }
-  for(let prod of showProds) {
-    let div = document.createElement("div");
-    div.className = "prod-card";
-    div.innerHTML =
-      `<div class="rating"><span>★</span> 4.5</div>
-      <div class="prod-name">${prod.product_name}</div>
-      <div class="prod-price">₹${prod.product_sell_price.toFixed(2)}</div>` +
-      ((prod.product_quantity<=2)? `<div class="stock-alert">Only ${prod.product_quantity} left in stock!</div>` : "");
-    wrap.appendChild(div);
+
+  async function loadProductMappings() {
+    const res = await fetch(ENDPOINTS.getProductMappings).then(r => r.json());
+    if (res.status === 'success') allMappings = res.mappings;
   }
-}
-function openAddProductModal() {
-  document.getElementById("modalBg").style.display = "flex";
-  document.getElementById("addProductForm").reset();
-  document.getElementById("errorMsg").innerText = "";
-  document.getElementById("previewImage").innerHTML = "📷";
-}
-function closeModal() {
-  document.getElementById("modalBg").style.display = "none";
-}
-function onImageChange(e) {
-  const file = e.target.files[0];
-  const imgPreview = document.getElementById("previewImage");
-  if(file) {
-    let reader = new FileReader();
-    reader.onload = function(ev) {
-      imgPreview.innerHTML = `<img src="${ev.target.result}" style="max-width:100px;max-height:100px;border-radius:13px;">`;
-    };
-    reader.readAsDataURL(file);
-  } else {
-    imgPreview.innerHTML = "📷";
+
+  function onBranchChange() {
+    const v = document.getElementById("branchSelect").value;
+    document.getElementById("addBtn").style.display = (v !== 'all') ? 'inline-flex' : 'none';
+    renderProducts();
   }
-}
-function handleAddProduct(e) {
-  e.preventDefault();
-  let form = document.getElementById("addProductForm");
-  let formData = new FormData(form);
-  fetch(ENDPOINTS.addProduct, {
-    method: "POST",
-    body: formData
-  }).then(r=>r.json())
-    .then(data=>{
-      if(data.status==="success") {
-        let branchId = document.getElementById("branchSelect").value;
-        fetch(ENDPOINTS.addProductBranch, {
-          method: "POST",
-          headers: {'Content-Type':'application/x-www-form-urlencoded'},
-          body: `branch_id=${encodeURIComponent(branchId)}&product_id=${encodeURIComponent(data.product.product_id)}`
-        }).then(res=>res.json()).then(r=>{
-          if(r.status==="success") {
-            closeModal();
-            loadProducts();
-            loadProductMappings();
-          }
-        });
+
+  function renderProducts() {
+    const wrap = document.getElementById("productsWrap");
+    const q = document.getElementById("searchInput").value.toLowerCase();
+    const branchId = document.getElementById("branchSelect").value;
+    let showProds;
+
+    if (branchId === 'all') {
+      showProds = allProducts;
+    } else {
+      const prodIds = allMappings.filter(m => m.branch_id == branchId).map(m => Number(m.product_id));
+      showProds = allProducts.filter(p => prodIds.includes(Number(p.product_id)));
+    }
+
+    if (q) showProds = showProds.filter(p => p.product_name.toLowerCase().includes(q));
+
+    wrap.innerHTML = '';
+    if (showProds.length === 0) {
+      wrap.innerHTML = "<div style='font-size:18px;color:#aaa;text-align:center;grid-column: 1 / -1; margin-top:40px;'>No products found</div>";
+      return;
+    }
+
+    for (const prod of showProds) {
+      const div = document.createElement("div");
+      div.className = "prod-card";
+      const imgSrc = prod.product_image ? `${API_BASE}${prod.product_image}` : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+      const safeProd = JSON.stringify(prod).replace(/'/g, "&apos;");
+
+      div.innerHTML = `
+        ${(prod.product_quantity <= 5) ? `<div class="stock-alert">Low Stock</div>` : ""}
+        <img src="${imgSrc}" class="prod-image" onerror="this.style.display='none'">
+        <div class="prod-details">
+            <h3 class="prod-name">${prod.product_name}</h3>
+            <p class="prod-price">₹${parseFloat(prod.product_sell_price).toFixed(2)}</p>
+            <div class="prod-actions">
+                <button class="icon-btn edit-icon" onclick='openEditProductModal(${safeProd})'><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="icon-btn del-icon" onclick="deleteProduct('${prod.product_id}')"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+        </div>
+      `;
+      wrap.appendChild(div);
+    }
+  }
+
+  // --- Modal Management ---
+  function openModal(modalId) { document.getElementById(modalId).style.display = "flex"; }
+  function closeModal(modalId) { document.getElementById(modalId).style.display = "none"; }
+  
+  function openAddProductModal() {
+    const form = document.getElementById("addProductForm");
+    form.reset();
+    document.getElementById("addProductError").innerText = "";
+    document.getElementById("addProductPreview").innerHTML = '<i class="fa-solid fa-camera"></i>';
+    openModal("addProductModalBg");
+  }
+
+  function onImageChange(e, previewId) {
+    const file = e.target.files[0];
+    const imgPreview = document.getElementById(previewId);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => imgPreview.innerHTML = `<img src="${ev.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // --- CRUD Operations ---
+  async function handleAddProduct(event) {
+    event.preventDefault();
+    const form = document.getElementById("addProductForm");
+    const formData = new FormData(form);
+    const errorEl = document.getElementById("addProductError");
+    errorEl.innerText = "Adding...";
+
+    try {
+        const addRes = await fetch(ENDPOINTS.addProduct, { method: "POST", body: formData }).then(r => r.json());
+        if (addRes.status !== "success") throw new Error(addRes.message || "Failed to add product.");
+
+        const branchId = document.getElementById("branchSelect").value;
+        const mapData = new URLSearchParams({ branch_id: branchId, product_id: addRes.product.product_id });
+        const mapRes = await fetch(ENDPOINTS.addProductBranch, { method: "POST", body: mapData }).then(r => r.json());
+        if (mapRes.status !== "success") throw new Error(mapRes.message || "Failed to map product.");
+
+        closeModal('addProductModalBg');
+        await loadProductMappings();
+        await loadProducts();
+    } catch (err) {
+        errorEl.innerText = err.message;
+    }
+  }
+
+  function openEditProductModal(prod) {
+      const form = document.getElementById('editProductForm');
+      form.reset();
+      form.product_id.value = prod.product_id;
+      form.product_name.value = prod.product_name;
+      form.product_buy_price.value = prod.product_buy_price;
+      form.product_sell_price.value = prod.product_sell_price;
+      form.product_quantity.value = prod.product_quantity;
+      form.product_percentage_discount.value = prod.product_percentage_discount;
+      // The description field was missing, it's added now.
+      form.product_desc.value = prod.product_desc;
+
+      const preview = document.getElementById('editProductPreview');
+      if (prod.product_image) {
+          preview.innerHTML = `<img src="${API_BASE}${prod.product_image}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
       } else {
-        document.getElementById("errorMsg").innerText = data.message || "Failed to add product";
+          preview.innerHTML = '<i class="fa-solid fa-camera"></i>';
       }
-    }).catch(()=> {
-      document.getElementById("errorMsg").innerText = "Failed to add product. Try again!";
-    });
-}
+      document.getElementById("editProductError").innerText = "";
+      openModal('editProductModalBg');
+  }
+
+  async function handleUpdateProduct(event) {
+      event.preventDefault();
+      const form = document.getElementById('editProductForm');
+      const formData = new FormData(form);
+      const errorEl = document.getElementById("editProductError");
+      errorEl.innerText = "Saving...";
+
+      try {
+          // You need to create an `update_product.php` endpoint on your backend
+          const res = await fetch(ENDPOINTS.updateProduct, { method: "POST", body: formData }).then(r => r.json());
+          if (res.status !== 'success') throw new Error(res.message);
+          
+          closeModal('editProductModalBg');
+          await loadProducts();
+      } catch (err) {
+          errorEl.innerText = err.message || "Failed to update product.";
+      }
+  }
+  
+  async function deleteProduct(productId) {
+      if (!confirm("Are you sure you want to delete this product? This action cannot be undone.")) return;
+
+      const formData = new FormData();
+      formData.append('product_id', productId);
+
+      try {
+          // You need to create a `delete_product.php` endpoint on your backend
+          const res = await fetch(ENDPOINTS.deleteProduct, { method: 'POST', body: formData }).then(r => r.json());
+          if (res.status !== 'success') throw new Error(res.message);
+          
+          await loadProductMappings();
+          await loadProducts();
+      } catch (err) {
+          alert("Error: " + (err.message || "Could not delete product."));
+      }
+  }
 </script>
+
 </body>
 </html>

@@ -2,612 +2,675 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Admin Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f6f2fb;
-      padding-bottom: 70px;
-      /* Add padding to avoid overlap with bottom nav */
-    }
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* CSS Custom Properties for Theming */
+        :root {
+            --primary-color: #6D28D9;
+            --primary-light: #8B5CF6;
+            --primary-dark: #5B21B6;
+            --background-color: #F3F4F6;
+            --surface-color: #FFFFFF;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --border-color: #E5E7EB;
+            --success-color: #10B981;
+            --danger-color: #EF4444;
+            --shadow-color: rgba(109, 40, 217, 0.1);
+            --sidebar-width: 260px;
+            --bottom-nav-height: 70px;
+        }
 
-    .topbar {
-      background: #fff;
-      display: flex;
-      align-items: center;
-      padding: 14px 18px;
-      box-shadow: 0 2px 7px rgba(90, 30, 120, 0.05);
-      height: 70px;
-      border-bottom: 1px solid #ececec;
-    }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
 
-    .admin-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #835aed 60%, #6e7dfc 100%);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 12px;
-      font-size: 26px;
-    }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--background-color);
+            color: var(--text-dark);
+        }
 
-    .topbar .details {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+        .page-container {
+            display: flex;
+        }
 
-    .admin-welcome {
-      font-size: 16px;
-      color: #b1aacd;
-    }
+        /* --- Professional Sidebar for Desktop --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--surface-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
 
-    .admin-name {
-      font-size: 17px;
-      font-weight: bold;
-      color: #442d95;
-    }
+        .sidebar-header {
+            padding: 0 24px 20px 24px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    .logout-btn {
-      color: #ec4646;
-      background: none;
-      border: none;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-left: 20px;
-    }
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0 0;
+        }
 
-    .section-title {
-      font-size: 22px;
-      font-weight: 600;
-      color: #442d95;
-      margin-top: 24px;
-      margin-left: 18px;
-      margin-bottom: 8px;
-    }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: var(--text-light);
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 14px 24px;
+            margin: 4px 12px;
+            border-radius: 8px;
+            transition: color 0.2s ease, background-color 0.2s ease;
+            position: relative;
+        }
 
-    .branches-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      padding: 0 18px;
-    }
+        .nav-link .nav-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
 
-    .branch-card {
-      width: 96px;
-      height: 96px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #ece8fc 90%, #d7e4ff 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 6px rgba(82, 2, 129, 0.04);
-      color: #835aed;
-      font-size: 36px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 2px solid #f3ebfe;
-      transition: .12s;
-      margin-bottom: 8px;
-      text-align: center;
-    }
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: #F9FAFB;
+        }
 
-    .branch-card img {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      object-fit: cover;
-    }
+        .nav-link.active {
+            color: #fff;
+            background-color: var(--primary-color);
+        }
 
-    .branch-card:hover,
-    .branch-card.active {
-      border: 2px solid #835aed;
-      background: linear-gradient(135deg, #f7f3ff 90%, #ebe3ff 100%);
-    }
+        /* --- Main Content Area --- */
+        .main-content {
+            flex-grow: 1;
+            padding-bottom: var(--bottom-nav-height); /* Space for bottom nav on mobile */
+        }
 
-    .branch-card span {
-      font-size: 14px;
-      color: #5a4ca0;
-      font-weight: 500;
-      margin-top: 6px;
-      padding: 0 4px;
-    }
+        .topbar {
+            background: var(--surface-color);
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-    .no-branches-msg {
-      color: #b8b9c3;
-      margin-left: 18px;
-      margin-top: 9px;
-      margin-bottom: 20px;
-      font-size: 15px;
-      font-weight: 500;
-    }
+        .admin-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .topbar .details { flex: 1; }
+        .admin-welcome { font-size: 14px; color: var(--text-light); }
+        .admin-name { font-size: 16px; font-weight: 600; color: var(--text-dark); }
 
-    .analytics-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-      padding: 0 18px 22px 18px;
-      margin-top: 14px;
-    }
+        .logout-btn {
+            color: var(--danger-color);
+            background: transparent;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .logout-btn:hover { background-color: #FEF2F2; border-color: #FECACA; }
+        
+        main { padding: 24px; }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
 
-    .analytic-box {
-      flex: 1 1 160px;
-      min-width: 140px;
-      background: linear-gradient(135deg, #efeafd 64%, #eaf2ff 120%);
-      border-radius: 16px;
-      box-shadow: 0 2px 14px rgba(114, 60, 195, 0.06);
-      padding: 18px 14px 13px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      cursor: pointer;
-      border: 1.4px solid #edebf7;
-      transition: .13s;
-    }
+        .branches-list, .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 16px;
+        }
 
-    .analytic-box:hover {
-      border: 1.4px solid #835aed;
-      box-shadow: 0 4px 22px rgba(128, 73, 189, 0.10);
-    }
+        .card, .service-card {
+            background: var(--surface-color);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px var(--shadow-color);
+            color: var(--primary-dark);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            padding: 16px;
+            min-height: 120px;
+        }
 
-    .analytic-count {
-      font-weight: bold;
-      font-size: 29px;
-      margin-bottom: 2px;
-    }
+        .card img, .service-card img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 8px;
+        }
 
-    .title-orders {
-      color: #fb9d2b;
-    }
+        .card:hover, .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
 
-    .title-employees {
-      color: #3398ef;
-    }
+        .card.active {
+            border-color: var(--primary-color);
+            background-color: #F5F3FF;
+        }
 
-    .title-stock {
-      color: #f54b5c;
-    }
+        .card span, .service-card span {
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        
+        .add-card-icon {
+            font-size: 32px;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
 
-    .title-customers {
-      color: #3cc780;
-    }
+        .no-branches-msg {
+            color: var(--text-light);
+            margin-top: 16px;
+            font-size: 15px;
+        }
 
-    .analytic-label {
-      font-size: 15px;
-      font-weight: 500;
-      color: #59527b;
-    }
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 18px;
+        }
 
-    .bottom-navbar {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #231348;
-      height: 62px;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      border-radius: 14px 14px 0 0;
-      box-shadow: 0 -3px 14px rgba(72, 43, 123, 0.13);
-    }
+        .analytic-box {
+            background: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px var(--shadow-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .analytic-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
 
-    .bottom-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-      color: #cec9e3;
-      font-size: 13px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: .13s;
-      justify-content: center;
-    }
+        .analytic-count { font-weight: 700; font-size: 32px; margin-bottom: 4px; }
+        .title-orders { color: #F59E0B; }
+        .title-employees { color: #3B82F6; }
+        .title-stock { color: #EF4444; }
+        .title-customers { color: #10B981; }
+        .analytic-label { font-size: 15px; font-weight: 500; color: var(--text-light); }
 
-    .bottom-item.active,
-    .bottom-item:hover {
-      color: #835aed;
-      font-weight: bold;
-    }
+        /* --- Mobile Bottom Navigation --- */
+        .bottom-nav {
+            display: none; /* Hidden by default */
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--surface-color);
+            height: var(--bottom-nav-height);
+            justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
 
-    .bottom-icon {
-      font-size: 22px;
-    }
+        .bottom-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .bottom-item.active, .bottom-item:hover { color: var(--primary-color); }
+        .bottom-icon { font-size: 22px; margin-bottom: 4px; }
+        .bottom-label { font-size: 12px; font-weight: 500; }
 
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(97, 90, 177, 0.18);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
+        /* --- Modal Styles --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
 
-    .modal {
-      background: #fff;
-      border-radius: 18px;
-      max-width: 370px;
-      width: 97%;
-      padding: 22px 23px 18px;
-      box-shadow: 0 14px 40px rgba(60, 0, 140, 0.11);
-      position: relative;
-    }
+        .modal {
+            background: var(--surface-color);
+            border-radius: 16px;
+            max-width: 420px;
+            width: 95%;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .modal h3 { margin: 0 0 20px 0; text-align: center; color: var(--text-dark); font-size: 22px; }
+        .modal label { display: block; margin-bottom: 6px; font-weight: 500; color: var(--text-light); font-size: 14px; }
+        .modal input {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            font-size: 15px;
+            border: 1px solid var(--border-color);
+            background: var(--background-color);
+            border-radius: 8px;
+        }
+        .modal .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            background: var(--primary-color);
+            color: #fff;
+            transition: background-color 0.2s ease;
+        }
+        .modal .btn:hover { background: var(--primary-dark); }
+        .modal .close-btn {
+            background: transparent;
+            border: none;
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 24px;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+        .message { margin-top: 16px; font-size: 14px; display: none; padding: 12px; border-radius: 8px; border: 1px solid; }
+        .success { background: #E8FDF5; color: #065F46; border-color: #A7F3D0; }
+        .error { background: #FEF2F2; color: #991B1B; border-color: #FECACA; }
 
-    .modal h3 {
-      margin: 0 0 13px 0;
-      text-align: center;
-      color: #552a93;
-      font-size: 1.28rem;
-    }
+        /* --- Responsive Design --- */
+        @media (max-width: 767px) {
+            .sidebar {
+                display: none;
+            }
+            .bottom-nav {
+                display: flex;
+            }
+        }
 
-    .modal label {
-      display: block;
-      margin-top: 2px;
-      font-weight: 500;
-      color: #6954b6;
-      font-size: 15px;
-    }
-
-    .modal input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 11px 12px;
-      margin: 6px 0 8px 0;
-      font-size: 15px;
-      border: 1.1px solid #ded7fc;
-      background: #f9f8fd;
-      border-radius: 9px;
-    }
-
-    .modal .btn {
-      width: 100%;
-      padding: 14px 0;
-      margin-top: 12px;
-      border: none;
-      border-radius: 9px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      background: linear-gradient(91deg, #785fed 82%, #7dbbf5 120%);
-      color: #fff;
-    }
-
-    .modal .btn:hover {
-      background: linear-gradient(97deg, #695cc6 70%, #42b0ef 110%);
-    }
-
-    .modal .close-btn {
-      background: none;
-      border: none;
-      position: absolute;
-      top: 15px;
-      right: 17px;
-      font-size: 20px;
-      color: #a5aaa9;
-      cursor: pointer;
-    }
-
-    .message {
-      margin-top: 13px;
-      font-size: 14px;
-      display: none;
-      padding: 8px 10px;
-      border-radius: 7px;
-    }
-
-    .success {
-      background: #eefbf4;
-      color: #277d45;
-      border: 1px solid #27ae60;
-    }
-
-    .error {
-      background: #fdecea;
-      color: #c0392b;
-      border: 1px solid #e74c3c;
-    }
-  </style>
+        @media (min-width: 768px) {
+            .main-content {
+                margin-left: var(--sidebar-width);
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="admin-avatar" id="admin-avatar">A</div>
-    <div class="details"><span class="admin-welcome">Welcome</span><span class="admin-name" id="admin-name">Admin</span>
-    </div>
-    <button class="logout-btn" onclick="logout()">Logout</button>
-  </div>
-  <div class="section-title">Branches</div>
-  <div class="branches-list" id="branches-list">
-    <div class="branch-card" onclick="openAddBranchManagerModal()">
-      <div style="font-size: 32px; margin-bottom: 3px;">&#43;</div><span>Add</span>
-    </div>
-  </div>
-  <div class="no-branches-msg" id="no-branches-msg">No branches available. Please add a branch.</div>
-  <div class="section-title" id="services-title" style="margin-top: 30px; display: none;">Services for <span
-      id="branch-title"></span></div>
-  <div class="branches-list" id="services-list" style="display: none;">
-    <div class="branch-card" onclick="openAddServiceModal()">
-      <div style="font-size: 32px; margin-bottom: 3px;">&#43;</div><span>Add</span>
-    </div>
-  </div>
-  <div class="modal-overlay" id="add-service-modal">
-    <div class="modal" style="background:#f6f2fb;">
-      <button class="close-btn" onclick="closeAddServiceModal()">&times;</button>
-      <h3>Add New Service</h3>
-      <form id="add-service-form" onsubmit="submitAddService(event)">
-        <label>Service Name</label>
-        <input type="text" id="service_name" name="name" required>
-        <button type="button" onclick="document.getElementById('service_image').click();" class="btn"
-          style="background:#e1d6fa;color:#835aed;margin-bottom:7px;">Select Image</button>
-        <input type="file" id="service_image" name="image" accept="image/*" style="display:none"
-          onchange="previewServiceImage(event)">
-        <div id="service-img-preview" style="display:none; margin-bottom:10px; text-align:center;"></div>
-        <div style="display:flex; justify-content:space-between; gap:8px;">
-          <button type="button" onclick="closeAddServiceModal()" class="btn"
-            style="background:#e9e2f6;color:#835aed;">Cancel</button>
-          <button type="submit" class="btn">Add</button>
+    <div class="page-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Admin Panel</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a class="nav-link active" href="#"><i class="fas fa-home nav-icon"></i> Home</a></li>
+                <li><a class="nav-link" href="Admin/scheduled_orders.html"><i class="fas fa-box-open nav-icon"></i> Orders</a></li>
+                <li><a class="nav-link" href="Admin/products.html"><i class="fas fa-tags nav-icon"></i> Products</a></li>
+                <li><a class="nav-link" href="Admin/employees.html"><i class="fas fa-users nav-icon"></i> Employees</a></li>
+            </ul>
+        </nav>
+
+        <div class="main-content">
+            <header class="topbar">
+                <div class="admin-avatar" id="admin-avatar">A</div>
+                <div class="details">
+                    <span class="admin-welcome">Welcome back,</span>
+                    <span class="admin-name" id="admin-name">Admin</span>
+                </div>
+                <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+            </header>
+            
+            <main>
+                <section>
+                    <h2 class="section-title">Branches</h2>
+                    <div class="branches-list" id="branches-list">
+                        <div class="card" onclick="openAddBranchManagerModal()">
+                            <div class="add-card-icon">+</div>
+                            <span>Add Branch</span>
+                        </div>
+                    </div>
+                    <p class="no-branches-msg" id="no-branches-msg">No branches available. Please add a branch.</p>
+                </section>
+                
+                <section id="services-section" style="margin-top: 30px; display: none;">
+                    <h2 class="section-title">Services for <span id="branch-title"></span></h2>
+                    <div class="services-list" id="services-list">
+                         <div class="card" onclick="openAddServiceModal()">
+                            <div class="add-card-icon">+</div>
+                            <span>Add Service</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section style="margin-top:30px;">
+                    <h2 class="section-title">Analytics</h2>
+                    <div class="analytics-grid">
+                        <div class="analytic-box" onclick="window.location.href='Admin/scheduled_orders.html'">
+                            <div class="analytic-count title-orders" id="analytic-scheduled-orders">0</div>
+                            <div class="analytic-label">Scheduled Orders</div>
+                        </div>
+                        <div class="analytic-box" onclick="window.location.href='Admin/employees.html'">
+                            <div class="analytic-count title-employees" id="analytic-employees">0</div>
+                            <div class="analytic-label">Employees</div>
+                        </div>
+                        <div class="analytic-box" onclick="window.location.href='Admin/products.html'">
+                            <div class="analytic-count title-stock" id="analytic-stock-over">0</div>
+                            <div class="analytic-label">Stock Over</div>
+                        </div>
+                        <div class="analytic-box" onclick="window.location.href='Admin/customers.html'">
+                            <div class="analytic-count title-customers" id="analytic-customers">0</div>
+                            <div class="analytic-label">Customers</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
         </div>
-        <div id="service-add-msg" class="message"></div>
-      </form>
-    </div>
-  </div>
-  <div class="section-title" style="margin-top:30px;">Analytics</div>
-  <div class="analytics-grid">
-    <div class="analytic-box" onclick="window.location.href='Admin/scheduled_orders.html'">
-      <div class="analytic-count title-orders" id="analytic-scheduled-orders">0</div>
-      <div class="analytic-label">Scheduled Orders</div>
-    </div>
-    <div class="analytic-box" onclick="window.location.href='Admin/employees.html'">
-      <div class="analytic-count title-employees" id="analytic-employees">0</div>
-      <div class="analytic-label">Employees</div>
-    </div>
-    <div class="analytic-box" onclick="window.location.href='Admin/stock_over.html'">
-      <div class="analytic-count title-stock" id="analytic-stock-over">0</div>
-      <div class="analytic-label">Stock Over</div>
-    </div>
-    <div class="analytic-box" onclick="window.location.href='Admin/customers.html'">
-      <div class="analytic-count title-customers" id="analytic-customers">0</div>
-      <div class="analytic-label">Customers</div>
-    </div>
-  </div>
-  <div class="bottom-navbar">
-    <a class="bottom-item active" href="#"><span class="bottom-icon">&#8962;</span> Home</a>
-    <a class="bottom-item" href="Admin/orders.html"><span class="bottom-icon">&#128722;</span> Orders</a>
-    <a class="bottom-item" href="Admin/products.html"><span class="bottom-icon">&#9638;</span> Products</a>
-    <a class="bottom-item" href="Admin/employees.html"><span class="bottom-icon">&#128100;</span> Employees</a>
-  </div>
-  <div class="modal-overlay" id="branch-manager-modal">
-    <div class="modal">
-      <button class="close-btn" onclick="closeBranchManagerModal()">&times;</button>
-      <h3>Add Branch and Manager</h3>
-      <form onsubmit="submitBranchManager(event)">
-        <label>Branch Name *</label><input type="text" id="branch_name" required>
-        <label>Branch City</label><input type="text" id="branch_city">
-        <label>Branch Phone</label><input type="text" id="branch_phone">
-        <div style="height:18px"></div>
-        <label>Manager Name *</label><input type="text" id="manager_name" required>
-        <label>Manager Email *</label><input type="email" id="manager_email" required>
-        <label>Manager Phone *</label><input type="text" id="manager_phone" required>
-        <button class="btn" type="submit">Save Branch & Manager</button>
-        <div id="branch-manager-msg" class="message"></div>
-      </form>
     </div>
 
-    <div id="servicePlanModal"
-      style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
-background:rgba(25,154,245,0.15);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:10000;">
-      <div style="position:relative;width:90vw;max-width:440px;height:85vh;background:#fff;border-radius:16px;
-      box-shadow:0 8px 27px #189aff80;">
-        <button onclick="closeServicePlanModal()" style="position:absolute;top:12px;right:15px;z-index:10;
-      font-size:24px;border:none;background:none;cursor:pointer;color:#2196f3;">×</button>
-        <iframe id="servicePlanFrame" style="width:100%;height:100%;border:none;border-radius:16px;"></iframe>
-      </div>
+    <nav class="bottom-nav">
+        <a class="bottom-item active" href="#">
+            <i class="fas fa-home bottom-icon"></i>
+            <span class="bottom-label">Home</span>
+        </a>
+        <a class="bottom-item" href="Admin/scheduled_orders.html">
+            <i class="fas fa-box-open bottom-icon"></i>
+            <span class="bottom-label">Orders</span>
+        </a>
+        <a class="bottom-item" href="Admin/products.html">
+            <i class="fas fa-tags bottom-icon"></i>
+            <span class="bottom-label">Products</span>
+        </a>
+        <a class="bottom-item" href="Admin/employees.html">
+            <i class="fas fa-users bottom-icon"></i>
+            <span class="bottom-label">Employees</span>
+        </a>
+    </nav>
+
+    <div class="modal-overlay" id="add-service-modal">
+        <div class="modal">
+            <button class="close-btn" onclick="closeAddServiceModal()">&times;</button>
+            <h3>Add New Service</h3>
+            <form id="add-service-form" onsubmit="submitAddService(event)">
+                <label for="service_name">Service Name</label>
+                <input type="text" id="service_name" name="name" required>
+                <label for="service_image">Service Image (Optional)</label>
+                <input type="file" id="service_image" name="image" accept="image/*" style="margin-bottom: 10px;">
+                <button type="submit" class="btn">Add Service</button>
+                <div id="service-add-msg" class="message"></div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="branch-manager-modal">
+        <div class="modal">
+            <button class="close-btn" onclick="closeBranchManagerModal()">&times;</button>
+            <h3>Add Branch & Manager</h3>
+            <form onsubmit="submitBranchManager(event)">
+                <label for="branch_name">Branch Name *</label><input type="text" id="branch_name" required>
+                <label for="branch_city">Branch City</label><input type="text" id="branch_city">
+                <label for="branch_phone">Branch Phone</label><input type="text" id="branch_phone">
+                <hr style="border:none; border-top: 1px solid var(--border-color); margin: 20px 0;">
+                <label for="manager_name">Manager Name *</label><input type="text" id="manager_name" required>
+                <label for="manager_email">Manager Email *</label><input type="email" id="manager_email" required>
+                <label for="manager_phone">Manager Phone *</label><input type="text" id="manager_phone" required>
+                <button class="btn" type="submit">Save</button>
+                <div id="branch-manager-msg" class="message"></div>
+            </form>
+        </div>
     </div>
 
-    <script>
-      function openServicePlanModal(serviceId) {
-        const modal = document.getElementById('servicePlanModal');
-        const frame = document.getElementById('servicePlanFrame');
-        window.location.href = '/baseera_app/admin/add_service_plan.html?service_id=' + encodeURIComponent(serviceId);
-
-      }
-
-      // Hides the modal and clears iframe src
-      function closeServicePlanModal() {
-        const modal = document.getElementById('servicePlanModal');
-        const frame = document.getElementById('servicePlanFrame');
-        modal.style.display = 'none';
-        frame.src = '';
-      }
-
-      // Optional: Clicking outside iframe closes popup
-      document.getElementById('servicePlanModal').addEventListener('click', function (e) {
-        if (e.target === this) closeServicePlanModal();
-      });
-
-    </script>
-
-
-  </div>
-  <script>
+    <div class="modal-overlay" id="servicePlanModal">
+        <div class="modal" style="max-width: 90vw; height: 90vh; padding: 0;">
+            <button class="close-btn" onclick="closeServicePlanModal()" style="color: white; font-size: 30px; text-shadow: 0 1px 3px black;">&times;</button>
+            <iframe id="servicePlanFrame" style="width:100%; height:100%; border:none; border-radius:16px;"></iframe>
+        </div>
+    </div>
+<script>
     let selectedBranch = { id: null, name: '' };
-    document.addEventListener("DOMContentLoaded", function () {
-      let adminName = sessionStorage.getItem('admin_name') || 'Admin';
-      let initials = (adminName.split(' ').map(x => x[0]).join('') || 'A').toUpperCase();
-      document.getElementById('admin-name').innerText = adminName;
-      document.getElementById('admin-avatar').innerText = initials;
-      fetchAnalytics();
-      fetchBranches();
-    });
-    function logout() { sessionStorage.clear(); window.location.href = "login_register.php"; }
-    function fetchAnalytics() {
-      fetch('Backend/get_all_orders.php').then(r => r.json()).then(data => { document.getElementById('analytic-scheduled-orders').innerText = (data.status === 'success' && Array.isArray(data.orders)) ? data.orders.length : 0; }).catch(() => { document.getElementById('analytic-scheduled-orders').innerText = 0; });
-      fetch('Backend/get_customers.php').then(r => r.json()).then(data => { document.getElementById('analytic-customers').innerText = (data.status === 'success' && Array.isArray(data.customers)) ? data.customers.length : 0; }).catch(() => { document.getElementById('analytic-customers').innerText = 0; });
-      fetch('Backend/get_employees.php').then(r => r.json()).then(data => { document.getElementById('analytic-employees').innerText = (data.status === 'success' && Array.isArray(data.employees)) ? data.employees.length : 0; }).catch(() => { document.getElementById('analytic-employees').innerText = 0; });
-      fetch('Backend/get_products.php').then(r => r.json()).then(data => {
-        if (data.status === 'success' && Array.isArray(data.products)) {
-          let lowStockCount = data.products.filter(p => p.product_quantity < 5).length;
-          document.getElementById('analytic-stock-over').innerText = lowStockCount;
-        } else { document.getElementById('analytic-stock-over').innerText = 0; }
-      }).catch(() => { document.getElementById('analytic-stock-over').innerText = 0; });
-    }
-    function fetchBranches() {
-      fetch('Backend/get_branch.php')
-        .then(res => res.json())
-        .then(res => {
-          let list = document.getElementById('branches-list');
-          list.innerHTML = `<div class="branch-card" onclick="openAddBranchManagerModal()"><div style="font-size:32px;margin-bottom:3px;">&#43;</div><span>Add</span></div>`;
-          if (res.branches && res.branches.length > 0) {
-            document.getElementById('no-branches-msg').style.display = 'none';
-            res.branches.forEach((branch, index) => {
-              let el = document.createElement('div');
-              el.className = 'branch-card';
-              el.id = `branch-card-${branch.branch_id}`;
-              el.setAttribute('onclick', `selectBranch(${branch.branch_id}, '${branch.branch_name}')`);
-              el.innerHTML = `<span style="font-size:23px;">🏢</span><span>${branch.branch_name}</span>`;
-              list.appendChild(el);
+    // ADD THIS LINE: Define the base path to your backend folder
+    const BACKEND_BASE_PATH = 'Backend/'; 
 
-              // Auto-select the first branch and show its services
-              if (index === 0) {
-                setTimeout(() => selectBranch(branch.branch_id, branch.branch_name), 100);
-              }
+    document.addEventListener("DOMContentLoaded", function () {
+        let adminName = sessionStorage.getItem('admin_name') || 'Admin';
+        let initials = (adminName.split(' ').map(x => x[0]).join('') || 'A').toUpperCase();
+        document.getElementById('admin-name').innerText = adminName;
+        document.getElementById('admin-avatar').innerText = initials;
+        fetchAnalytics();
+        fetchBranches();
+    });
+
+    function logout() { sessionStorage.clear(); window.location.href = "login_register.php"; }
+
+    function fetchAnalytics() {
+        const fetchData = (url, elementId, dataKey, filterFn) => {
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    let count = 0;
+                    if (data.status === 'success' && Array.isArray(data[dataKey])) {
+                        count = filterFn ? data[dataKey].filter(filterFn).length : data[dataKey].length;
+                    }
+                    document.getElementById(elementId).innerText = count;
+                })
+                .catch(() => { document.getElementById(elementId).innerText = 0; });
+        };
+        fetchData('Backend/get_all_orders.php', 'analytic-scheduled-orders', 'orders');
+        fetchData('Backend/get_customers.php', 'analytic-customers', 'customers');
+        fetchData('Backend/get_employees.php', 'analytic-employees', 'employees');
+        fetchData('Backend/get_products.php', 'analytic-stock-over', 'products', p => p.product_quantity < 5);
+    }
+    
+    function fetchBranches() {
+        fetch('Backend/get_branch.php')
+            .then(res => res.json())
+            .then(res => {
+                let list = document.getElementById('branches-list');
+                list.innerHTML = `<div class="card" onclick="openAddBranchManagerModal()"><div class="add-card-icon">+</div><span>Add Branch</span></div>`;
+                if (res.branches && res.branches.length > 0) {
+                    document.getElementById('no-branches-msg').style.display = 'none';
+                    res.branches.forEach((branch, index) => {
+                        let el = document.createElement('div');
+                        el.className = 'card';
+                        el.id = `branch-card-${branch.branch_id}`;
+                        el.setAttribute('onclick', `selectBranch(${branch.branch_id}, '${branch.branch_name.replace(/'/g, "\\'")}')`);
+                        el.innerHTML = `<i class="fa-solid fa-store" style="font-size: 32px; color: var(--primary-light);"></i><span>${branch.branch_name}</span>`;
+                        list.appendChild(el);
+                        if (index === 0) {
+                            setTimeout(() => selectBranch(branch.branch_id, branch.branch_name), 100);
+                        }
+                    });
+                } else {
+                    document.getElementById('no-branches-msg').style.display = 'block';
+                }
             });
-          } else {
-            document.getElementById('no-branches-msg').style.display = 'block';
-          }
-        });
     }
 
     function selectBranch(branchId, branchName) {
-      selectedBranch = { id: branchId, name: branchName };
-      document.getElementById('branch-title').innerText = branchName;
-      document.getElementById('services-title').style.display = 'block';
-      document.getElementById('services-list').style.display = 'flex';
-      document.querySelectorAll('#branches-list .branch-card').forEach(card => card.classList.remove('active'));
-      document.getElementById(`branch-card-${branchId}`).classList.add('active');
-      fetchServices(branchId);
+        selectedBranch = { id: branchId, name: branchName };
+        document.getElementById('branch-title').innerText = branchName;
+        document.getElementById('services-section').style.display = 'block';
+        document.querySelectorAll('#branches-list .card').forEach(card => card.classList.remove('active'));
+        document.getElementById(`branch-card-${branchId}`).classList.add('active');
+        fetchServices(branchId);
     }
-    function fetchServices(branchId) {
-      const servicesList = document.getElementById('services-list');
-      servicesList.innerHTML = `<div class="branch-card" onclick="openAddServiceModal()"><div style="font-size: 32px; margin-bottom: 3px;">&#43;</div><span>Add</span></div>`;
-      fetch(`Backend/get_service_and_branch.php?branch_id=${branchId}`)
+
+function fetchServices(branchId) {
+    const servicesList = document.getElementById('services-list');
+    servicesList.innerHTML = `<div class="card" onclick="openAddServiceModal()"><div class="add-card-icon">+</div><span>Add Service</span></div>`;
+    fetch(`Backend/get_service_and_branch.php?branch_id=${branchId}`)
         .then(res => res.json())
         .then(data => {
-          if (data.status === 'success' && Array.isArray(data.services)) {
-            data.services.forEach(service => {
-              const card = document.createElement('div');
-              card.className = 'branch-card';
-              const imageHtml = service.image ? `<img src="${service.image}" alt="${service.name}">` : `<span style="font-size:28px;">🔧</span>`;
-              card.innerHTML = `
-    ${imageHtml}
-    <span>${service.name}</span>
-  <button onclick="openServicePlanModal(${service.service_id})">Manage Plans</button>
-  `;
-              servicesList.appendChild(card);
-            });
-
-          }
+            if (data.status === 'success' && Array.isArray(data.services)) {
+                data.services.forEach(service => {
+                    const cardLink = document.createElement('a');
+                    cardLink.className = 'service-card';
+                    cardLink.href = `javascript:openServicePlanModal(${service.service_id})`; 
+                    
+                    // **THIS IS THE FIX:** Use service.image directly, without adding any prefix.
+                    const imageHtml = service.image ? `<img src="${service.image}" alt="${service.name}">` : `<i class="fa-solid fa-screwdriver-wrench" style="font-size: 32px; color: var(--primary-light);"></i>`;
+                    
+                    cardLink.innerHTML = `${imageHtml}<span>${service.name}</span>`;
+                    servicesList.appendChild(cardLink);
+                });
+            }
         }).catch(err => console.error("Error fetching services:", err));
+}
+    function openServicePlanModal(serviceId) {
+        const modal = document.getElementById('servicePlanModal');
+        const frame = document.getElementById('servicePlanFrame');
+        frame.src = '/baseera_app/admin/add_service_plan.html?service_id=' + encodeURIComponent(serviceId);
+        modal.style.display = 'flex';
     }
-    function openAddBranchManagerModal() { document.getElementById('branch-manager-modal').style.display = 'flex'; clearBranchManagerModal(); }
-    function closeBranchManagerModal() { document.getElementById('branch-manager-modal').style.display = 'none'; document.getElementById('branch-manager-msg').style.display = 'none'; }
-    function clearBranchManagerModal() { ['branch_name', 'branch_city', 'branch_phone', 'manager_name', 'manager_email', 'manager_phone'].forEach(id => document.getElementById(id).value = ''); document.getElementById('branch-manager-msg').style.display = 'none'; }
+
+    function closeServicePlanModal() {
+        const modal = document.getElementById('servicePlanModal');
+        const frame = document.getElementById('servicePlanFrame');
+        modal.style.display = 'none';
+        frame.src = ''; 
+    }
+    
+    function openAddBranchManagerModal() { document.getElementById('branch-manager-modal').style.display = 'flex'; }
+    function closeBranchManagerModal() { document.getElementById('branch-manager-modal').style.display = 'none'; }
+    
+    function openAddServiceModal() { 
+        if (!selectedBranch.id) { alert("Please select a branch first!"); return; } 
+        document.getElementById('add-service-modal').style.display = 'flex'; 
+    }
+    function closeAddServiceModal() { document.getElementById('add-service-modal').style.display = 'none'; }
+
+    function showMessage(modalId, msg, type) {
+        let el = document.getElementById(modalId);
+        el.innerText = msg;
+        el.className = 'message ' + type;
+        el.style.display = 'block';
+    }
+
     function submitBranchManager(e) {
-      e.preventDefault();
-      let b_name = branch_name.value.trim(), b_city = branch_city.value.trim(), b_phone = branch_phone.value.trim(), m_name = manager_name.value.trim(), m_email = manager_email.value.trim(), m_phone = manager_phone.value.trim();
-      if (!b_name || !m_name || !m_email || !m_phone) { showBranchManagerMessage("All required fields must be filled.", 'error'); return; }
-      let fdBranch = new FormData();
-      fdBranch.append('branch_name', b_name); fdBranch.append('branch_city', b_city); fdBranch.append('branch_phone', b_phone);
-      fetch('Backend/add_branch.php', { method: 'POST', body: fdBranch }).then(r => r.json()).then(data => {
-        if (data.status === 'success' && data.branch && data.branch.branch_id) {
-          let fdManager = new FormData();
-          fdManager.append('managerName', m_name); fdManager.append('managerEmail', m_email); fdManager.append('managerPhone', m_phone); fdManager.append('branch_id', data.branch.branch_id);
-          fetch('Backend/add_manager.php', { method: 'POST', body: fdManager }).then(r2 => r2.json()).then(data2 => {
-            if (data2.status === 'success') {
-              showBranchManagerMessage("Branch and Manager added successfully!", 'success'); fetchBranches(); setTimeout(closeBranchManagerModal, 1100);
-            } else { showBranchManagerMessage("Branch added but manager failed: " + data2.message, 'error'); }
-          }).catch(() => showBranchManagerMessage("Branch added but error saving manager", 'error'));
-        } else { showBranchManagerMessage("Error saving branch: " + (data.message || ''), 'error'); }
-      }).catch(() => showBranchManagerMessage("Error saving branch", 'error'));
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('branch_name', document.getElementById('branch_name').value);
+        formData.append('branch_city', document.getElementById('branch_city').value);
+        formData.append('branch_phone', document.getElementById('branch_phone').value);
+
+        fetch('Backend/add_branch.php', { method: 'POST', body: formData })
+            .then(r => r.json())
+            .then(data => {
+                if (data.status === 'success' && data.branch && data.branch.branch_id) {
+                    const managerData = new FormData();
+                    managerData.append('managerName', document.getElementById('manager_name').value);
+                    managerData.append('managerEmail', document.getElementById('manager_email').value);
+                    managerData.append('managerPhone', document.getElementById('manager_phone').value);
+                    managerData.append('branch_id', data.branch.branch_id);
+                    return fetch('Backend/add_manager.php', { method: 'POST', body: managerData });
+                } else {
+                    throw new Error(data.message || 'Failed to add branch.');
+                }
+            })
+            .then(r2 => r2.json())
+            .then(data2 => {
+                if (data2.status === 'success') {
+                    showMessage('branch-manager-msg', "Branch and Manager added successfully!", 'success');
+                    fetchBranches();
+                    setTimeout(closeBranchManagerModal, 1200);
+                } else {
+                    throw new Error(data2.message || 'Branch added, but failed to add manager.');
+                }
+            })
+            .catch(err => showMessage('branch-manager-msg', err.message, 'error'));
     }
-    function showBranchManagerMessage(msg, type) { let d = document.getElementById('branch-manager-msg'); d.innerText = msg; d.className = 'message ' + type; d.style.display = 'block'; }
-    function openAddServiceModal() { if (!selectedBranch.id) { alert("Please select a branch first!"); return; } document.getElementById('add-service-modal').style.display = 'flex'; }
-    function closeAddServiceModal() {
-      const modal = document.getElementById('add-service-modal');
-      modal.style.display = 'none';
-      document.getElementById('add-service-form').reset();
-      document.getElementById('service-img-preview').style.display = 'none';
-      document.getElementById('service-img-preview').innerHTML = '';
-      document.getElementById('service-add-msg').style.display = 'none';
-    }
-    function previewServiceImage(event) {
-      const previewContainer = document.getElementById('service-img-preview');
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          previewContainer.innerHTML = `<img src="${e.target.result}" style="max-width: 100px; max-height: 100px; border-radius: 8px;">`;
-          previewContainer.style.display = 'block';
-        }
-        reader.readAsDataURL(file);
-      }
-    }
-    function showServiceAddMessage(msg, type) { let el = document.getElementById('service-add-msg'); el.innerText = msg; el.className = 'message ' + type; el.style.display = 'block'; }
+
     function submitAddService(event) {
-      event.preventDefault();
-      showServiceAddMessage('Processing...', 'success');
-      const serviceName = document.getElementById('service_name').value.trim();
-      const serviceImage = document.getElementById('service_image').files[0];
-      if (!serviceName) { showServiceAddMessage('Service name is required.', 'error'); return; }
-      if (!selectedBranch.id) { showServiceAddMessage('No branch selected. Please refresh and try again.', 'error'); return; }
-      const serviceFormData = new FormData();
-      serviceFormData.append('name', serviceName);
-      if (serviceImage) { serviceFormData.append('image', serviceImage); }
-      fetch('Backend/add_service.php', { method: 'POST', body: serviceFormData })
-        .then(response => {
-          if (!response.ok) { throw new Error(`Server Error: ${response.status} ${response.statusText}. Check file path.`); }
-          return response.json();
-        })
-        .then(serviceData => {
-          if (serviceData.status === 'success' && serviceData.service.service_id) {
-            const newServiceId = serviceData.service.service_id;
-            const mappingFormData = new FormData();
-            mappingFormData.append('branch_id', selectedBranch.id);
-            mappingFormData.append('service_id', newServiceId);
-            return fetch('Backend/add_service_and_branch.php', { method: 'POST', body: mappingFormData });
-          } else { throw new Error(serviceData.message || 'Failed to add the service.'); }
-        })
-        .then(response => {
-          if (!response.ok) { throw new Error(`Server Error: ${response.status} ${response.statusText}.`); }
-          return response.json();
-        })
-        .then(mappingData => {
-          if (mappingData.status === 'success') {
-            showServiceAddMessage('Service added successfully!', 'success');
-            fetchServices(selectedBranch.id);
-            setTimeout(closeAddServiceModal, 1200);
-          } else { throw new Error(mappingData.message || 'Failed to link service to branch.'); }
-        })
-        .catch(error => {
-          console.error('An error occurred:', error);
-          showServiceAddMessage(error.message, 'error');
-        });
+        event.preventDefault();
+        if (!selectedBranch.id) { showMessage('service-add-msg', 'No branch selected.', 'error'); return; }
+        
+        const serviceFormData = new FormData(event.target);
+        
+        fetch('Backend/add_service.php', { method: 'POST', body: serviceFormData })
+            .then(response => response.json())
+            .then(serviceData => {
+                if (serviceData.status === 'success' && serviceData.service.service_id) {
+                    const mappingFormData = new FormData();
+                    mappingFormData.append('branch_id', selectedBranch.id);
+                    mappingFormData.append('service_id', serviceData.service.service_id);
+                    return fetch('Backend/add_service_and_branch.php', { method: 'POST', body: mappingFormData });
+                } else {
+                    throw new Error(serviceData.message || 'Failed to add the service.');
+                }
+            })
+            .then(response => response.json())
+            .then(mappingData => {
+                if (mappingData.status === 'success') {
+                    showMessage('service-add-msg', 'Service added successfully!', 'success');
+                    fetchServices(selectedBranch.id);
+                    setTimeout(closeAddServiceModal, 1200);
+                } else {
+                    throw new Error(mappingData.message || 'Failed to link service to branch.');
+                }
+            })
+            .catch(error => {
+                console.error('An error occurred:', error);
+                showMessage('service-add-msg', error.message, 'error');
+            });
     }
-
-  </script>
+</script>
 </body>
-
 </html>

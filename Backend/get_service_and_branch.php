@@ -5,7 +5,8 @@ header('Content-Type: application/json');
 require_once("database.php");
 
 // --- Correct: Use many-to-many logic ---
-$base_url = "https://app.baseeragarden.in/mohamedapp/Uploads/services/";
+// $base_url = "https://app.baseeragarden.in/mohamedapp/Uploads/services/";
+$base_url = "http://localhost/baseera_app/Backend/";
 
 $branch_id = isset($_GET['branch_id']) ? (int)$_GET['branch_id'] : 0;
 if ($branch_id === 0) {

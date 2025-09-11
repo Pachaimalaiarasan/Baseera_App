@@ -10,7 +10,8 @@ require_once("database.php");
 
 // --- FIX 1: Define the base URL for your images ---
 // This should be the path to the folder where your service images are stored.
-$base_url = "https://app.baseeragarden.in/mohamedapp/Uploads/services/"; // Example path
+// $base_url = "https://app.baseeragarden.in/mohamedapp/Uploads/services/"; // Example path
+$base_url = "http://localhost/baseera_app/Backend/";
 
 // --- FIX 2: Get the branch_id from the URL parameter sent by the frontend ---
 $branch_id = isset($_GET['branch_id']) ? (int)$_GET['branch_id'] : 0;
