@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-family-base: 'Poppins', Arial, "Segoe UI", sans-serif;
+      --c-primary: #0062E6;
+      --c-primary-light: #4D94FF;
+      --c-primary-bg: #E6F0FF;
+      --c-text-dark: #121212;
+      --c-text-medium: #4A4A4A;
+      --c-text-light: #888888;
+      --c-text-on-dark: #EAEAEA;
+      --c-text-white: #ffffff;
+      --c-background: #F7F9FC;
+      --c-surface: #ffffff;
+      --c-surface-dark: #1C1C1E;
+      --c-border: #EAEAEA;
+      --c-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --c-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.1);
+      --c-error: #DC3545;
+      --border-radius-base: 16px;
+      --border-radius-small: 8px;
+      --nav-width-desktop: 250px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--c-background);
+      font-family: var(--font-family-base);
+      min-height: 100vh;
+      color: var(--c-text-medium);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .page-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-wrapper {
+      width: 100%;
+      transition: margin-left 0.3s ease;
+    }
+
+    .header {
+      padding: 1rem 1.5rem;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--c-text-dark);
+    }
+    
+    .main-content {
+      padding: 1.5rem 1rem;
+    }
+    
+    .main-content-container {
+        max-width: 800px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .profile-card {
+        background: var(--c-surface);
+        border-radius: var(--border-radius-base);
+        padding: 2rem;
+        box-shadow: var(--c-shadow);
+        text-align: center;
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 1rem auto;
+        border: 4px solid var(--c-primary-bg);
+    }
+
+    .profile-name {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--c-text-dark);
+        margin: 0;
+    }
+
+    .profile-id {
+        font-size: 0.9rem;
+        color: var(--c-text-light);
+        margin-bottom: 2rem;
+    }
+
+    .profile-details {
+        text-align: left;
+        margin-top: 2rem;
+    }
+    
+    .detail-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .detail-item i {
+        font-size: 1.5rem;
+        color: var(--c-primary);
+        margin-right: 1.5rem;
+        width: 24px;
+        text-align: center;
+    }
+    
+    .detail-label {
+        font-weight: 600;
+        color: var(--c-text-dark);
+        display: block;
+    }
+    
+    .detail-value {
+        color: var(--c-text-medium);
+    }
+
+    .logout-btn {
+        display: inline-block;
+        width: 100%;
+        max-width: 250px;
+        background: var(--c-error);
+        color: var(--c-text-white);
+        padding: 12px;
+        border-radius: var(--border-radius-small);
+        font-weight: 600;
+        font-size: 1rem;
+        border: none;
+        margin-top: 2rem;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color 0.2s ease;
+    }
+    
+    .logout-btn:hover {
+        background-color: #c82333; /* Darker red on hover */
+    }
+
+    /* Navigation Styles */
+    .main-nav {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      background: var(--c-surface-dark);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 70px;
+      z-index: 99;
+    }
+
+    .nav-title {
+      display: none;
+    }
+
+    .nav-item {
+      color: var(--c-text-on-dark);
+      text-align: center;
+      flex: 1;
+      padding-top: 5px;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .nav-item.active {
+      color: var(--c-text-white);
+      font-weight: 600;
+    }
+
+    .nav-item i {
+      display: block;
+      font-size: 1.5rem;
+      margin: 0 auto 4px;
+    }
+
+    @media (min-width: 901px) {
+      .page-container {
+        flex-direction: row;
+      }
+
+      .content-wrapper {
+        margin-left: var(--nav-width-desktop);
+      }
+      
+      .header {
+        justify-content: flex-start;
+      }
+
+      .main-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: auto;
+        width: var(--nav-width-desktop);
+        height: 100vh;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        border-radius: 0;
+        border-right: 1px solid var(--c-border);
+        padding-top: 2rem;
+        gap: 10px;
+        background: var(--c-surface);
+      }
+
+      .nav-title {
+        display: block;
+        color: var(--c-primary);
+        font-size: 1.8em;
+        text-align: center;
+        margin: 0 1rem 2rem 1rem;
+        font-weight: 700;
+      }
+
+      .nav-item {
+        color: var(--c-text-medium);
+        display: flex;
+        align-items: center;
+        text-align: left;
+        padding: 12px 25px;
+        flex: 0;
+        border-radius: var(--border-radius-small);
+        margin: 0 15px;
+        font-size: 1rem;
+      }
+
+      .nav-item:hover {
+        background-color: var(--c-primary-bg);
+        color: var(--c-primary);
+      }
+
+      .nav-item.active {
+        background-color: var(--c-primary-bg);
+        color: var(--c-primary);
+        font-weight: 600;
+      }
+
+      .nav-item i {
+        display: inline-block;
+        margin: 0 15px 0 0;
+        font-size: 1.4rem;
+      }
+    }
+    
+    @media (max-width: 600px) {
+        .profile-card {
+            padding: 1.5rem;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+        }
+        .profile-name {
+            font-size: 1.5rem;
+        }
+        .main-content {
+            padding: 1rem 0.5rem 80px 0.5rem; /* Add padding-bottom for nav */
+        }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-container">
+    <nav class="main-nav" role="navigation" aria-label="Main Navigation">
+      <h2 class="nav-title">CarPro</h2>
+      <a href="../customer_dashboard.html" class="nav-item" aria-label="Go to Dashboard">
+        <i class="bi bi-window-sidebar"></i><span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" aria-label="Go to Bookings">
+        <i class="bi bi-calendar-check"></i><span>Bookings</span>
+      </a>
+      <a href="#" class="nav-item" aria-label="Go to Products">
+        <i class="bi bi-shop"></i><span>Products</span>
+      </a>
+      <a href="customer_profile.html" class="nav-item active" aria-current="page" aria-label="Go to Profile">
+        <i class="bi bi-person-circle"></i><span>Profile</span>
+      </a>
+    </nav>
+
+    <div class="content-wrapper">
+      <header class="header">
+        <h1 class="header-title">My Profile</h1>
+      </header>
+      <main class="main-content">
+        <div class="main-content-container">
+          <div id="profile-container" class="profile-card">
+            <p id="loading-message">Loading profile...</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Assuming the user needs to be redirected to a login page on logout
+    function logout() {
+         sessionStorage.clear();
+         alert("suessfully logouted")
+         window.location.href = "../index.php"; }
+
+    window.onload = function() {
+      // You should ideally get the specific customer's ID from a session or URL parameter.
+      // Since the PHP script returns all customers, we'll just display the first one as a demo.
+      fetch("../Backend/get_customer.php")
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const profileContainer = document.getElementById('profile-container');
+          if (data.status === "success" && data.customers && data.customers.length > 0) {
+            // Displaying the first customer as an example.
+            const customer = data.customers[0]; 
+
+            profileContainer.innerHTML = `
+                <img src="https://i.pravatar.cc/150?u=${customer.customer_id}" alt="Customer Avatar" class="profile-avatar">
+                <h2 class="profile-name">${customer.customer_name || 'N/A'}</h2>
+                <p class="profile-id">Customer ID: ${customer.customer_id}</p>
+                
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <i class="bi bi-envelope-fill"></i>
+                        <div>
+                            <span class="detail-label">Email Address</span>
+                            <span class="detail-value">${customer.customer_email || 'Not Provided'}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="bi bi-telephone-fill"></i>
+                        <div>
+                            <span class="detail-label">Phone Number</span>
+                            <span class="detail-value">${customer.customer_phone || 'Not Provided'}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <div>
+                            <span class="detail-label">Address</span>
+                            <span class="detail-value">${customer.customer_address || 'Not Provided'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="logout-btn" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+            `;
+          } else {
+            profileContainer.innerHTML = `<p style="color: var(--c-error);">${data.message || 'Could not find customer profile.'}</p>`;
+          }
+        })
+        .catch(error => {
+          const profileContainer = document.getElementById('profile-container');
+          profileContainer.innerHTML = `<p style="color: var(--c-error);">Failed to load profile. Please check your connection.</p>`;
+          console.error("Error fetching customer data:", error);
+        });
+    };
+  </script>
+</body>
+
+</html>

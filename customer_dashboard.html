@@ -6,26 +6,63 @@
   <title>Car App Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
-  <style>
-    /* Base and typography */
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <style>
+      :root {
+      --font-family-base: 'Poppins', Arial, "Segoe UI", sans-serif;
+      --c-primary: #0062E6;
+      --c-primary-light: #4D94FF;
+      --c-primary-bg: #E6F0FF;
+      --c-text-dark: #121212;
+      --c-text-medium: #4A4A4A;
+      --c-text-light: #888888;
+      --c-text-on-dark: #EAEAEA;
+      --c-text-white: #ffffff;
+      --c-background: #F7F9FC;
+      --c-surface: #ffffff;
+      --c-surface-dark: #1C1C1E;
+      --c-border: #EAEAEA;
+      --c-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --c-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.1);
+      --c-offer-grad-1: linear-gradient(135deg, #0062E6 0%, #3399FF 100%);
+      --c-offer-grad-2: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --c-error: #DC3545;
+      --c-modal-overlay: rgba(0, 0, 0, 0.4);
+      --c-section-title: #1A202C;
+      --border-radius-base: 16px;
+      --border-radius-small: 8px;
+      --nav-width-desktop: 250px;
+    }
+
     body {
       margin: 0;
-      background: #fff;
-      font-family: Arial, "Segoe UI", sans-serif;
+      background: var(--c-background);
+      font-family: var(--font-family-base);
       min-height: 100vh;
-      color: #222;
+      color: var(--c-text-medium);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .page-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-wrapper {
+      width: 100%;
+      transition: margin-left 0.3s ease;
     }
 
     .top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 1.6rem 0.5rem 1.2rem;
-      flex-wrap: wrap;
-      gap: 10px;
-      background: #fafafa;
-      border-bottom: 1px solid #eee;
+      padding: 1rem 1.5rem;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
       position: sticky;
       top: 0;
       z-index: 10;
@@ -35,116 +72,166 @@
       width: 46px;
       height: 46px;
       border-radius: 50%;
-      border: 2px solid #eee;
-      background: #e5ecf0;
+      border: 2px solid var(--c-primary-bg);
       object-fit: cover;
     }
 
     .select-wrap {
-      min-width: 120px;
+      min-width: 140px;
       position: relative;
-      width: 100%;
-      max-width: 150px;
     }
 
     .branch-select {
       width: 100%;
-      font-size: 1.1rem;
-      border: none;
-      border-bottom: 2px solid #bdbdbd;
-      background: #fff;
+      font-size: 1rem;
+      font-family: var(--font-family-base);
+      border: 1px solid var(--c-border);
+      border-radius: var(--border-radius-small);
+      background: var(--c-background);
       font-weight: 500;
       outline: none;
       appearance: none;
-      padding-right: 20px;
+      padding: 8px 30px 8px 12px;
       cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .branch-select:focus {
+      border-color: var(--c-primary);
     }
 
     .select-arrow {
       position: absolute;
-      right: 7px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
-      color: #888;
+      color: var(--c-text-light);
       pointer-events: none;
     }
 
     .section {
-      margin-left: 10px;
-      margin-right: 10px;
+      padding: 0 1rem;
+    }
+
+    .main-content-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
     }
 
     .section-title {
-      font-size: 1.24em;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem 0;
+      color: var(--c-section-title);
+    }
+
+    .welcome-header {
+      font-size: 1.8rem;
       font-weight: 700;
-      margin: 22px 0 10px 0;
-      color: #263055;
+      color: var(--c-text-dark);
+      margin: 1.5rem 0 0.5rem;
     }
 
     .offers-container {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .offer-card {
-      flex: 1 0 200px;
-      min-width: 110px;
-      max-width: 260px;
-      padding: 18px 12px 12px 12px;
-      color: #fff;
-      border-radius: 16px;
+      padding: 1.5rem;
+      color: var(--c-text-white);
+      border-radius: var(--border-radius-base);
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      font-size: 1em;
-      box-shadow: 0 1px 9px #0001;
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: background 0.25s;
+      justify-content: space-between;
+      min-height: 150px;
+      box-shadow: var(--c-shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .offer-card:hover {
-      filter: brightness(1.1);
+      transform: translateY(-5px);
+      box-shadow: var(--c-shadow-hover);
     }
 
-    .offer-black {
-      background: #111;
+    .offer-card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1.4;
     }
 
-    .offer-brown {
-      background: #765645;
+    .offer-blue {
+      background: var(--c-offer-grad-1);
+    }
+
+    .offer-purple {
+      background: var(--c-offer-grad-2);
     }
 
     .claim-btn {
-      margin-top: 17px;
-      padding: 6px 25px;
-      border-radius: 18px;
+      margin-top: 1rem;
+      padding: 0.6rem 1.5rem;
+      border-radius: var(--border-radius-small);
       border: none;
-      background: #fff;
-      color: #333;
-      font-weight: 500;
-      font-size: 1.13em;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--c-text-dark);
+      font-weight: 600;
+      font-size: 1rem;
+      font-family: var(--font-family-base);
       cursor: pointer;
+      align-self: flex-start;
+      transition: background-color 0.2s;
     }
 
-    .offer-brown .claim-btn {
-      color: #765645;
+    .claim-btn:hover {
+      background-color: var(--c-text-white);
     }
 
-    .services-row {
+    #servicesList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 1rem;
+    }
+
+    .service-card {
+      background: var(--c-surface);
+      border-radius: var(--border-radius-base);
+      padding: 1rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
+      justify-content: center;
+      text-align: center;
+      box-shadow: var(--c-shadow);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--c-shadow-hover);
+      color: var(--c-primary);
+    }
+
+    .service-card i {
+      font-size: 2.5rem;
+      color: var(--c-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .service-card span {
+      font-weight: 500;
+      font-size: 0.9rem;
     }
 
     .add-car-link {
-      color: #2596fd;
+      color: var(--c-primary);
       text-decoration: none;
-      font-size: 1.05em;
+      font-size: 1rem;
+      font-weight: 500;
       margin-left: auto;
       display: flex;
       align-items: center;
@@ -156,33 +243,33 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       display: flex;
-      gap: 12px;
-      padding-bottom: 8px;
-      scroll-padding-left: 10px;
+      gap: 1.5rem;
+      padding-bottom: 1rem;
+      scroll-padding-left: 1rem;
     }
 
     .carcard-main {
-      background: #fff;
-      border-radius: 19px;
-      box-shadow: 0 3px 17px #0002;
-      min-width: 290px;
-      max-width: 97vw;
+      background: var(--c-surface);
+      border-radius: var(--border-radius-base);
+      box-shadow: var(--c-shadow);
+      min-width: 280px;
       display: flex;
       align-items: center;
-      padding: 12px 16px;
-      scroll-margin-left: 10px;
+      padding: 1rem;
+      scroll-margin-left: 1rem;
     }
 
     .car-img-holder {
-      width: 49px;
-      height: 49px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
-      background: #ededed;
+      background: var(--c-primary-bg);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 18px;
+      margin-right: 1rem;
       overflow: hidden;
+      flex-shrink: 0;
     }
 
     .car-img-holder img {
@@ -193,60 +280,62 @@
     }
 
     .car-plate {
-      background: #ffe015;
-      color: #111;
-      padding: 4px 13px;
-      border-radius: 5px;
-      border: 2px solid #222;
+      background: var(--c-background);
+      color: var(--c-text-medium);
+      padding: 4px 10px;
+      border-radius: var(--border-radius-small);
+      border: 1px solid var(--c-border);
       font-family: monospace;
-      font-size: 1.13em;
-      box-shadow: 1px 1px 2px #0002;
-      margin-top: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 4px;
       display: inline-block;
     }
 
     .car-name {
-      font-size: 1.1em;
-      font-weight: 700;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--c-text-dark);
     }
 
     .products-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 14px;
-      margin-top: 6px;
-      margin-bottom: 54px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+      margin-bottom: 80px;
     }
 
     .product-card {
-      border-radius: 16px;
-      box-shadow: 0 1px 9px #0001;
-      background: #fff;
-      padding: 16px;
+      border-radius: var(--border-radius-base);
+      box-shadow: var(--c-shadow);
+      background: var(--c-surface);
+      padding: 1rem;
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      transition: box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .product-card:hover {
-      box-shadow: 0 4px 17px #0004;
+      transform: translateY(-5px);
+      box-shadow: var(--c-shadow-hover);
     }
 
     .product-image {
       width: 100%;
       aspect-ratio: 1 / 1;
       object-fit: contain;
-      border-radius: 12px;
-      margin-bottom: 9px;
-      background: #f7f7f7;
+      border-radius: var(--border-radius-small);
+      margin-bottom: 0.75rem;
+      background: var(--c-background);
     }
 
     .product-name {
-      font-weight: 700;
-      font-size: 1.03em;
+      font-weight: 600;
+      font-size: 1rem;
       margin-bottom: 4px;
-      color: #2a2a2a;
+      color: var(--c-text-dark);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -255,27 +344,29 @@
     .product-price-section {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 8px;
-      font-size: 0.97em;
+      font-size: 0.9rem;
     }
 
     .product-price {
-      color: #1976d2;
-      font-weight: 600;
+      color: var(--c-primary);
+      font-weight: 700;
+      font-size: 1.1rem;
     }
 
     .product-original-price {
       text-decoration: line-through;
-      color: #999;
+      color: var(--c-text-light);
     }
 
     .product-discount {
-      background: #ffd54f;
+      background: var(--c-error);
       font-weight: 600;
-      color: #5d4000;
-      padding: 1px 8px;
+      color: var(--c-text-white);
+      padding: 2px 8px;
       border-radius: 12px;
-      font-size: 0.8em;
+      font-size: 0.8rem;
       user-select: none;
     }
 
@@ -286,7 +377,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(30, 30, 50, 0.25);
+      background: var(--c-modal-overlay);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -303,286 +394,344 @@
     }
 
     .modal-content {
-      background: #faf6fa;
-      border-radius: 18px;
-      max-width: 95vw;
-      width: 340px;
-      min-height: 350px;
-      padding: 22px 14px 17px 14px;
-      box-shadow: 0 4px 22px #0002;
-      position: relative;
+      background: var(--c-surface);
+      border-radius: var(--border-radius-base);
+      max-width: 90vw;
+      width: 380px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
     .modal-title {
-      font-size: 1.21em;
-      font-weight: 700;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-right: 2rem;
     }
 
     .modal-close {
-      color: #888;
-      font-size: 1.55em;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: var(--c-text-light);
       cursor: pointer;
-      margin-right: 7px;
-      float: left;
-      user-select: none;
+      border: none;
+      background: none;
+      padding: 0.5rem;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .modal-close:hover {
+      color: var(--c-text-dark);
     }
 
     .modal-form label {
-      font-size: 1.05em;
-      margin-bottom: 2px;
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 4px;
       display: block;
     }
 
     .modal-form input {
       width: 100%;
-      margin-bottom: 15px;
-      margin-top: 6px;
-      border-radius: 6px;
-      border: 1.7px solid #94cffa;
-      font-size: 1.08em;
-      padding: 9px;
+      margin-bottom: 1rem;
+      border-radius: var(--border-radius-small);
+      border: 1px solid var(--c-border);
+      font-size: 1rem;
+      padding: 10px;
       box-sizing: border-box;
+      font-family: var(--font-family-base);
     }
 
     .modal-form .modal-btn {
-      width: 98%;
-      background: #2196f3;
-      color: #fff;
-      padding: 10px;
-      border-radius: 22px;
-      font-weight: 700;
-      font-size: 1.09em;
+      width: 100%;
+      background: var(--c-primary);
+      color: var(--c-text-white);
+      padding: 12px;
+      border-radius: var(--border-radius-small);
+      font-weight: 600;
+      font-size: 1rem;
       border: none;
-      margin: 11px auto 0 auto;
-      display: block;
+      margin-top: 1rem;
       cursor: pointer;
     }
 
-    .modal-form .img-btn {
-      display: block;
-      margin: 14px auto 17px auto;
-      background: #eaf4fa;
-      color: #1976d2;
-      border-radius: 9px;
-      border: 2px solid #90caf9;
-      padding: 11px 19px;
-      font-size: 1.09em;
-      cursor: pointer;
-    }
-
-    .img-upload-box {
-      width: 85px;
-      height: 85px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2.2px solid #60baff;
-      border-radius: 14px;
-      font-size: 2.7em;
-      color: #aaa;
-      margin: 6px auto;
-      background: #fff;
-      overflow: hidden;
-    }
-
-    .bottom-nav {
+    .main-nav {
       position: fixed;
       left: 0;
       bottom: 0;
       width: 100vw;
-      background: #232323;
-      border-top-left-radius: 22px;
-      border-top-right-radius: 22px;
-      box-shadow: 0 -2px 16px #0002;
+      background: var(--c-surface-dark);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
       display: flex;
       justify-content: space-around;
       align-items: center;
-      height: 64px;
-      z-index: 9;
+      height: 70px;
+      z-index: 99;
+    }
+
+    .nav-title {
+      display: none;
     }
 
     .nav-item {
-      color: #bebebe;
+      color: var(--c-text-on-dark);
       text-align: center;
       flex: 1;
       padding-top: 5px;
-      font-size: 1rem;
-      transition: color 0.13s;
+      font-size: 0.8rem;
+      transition: color 0.2s;
       cursor: pointer;
     }
 
     .nav-item.active {
-      color: #1976d2;
+      color: var(--c-text-white);
+      font-weight: 600;
     }
 
     .nav-item i {
       display: block;
-      font-size: 1.18rem;
-      margin-bottom: 2px;
+      font-size: 1.5rem;
+      margin: 0 auto 4px;
     }
 
-    @media (max-width: 900px) {
-      .offers-container {
-        flex-direction: column;
-      }
-
-      .offer-card {
-        max-width: 99vw;
-        width: 100%;
-      }
-
-      .top-bar {
+    @media (min-width: 901px) {
+      .page-container {
         flex-direction: row;
-        align-items: center;
+      }
+
+      .content-wrapper {
+        margin-left: var(--nav-width-desktop);
+        overflow: scroll;
+      }
+
+      .section {
+        padding: 0 2.5rem;
+      }
+
+      .main-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: auto;
+        width: var(--nav-width-desktop);
+        height: 100vh;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        border-radius: 0;
+        border-right: 1px solid var(--c-border);
+        padding-top: 2rem;
         gap: 10px;
+        background: var(--c-surface);
+      }
+
+      .nav-title {
+        display: block;
+        color: var(--c-primary);
+        font-size: 1.8em;
+        text-align: center;
+        margin: 0 1rem 2rem 1rem;
+        font-weight: 700;
+      }
+
+      .nav-item {
+        color: var(--c-text-medium);
+        display: flex;
+        align-items: center;
+        text-align: left;
+        padding: 12px 25px;
+        flex: 0;
+        border-radius: var(--border-radius-small);
+        margin: 0 15px;
+        font-size: 1rem;
+      }
+
+      .nav-item:hover {
+        background-color: var(--c-primary-bg);
+        color: var(--c-primary);
+      }
+
+      .nav-item.active {
+        background-color: var(--c-primary-bg);
+        color: var(--c-primary);
+        font-weight: 600;
+      }
+
+      .nav-item i {
+        display: inline-block;
+        margin: 0 15px 0 0;
+        font-size: 1.4rem;
+      }
+
+      .products-container {
+        margin-bottom: 30px;
       }
     }
 
     @media (max-width: 600px) {
       .section {
-        margin-left: 5px;
-        margin-right: 5px;
+        padding: 0 1rem;
+      }
+
+      .top-bar {
+        padding: 0.75rem 1rem;
+      }
+
+      .welcome-header {
+        font-size: 1.5rem;
       }
 
       .section-title {
-        font-size: 1.07em;
+        font-size: 1.2rem;
       }
 
-      .carcard-main {
-        min-width: 94vw;
+      #servicesList {
+        gap: 0.75rem;
       }
 
-      .bottom-nav {
-        height: 60px;
-      }
-
-      .modal-content {
-        width: 95vw;
-        min-height: auto;
-        padding: 16px 12px;
-      }
-    }
-
-    @media (max-width: 400px) {
-
-      .car-img-holder,
-      .avatar {
-        width: 38px;
-        height: 38px;
+      .products-container {
+        gap: 1rem;
       }
     }
   </style>
+ </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <div class="top-bar">
-    <img src="https://i.imgur.com/47q4t7y.png" alt="Profile" class="avatar" />
-    <div class="select-wrap">
-      <select class="branch-select" id="branchDropdown" onchange="onBranchChange()">
-        <option selected disabled>Select Branch</option>
-      </select>
-      <span class="select-arrow"><i class="bi bi-caret-down-fill"></i></span>
-    </div>
-  </div>
-  <div id="mainPage" class="section">
-    <div id="pleaseSelectMsg" style="margin: 69px auto 0 auto; color: #1a1a1a; font-size: 1.28em; text-align: center">
-      Please select a branch
-    </div>
-    <div id="branchContent" style="display: none">
-      <div class="section-title" style="margin-top: 0">#Special Offers</div>
-      <div class="offers-container">
-        <div class="offer-card offer-black">
-          <div>For First Order Get<br />Up to 30%</div>
-          <button class="claim-btn">Claim</button>
+  <div class="page-container">
+    <nav class="main-nav" role="navigation" aria-label="Main Navigation">
+      <h2 class="nav-title">CarPro</h2>
+      <div class="nav-item active" tabindex="0" role="link" aria-current="page">
+        <i class="bi bi-window-sidebar"></i><span>Dashboard</span>
+      </div>
+      <div class="nav-item" tabindex="0" role="link">
+        <i class="bi bi-calendar-check"></i><a href="./Customer/customer_booking.html">Bookings</a>
+      </div>
+      <div class="nav-item" tabindex="0" role="link">
+        <i class="bi bi-shop"></i><a href="./Customer/customer_product.html">Products</a>
+      </div>
+      <div class="nav-item" tabindex="0" role="link">
+        <i class="bi bi-person-circle"></i><a href="./Customer/customer_profile.html">Profile</a>
+      </div>
+    </nav>
+
+    <div class="content-wrapper">
+      <header class="top-bar">
+        <img src="https://i.imgur.com/47q4t7y.png" alt="Profile" class="avatar" />
+        <div class="select-wrap">
+          <select class="branch-select" id="branchDropdown" onchange="onBranchChange()">
+            <option selected disabled>Select Branch</option>
+          </select>
+          <span class="select-arrow"><i class="bi bi-chevron-down"></i></span>
         </div>
-        <div class="offer-card offer-brown">
-          <div>Product Discount<br />Up to 150</div>
-          <button class="claim-btn">Claim</button>
+      </header>
+      <main id="mainPage" class="section">
+        <div id="pleaseSelectMsg"
+          style="padding: 5rem 1rem; color: var(--c-text-light); font-size: 1.2rem; text-align: center;">
+          Please select a branch to see details
         </div>
-      </div>
-      <div class="services-row" style="margin-bottom: 10px">
-        <div class="section-title" style="margin-bottom: 0">Services</div>
-      </div>
-      <div id="servicesList" style="margin-bottom: 17px; margin-left: 13px"></div>
-      <div style="display: flex; align-items: center; margin-bottom: 3px">
-        <div class="section-title" style="margin-bottom: 0">My Cars</div>
-        <a href="#" class="add-car-link" onclick="openAddCarModal();return false"><i class="bi bi-plus-lg"></i> Add
-          Car</a>
-      </div>
-      <div id="carsList" class="cars-scroll"></div>
-      <div class="section-title" style="margin-bottom: 7px; margin-top: 10px">
-        Trending Products
-      </div>
-      <div id="productsList" class="products-container"></div>
+        <div id="branchContent" style="display: none;">
+          <h1 class="welcome-header">Welcome Back!</h1>
+          <div class="offers-container">
+            <div class="offer-card offer-blue">
+              <div class="offer-card-title">First Order Discount<br />Get Up to 30% Off</div>
+              <button class="claim-btn">Claim Now</button>
+            </div>
+            <div class="offer-card offer-purple">
+              <div class="offer-card-title">Exclusive Product Sale<br />Save Up to ₹150</div>
+              <button class="claim-btn">View Offers</button>
+            </div>
+          </div>
+
+          <h2 class="section-title">Our Services</h2>
+          <div id="servicesList"></div>
+
+          <div style="display: flex; align-items: center; margin-top: 2rem;">
+            <h2 class="section-title" style="margin: 0;">My Cars</h2>
+            <a href="#" class="add-car-link" onclick="openAddCarModal();return false"><i class="bi bi-plus-lg"></i> Add
+              New Car</a>
+          </div>
+          <div id="carsList" class="cars-scroll"></div>
+
+          <h2 class="section-title">Trending Products</h2>
+          <div id="productsList" class="products-container"></div>
+        </div>
+      </main>
     </div>
   </div>
 
-  <!-- Add Car Modal -->
-  <div id="addCarModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="addCarTitle" tabindex="-1">
+  <div id="addCarModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="addCarTitle">
     <div class="modal-content">
-      <span role="button" tabindex="0" aria-label="Close" class="modal-close" onclick="closeAddCarModal()"
-        onkeydown="if(event.key==='Enter' || event.key===' ') closeAddCarModal()">&larr;</span>
-      <h2 class="modal-title" id="addCarTitle">Add Car</h2>
-      <div id="addCarError" style="color: red; font-size: 1em; margin-bottom: 7px; text-align: center"></div>
-      <form id="addCarForm" enctype="multipart/form-data">
+      <span role="button" tabindex="0" aria-label="Close" class="modal-close"
+        onclick="closeAddCarModal()">&times;</span>
+      <h2 class="modal-title" id="addCarTitle">Add a New Car</h2>
+      <div id="addCarError" style="color: var(--c-error); font-size: 0.9em; margin-bottom: 0.5rem; text-align: center;">
+      </div>
+      <form id="addCarForm" class="modal-form" enctype="multipart/form-data">
         <input type="hidden" id="customerIdInput" name="customerId" value="1" />
-        <div class="img-upload-box" id="imgBoxAddCar">
-          <i class="bi bi-car-front"></i>
-        </div>
-        <button class="img-btn" type="button" onclick="document.getElementById('carImageInput').click();"
-          aria-label="Select Car Image">
-          Select Image
-        </button>
-        <input type="file" id="carImageInput" name="carImage" accept="image/*" style="display: none"
-          onchange="showPreviewImage(event)" />
         <label for="carNumberInput">Car Number</label>
-        <input id="carNumberInput" name="carNumber" placeholder="Ex: TN-00-AA-0000" required autocomplete="off"
-          aria-required="true" />
+        <input id="carNumberInput" name="carNumber" placeholder="Ex: TN-00-AA-0000" required />
         <label for="carNameInput">Car Name</label>
-        <input id="carNameInput" name="carName" required autocomplete="off" aria-required="true" />
+        <input id="carNameInput" name="carName" placeholder="Ex: Toyota Camry" required />
         <button class="modal-btn" type="submit">Add Car</button>
       </form>
     </div>
   </div>
 
-  <!-- Bottom Navigation Bar -->
-  <nav class="bottom-nav" role="navigation" aria-label="Bottom Navigation">
-    <div class="nav-item active" tabindex="0" role="link" aria-current="page">
-      <i class="bi bi-house-fill"></i><span>Home</span>
-    </div>
-    <div class="nav-item" tabindex="0" role="link">
-      <i class="bi bi-bag"></i><span>Orders</span>
-    </div>
-    <div class="nav-item" tabindex="0" role="link">
-      <i class="bi bi-grid-3x3-gap"></i><span>Products</span>
-    </div>
-    <div class="nav-item" tabindex="0" role="link">
-      <i class="bi bi-person"></i><span>Profile</span>
-    </div>
-  </nav>
-
   <script>
-    let currentBranchId = null,
-      currentCustomerId = 1;
+    let currentBranchId = null, currentCustomerId = 1;
 
-    window.onload = function () {
+window.onload = function() {
+      // NOTE: This code is for a page with a branch dropdown, like your homepage.
+      // It has replaced the original profile loading code.
+      let selectionTimeout;
+
       fetch("Backend/get_all_branches.php")
-        .then((resp) => resp.json())
-        .then((data) => {
+        .then(resp => resp.json())
+        .then(data => {
           let dropdown = document.getElementById("branchDropdown");
+          // If there is no dropdown on the page, this code will do nothing and stop.
+          if (!dropdown) { 
+            console.error("'branchDropdown' not found. This script is intended for the home page.");
+            return;
+          }
+
           dropdown.innerHTML = '<option selected disabled>Select Branch</option>';
-          if (data.status == "success" && data.branches) {
-            data.branches.forEach((branch) => {
+          if (data.status == "success" && data.branches && data.branches.length > 0) {
+            data.branches.forEach(branch => {
               let opt = document.createElement("option");
               opt.value = branch.branch_id;
               opt.textContent = branch.branch_name;
               dropdown.appendChild(opt);
+            });
+
+            // Set a timeout to auto-select the first branch after 5 seconds
+            selectionTimeout = setTimeout(() => {
+              // Check if the user hasn't selected a branch yet
+              if (dropdown.selectedIndex === 0) {
+                dropdown.selectedIndex = 1; // Select the first actual branch
+                
+                // Trigger the function to load content, if it exists
+                if (typeof onBranchChange === "function") {
+                  onBranchChange();
+                } else {
+                  dropdown.dispatchEvent(new Event('change'));
+                }
+              }
+            }, 5000);
+
+            // If the user makes a choice manually, cancel the timeout
+            dropdown.addEventListener('change', () => {
+              clearTimeout(selectionTimeout);
             });
           }
         });
@@ -591,7 +740,7 @@
     function onBranchChange() {
       let val = document.getElementById("branchDropdown").value;
       currentBranchId = val;
-      localStorage.setItem("selectedBranchId", val); // <-- Store in localStorage
+      localStorage.setItem("selectedBranchId", val);
       document.getElementById("pleaseSelectMsg").style.display = val ? "none" : "block";
       document.getElementById("branchContent").style.display = val ? "block" : "none";
       if (val) {
@@ -602,9 +751,18 @@
     }
 
     function loadServices(branchId) {
-      fetch("Backend/get_service_and_branch.php?branch_id=" + encodeURIComponent(branchId))
-        .then((res) => res.json())
-        .then((data) => {
+      const serviceIcons = { // Map service names to icons
+        default: 'bi-gear-wide-connected',
+        'general service': 'bi-tools',
+        'car wash': 'bi-car-front-fill',
+        'painting': 'bi-paint-bucket',
+        'wheel alignment': 'bi-compass',
+        'engine repair': 'bi-wrench-adjustable-circle'
+      };
+
+      fetch(`Backend/get_service_and_branch.php?branch_id=${encodeURIComponent(branchId)}`)
+        .then(res => res.json())
+        .then(data => {
           let list = document.getElementById("servicesList");
           list.innerHTML = "";
           let arr = [];
@@ -612,117 +770,90 @@
             if (Array.isArray(data.services)) arr = data.services;
             else if (Array.isArray(data.mappings)) arr = data.mappings;
           }
+
           if (arr.length > 0) {
-            arr.forEach((item) => {
+            arr.forEach(item => {
+              const serviceName = (item.service_name || item.name || "Service").toLowerCase();
+              const iconClass = serviceIcons[serviceName] || serviceIcons.default;
+
               let div = document.createElement("div");
-              div.className = "offer-card";
-              div.style.background = "#f4f4f4";
-              div.style.color = "#222";
-              div.style.boxShadow = "0 2px 7px #deeffb";
-              div.style.minWidth = "110px";
-              div.textContent = item.service_name || item.name || "Service";
+              div.className = "service-card";
+              div.innerHTML = `<i class="bi ${iconClass}"></i><span>${item.service_name || item.name || "Service"}</span>`;
 
               div.onclick = () => {
                 const sid = encodeURIComponent(item.service_id || item.id || "");
                 const sname = encodeURIComponent(item.service_name || item.name || "");
-                // Open in same tab
-                window.location.href = 'Customer/add_service_booking.html?service_id=' + sid + '&service_name=' + sname;
+                window.location.href = `Customer/add_service_booking.html?service_id=${sid}&service_name=${sname}`;
               };
               list.appendChild(div);
             });
           } else {
-            list.innerHTML = '<div style="color:#888;">No services found for this branch.</div>';
+            list.innerHTML = '<div style="color: var(--c-text-light);">No services found for this branch.</div>';
           }
         })
-        .catch((err) => {
-          document.getElementById("servicesList").innerHTML =
-            '<div style="color:#888;">Network error or invalid response</div>';
+        .catch(err => {
+          document.getElementById("servicesList").innerHTML = '<div style="color: var(--c-text-light);">Could not load services.</div>';
           console.error("Failed to load services:", err);
         });
     }
 
     function loadCars() {
       fetch("Backend/get_car.php?customer_id=" + encodeURIComponent(currentCustomerId))
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.json())
+        .then(data => {
           let list = document.getElementById("carsList");
           list.innerHTML = "";
           if (data.status == "success" && data.cars && data.cars.length > 0) {
-            data.cars.forEach((car) => {
-              let img = car.car_image
-                ? `<img src="Backend/${car.car_image}" class="avatar" />`
-                : `<span class="car-img-holder"></span>`;
+            data.cars.forEach(car => {
+              let img = car.car_image ? `<img src="Backend/${car.car_image}" alt="${car.car_name}" />` : `<i class="bi bi-car-front" style="font-size: 1.5rem; color: var(--c-primary);"></i>`;
               let elem = document.createElement("div");
               elem.className = "carcard-main";
-              elem.style.display = "flex";
-              elem.style.alignItems = "center";
-              elem.style.marginBottom = "18px";
               elem.innerHTML = `
-                <div class="car-img-holder" style="margin-right: 18px;">${img}</div>
-                <div style="flex: 1; display: flex; flex-direction: column;">
-                  <span class="car-name">${car.car_name || "MYCAR"}</span>
-                  <span class="car-plate">${car.car_number || ""}</span>
-                </div>
-              `;
+                <div class="car-img-holder">${img}</div>
+                <div>
+                  <div class="car-name">${car.car_name || "My Car"}</div>
+                  <div class="car-plate">${car.car_number || "N/A"}</div>
+                </div>`;
               list.appendChild(elem);
             });
           } else {
-            list.innerHTML =
-              '<div style="color:#999;text-align:center;margin:19px 0 5px 0;font-size:1em;">No cars found</div>';
+            list.innerHTML = '<div style="color:var(--c-text-light);padding: 1rem 0;">No cars added yet. Click "Add New Car" to begin.</div>';
           }
         });
     }
 
     function loadProducts() {
       fetch("Backend/get_products.php")
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.json())
+        .then(data => {
           const productContainer = document.getElementById("productsList");
           productContainer.innerHTML = "";
           if (data.status === "success" && data.products) {
-            data.products.forEach((product) => {
+            data.products.forEach(product => {
               const productCard = document.createElement("div");
               productCard.className = "product-card";
-              const productImg = product.product_image
-                ? product.product_image
-                : "https://via.placeholder.com/150";
-              const discountHtml =
-                product.product_percentage_discount && product.product_percentage_discount > 0
-                  ? `<span class="product-discount">${product.product_percentage_discount}% OFF</span>`
-                  : "";
-              const originalPriceHtml =
-                product.product_percentage_discount && product.product_percentage_discount > 0
-                  ? `<span class="product-original-price">₹${product.product_sell_price.toFixed(
-                    2
-                  )}</span>`
-                  : "";
-              const discountedPrice = product.product_percentage_discount
-                ? product.product_sell_price *
-                (1 - product.product_percentage_discount / 100)
-                : product.product_sell_price;
+              const productImg = product.product_image ? `Backend/${product.product_image}` : "https://via.placeholder.com/150";
+              const discountHtml = product.product_percentage_discount > 0 ? `<span class="product-discount">${product.product_percentage_discount}% OFF</span>` : "";
+              const originalPriceHtml = product.product_percentage_discount > 0 ? `<span class="product-original-price">₹${parseFloat(product.product_sell_price).toFixed(2)}</span>` : "";
+              const discountedPrice = product.product_percentage_discount ? parseFloat(product.product_sell_price) * (1 - product.product_percentage_discount / 100) : parseFloat(product.product_sell_price);
+
               productCard.innerHTML = `
-                <img src="Backend/${productImg}" alt="${product.product_name}" class="product-image" />
-                <div class="product-name" title="${product.product_name}">
-                  ${product.product_name}
-                </div>
+                <img src="${productImg}" alt="${product.product_name}" class="product-image" />
+                <div class="product-name" title="${product.product_name}">${product.product_name}</div>
                 <div class="product-price-section">
                   <span class="product-price">₹${discountedPrice.toFixed(2)}</span>
                   ${originalPriceHtml}
-                  ${discountHtml}
                 </div>
-              `;
+                ${discountHtml}`;
               productContainer.appendChild(productCard);
             });
           } else {
-            productContainer.innerHTML =
-              '<div style="color:#888; font-size: 1em; text-align: center;">No products available</div>';
+            productContainer.innerHTML = '<div style="color:var(--c-text-light);">No products available.</div>';
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error("Failed to load products:", err);
-          const productContainer = document.getElementById("productsList");
-          productContainer.innerHTML =
-            '<div style="color:#f00; font-size: 1em; text-align: center;">Failed to load products</div>';
+          document.getElementById("productsList").innerHTML = '<div style="color:var(--c-error);">Failed to load products.</div>';
         });
     }
 
@@ -731,46 +862,30 @@
       modal.classList.add("show");
       document.getElementById("addCarError").innerText = "";
       document.getElementById("addCarForm").reset();
-      document.getElementById("imgBoxAddCar").innerHTML = '<i class="bi bi-car-front"></i>';
       document.body.style.overflow = "hidden";
     }
+
     function closeAddCarModal() {
       const modal = document.getElementById("addCarModal");
       modal.classList.remove("show");
       document.body.style.overflow = "";
     }
 
-    function showPreviewImage(event) {
-      const box = document.getElementById("imgBoxAddCar"),
-        file = event.target.files[0];
-      if (file) {
-        let reader = new FileReader();
-        reader.onload = function (e) {
-          box.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`;
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
     document.getElementById("addCarForm").onsubmit = function (e) {
       e.preventDefault();
-      const formData = new FormData(document.getElementById("addCarForm"));
-      fetch("Backend/add_car.php", {
-        method: "POST",
-        body: formData,
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
+      const formData = new FormData(this);
+      fetch("Backend/add_car.php", { method: "POST", body: formData })
+        .then(resp => resp.json())
+        .then(data => {
           if (data.status == "success") {
             closeAddCarModal();
             loadCars();
           } else {
-            document.getElementById("addCarError").innerText =
-              data.message || "Error adding car";
+            document.getElementById("addCarError").innerText = data.message || "Error adding car";
           }
         })
         .catch(() => {
-          document.getElementById("addCarError").innerText = "Network error";
+          document.getElementById("addCarError").innerText = "A network error occurred.";
         });
     };
   </script>
