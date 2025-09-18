@@ -190,6 +190,17 @@
       flex-direction: column;
       gap: 12px;
     }
+    
+    /* --- NEW CSS FOR CAR IMAGE --- */
+    .order-car-image {
+      width: calc(100% + 40px); /* Span the full card width, accounting for padding */
+      height: 160px;
+      object-fit: cover;
+      border-radius: 12px 12px 0 0; /* Match card's top corners */
+      margin: -20px -20px 15px -20px; /* Use negative margin to break out of padding */
+      display: block;
+      background-color: var(--border-color);
+    }
 
     .order-header {
       display: flex;
@@ -209,6 +220,7 @@
       font-weight: 500;
       font-size: 13px;
       white-space: nowrap;
+      text-transform: capitalize;
     }
 
     .order-status-pending {
@@ -337,7 +349,8 @@
         font-size: 12px;
         font-weight: 500;
         text-decoration: none;
-        padding: 8px 4px; /* Adjusted padding for better fit */
+        padding: 8px 4px;
+        /* Adjusted padding for better fit */
       }
 
       .bottom-nav .nav-btn.active {
@@ -345,11 +358,13 @@
       }
 
       .bottom-nav .nav-btn .nav-icon {
-          font-size: 22px; /* Slightly larger icon for mobile */
+        font-size: 22px;
+        /* Slightly larger icon for mobile */
       }
 
       .nav-btn.active::before {
-        display: none; /* Hide the side-bar active indicator on mobile */
+        display: none;
+        /* Hide the side-bar active indicator on mobile */
       }
     }
   </style>
@@ -419,26 +434,24 @@
     let carMap = {}, employeeMap = {}, branchMap = {}, planMap = {}, serviceMap = {}, paymentMap = {}, customerMap = {};
     let allOrders = [];
     let currentStatusFilter = "today";
-    const customerId = 1; // Assuming this is for an admin view, might need to fetch all orders
 
     document.addEventListener("DOMContentLoaded", async function () {
       await Promise.all([
         fetchBranches(),
         fetchPlans(),
-        fetchCars(), // Assuming fetchCars will get all cars if no customerId is passed
+        fetchCars(),
         fetchEmployees(),
         fetchPayments(),
         fetchCustomers()
       ]);
 
-      // Services depend on branches, fetch them after branches are loaded
       const branchIds = Object.keys(branchMap);
       if (branchIds.length > 0) {
-        await fetchServicesByBranch(branchIds[0]); // Example: fetch for the first branch, or all
+        const serviceFetchPromises = branchIds.map(id => fetchServicesByBranch(id));
+        await Promise.all(serviceFetchPromises);
       }
 
-      // Fetch all orders for the admin panel
-      fetch('../Backend/get_all_orders.php') // Changed to get all orders
+      fetch('../Backend/get_all_orders.php')
         .then(res => res.json())
         .then(async data => {
           if (data.status === "success" && Array.isArray(data.orders)) {
@@ -465,11 +478,13 @@
         const res = await fetch(url);
         const data = await res.json();
         if (data.status === 'success') {
-          const key = Object.keys(data)[1]; // e.g., 'branches', 'cars'
-          const id_key = Object.keys(data[key][0])[0]; // e.g., 'branch_id', 'car_id'
-          data[key].forEach(item => {
-            map[item[id_key]] = item;
-          });
+          const key = Object.keys(data)[1];
+          if (Array.isArray(data[key]) && data[key].length > 0) {
+            const id_key = Object.keys(data[key][0])[0];
+            data[key].forEach(item => {
+              map[item[id_key]] = item;
+            });
+          }
         }
       } catch (error) {
         console.error(`Error fetching from ${url}:`, error);
@@ -491,7 +506,7 @@
           data.services.forEach(s => { serviceMap[s.service_id] = s; });
         }
       } catch (error) {
-        console.error("Error fetching services:", error);
+        console.error(`Error fetching services for branch ${branchId}:`, error);
       }
     }
 
@@ -508,16 +523,16 @@
         let matchStatus = false;
         switch (currentStatusFilter) {
           case "today":
-            matchStatus = (orderDate.getTime() === today.getTime()) && (status === "pending" || status === "accepted");
+            matchStatus = (orderDate.getTime() === today.getTime()) && ["pending", "accepted"].includes(status);
             break;
           case "upcoming":
-            matchStatus = (orderDate > today) && (status === "pending" || status === "accepted");
+            matchStatus = (orderDate > today) && ["pending", "accepted"].includes(status);
             break;
           case "history":
             matchStatus = (orderDate < today) || status === "completed";
             break;
           case "rejected":
-            matchStatus = (status === "cancelled" || status === "rejected");
+            matchStatus = ["cancelled", "rejected"].includes(status);
             break;
         }
 
@@ -551,15 +566,23 @@
       for (const order of list) {
         const car = carMap[order.car_id] || {};
         const emp = employeeMap[order.employee_id] || {};
-        const branch = branchMap[order.branch_id] || {};
         const payment = paymentMap[order.payment_id] || {};
         const customer = customerMap[order.customer_id] || {};
         const plan = planMap[order.plan_id] || {};
         const service = serviceMap[plan.service_id] || {};
-        const status = order.order_status.toLowerCase();
+        const status = (order.order_status || 'unknown').toLowerCase();
+        
+        // --- NEW: LOGIC TO CREATE CAR IMAGE HTML ---
+        let carImageHtml = '';
+        if (car && car.car_image) {
+          // Construct the correct relative path to the image
+          const imageUrl = `../Backend/${car.car_image}`;
+          carImageHtml = `<img class="order-car-image" src="${imageUrl}" alt="${car.car_name || 'Car'}">`;
+        }
 
         html += `
               <div class="order-card">
+                  ${carImageHtml} 
                   <div class="order-header">
                       <div>
                           <div class="order-title">${car.car_name || 'Unknown Car'}</div>
