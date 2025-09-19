@@ -2,1050 +2,1230 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>Book Service</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-<style>
+  <meta charset="UTF-8" />
+  <title>Book Service</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <style>
     /* ---------------------- Root Variables ---------------------- */
-:root {
-  --primary-color: #4a2dbb;
-  --secondary-color: #f2ebff;
-  --accent-color: #4a2dbb;
-  --danger-color: #db3535;
-  --success-color: #1f8b3a;
-  --bg-color: #faf7ff;
-  --card-bg: #ffffff;
-  --text-color: #2c285b;
-  --sub-text: #555;
-  --input-border: #ddd;
-  --shadow-light: rgba(0, 0, 0, 0.08);
-  --shadow-medium: rgba(0, 0, 0, 0.15);
-}
+    :root {
+      --primary-color: #4a2dbb;
+      --secondary-color: #f2ebff;
+      --accent-color: #4a2dbb;
+      --danger-color: #db3535;
+      --success-color: #1f8b3a;
+      --bg-color: #faf7ff;
+      --card-bg: #ffffff;
+      --text-color: #2c285b;
+      --sub-text: #555;
+      --input-border: #ddd;
+      --shadow-light: rgba(0, 0, 0, 0.08);
+      --shadow-medium: rgba(0, 0, 0, 0.15);
+    }
 
-/* ---------------------- Global Styles ---------------------- */
-* {
-  box-sizing: border-box;
-}
+    /* ---------------------- Global Styles ---------------------- */
+    * {
+      box-sizing: border-box;
+    }
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  line-height: 1.6;
-}
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
 
-.container-main {
-  max-width: 960px;
-  min-height: 100vh;
-  overflow: hidden;
-  margin: 20px auto;
-  padding: 0 15px;
-}
+    .container-main {
+      max-width: 960px;
+      min-height: 100vh;
+      overflow: hidden;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
 
-/* ---------------------- Top Bar ---------------------- */
-.top-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-}
+    /* ---------------------- Top Bar ---------------------- */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+    }
 
-.back-btn {
-  font-size: 1.6rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--primary-color);
-  transition: 0.2s;
-}
+    .back-btn {
+      font-size: 1.6rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary-color);
+      transition: 0.2s;
+    }
 
-.back-btn:hover {
-  color: var(--accent-color);
-}
+    .back-btn:hover {
+      color: var(--accent-color);
+    }
 
-.main-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  flex: 1;
-}
+    .main-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      flex: 1;
+    }
 
-/* ---------------------- Form Section ---------------------- */
-.form-section {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  background: var(--card-bg);
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px var(--shadow-light);
-}
+    /* ---------------------- Form Section ---------------------- */
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px var(--shadow-light);
+    }
 
-.form-section label {
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: var(--text-color);
-}
+    .form-section label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--text-color);
+    }
 
-.form-section input,
-.form-section select {
-  width: 100%;
-  padding: 12px 15px;
-  border-radius: 12px;
-  border: 1px solid var(--input-border);
-  font-size: 1rem;
-  outline: none;
-  transition: 0.3s;
-}
+    .form-section input,
+    .form-section select {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 12px;
+      border: 1px solid var(--input-border);
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
 
-.form-section input:focus,
-.form-section select:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(74, 45, 187, 0.15);
-}
+    .form-section input:focus,
+    .form-section select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(74, 45, 187, 0.15);
+    }
 
-/* ---------------------- Radio Buttons ---------------------- */
-.check-row {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-weight: 500;
-  margin: 10px 0;
-}
+    /* ---------------------- Radio Buttons ---------------------- */
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-weight: 500;
+      margin: 10px 0;
+    }
 
-.check-row label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  position: relative;
-  font-size: 1rem;
-  color: var(--text-color);
-  user-select: none;
-}
-.check-row input[type="radio"] {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--primary-color);
-  border-radius: 50%;
-  position: relative;
-  outline: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
+    .check-row label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      position: relative;
+      font-size: 1rem;
+      color: var(--text-color);
+      user-select: none;
+    }
 
-.check-row input[type="radio"]:checked::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  background: var(--primary-color);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
+    .check-row input[type="radio"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--primary-color);
+      border-radius: 50%;
+      position: relative;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
 
-.check-row input[type="radio"]:hover {
-  border-color: var(--accent-color);
-}
+    .check-row input[type="radio"]:checked::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-.check-row input[type="radio"]:disabled {
-  border-color: #ccc;
-  cursor: not-allowed;
-}
+    .check-row input[type="radio"]:hover {
+      border-color: var(--accent-color);
+    }
 
-.check-row input[type="radio"]:disabled + span {
-  color: #aaa;
-}
+    .check-row input[type="radio"]:disabled {
+      border-color: #ccc;
+      cursor: not-allowed;
+    }
 
-/* Optional: make labels clickable anywhere on label */
-.check-row label span {
-  cursor: pointer;
-}
-.check-row input[type="radio"] {
-  accent-color: var(--primary-color);
-}
-.plan-radio-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-  margin-top: 12px;
-}
-.plan-radio-row input[type="radio"] {
-  accent-color: #4a2dbb; /* Optional: matches your theme */
-  width: 20px;
-  height: 20px;
-  margin: 0;
-}
-.plan-label {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 1.05rem;
-  width: 100%;
-  justify-content: space-between;
-}
-.plan-name {
-  color: #2c285b;
-  font-weight: 600;
-  flex: 1;
-  text-align: left;
-}
-.plan-price {
-  color: #4a2dbb;
-  font-weight: 700;
-  min-width: 80px;
-  text-align: right;
-}
+    .check-row input[type="radio"]:disabled+span {
+      color: #aaa;
+    }
 
-/* ---------------------- Address Row ---------------------- */
-.address-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  font-weight: 500;
-}
+    /* Optional: make labels clickable anywhere on label */
+    .check-row label span {
+      cursor: pointer;
+    }
 
-.address-list .address-item {
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid var(--input-border);
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    .check-row input[type="radio"] {
+      accent-color: var(--primary-color);
+    }
 
-.address-list .address-item.selected,
-.address-list .address-item:hover {
-  border-color: var(--primary-color);
-  background: var(--secondary-color);
-}
+    .plan-radio-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      margin-top: 12px;
+    }
 
-.add-address-link {
-  color: var(--accent-color);
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 8px;
-  display: inline-block;
-  transition: 0.2s;
-}
+    .plan-radio-row input[type="radio"] {
+      accent-color: #4a2dbb;
+      /* Optional: matches your theme */
+      width: 20px;
+      height: 20px;
+      margin: 0;
+    }
 
-.add-address-link:hover {
-  text-decoration: underline;
-}
+    .plan-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 1.05rem;
+      width: 100%;
+      justify-content: space-between;
+    }
 
-/* ---------------------- Buttons ---------------------- */
-.action-btn {
-  background: var(--primary-color);
-  color: #fff;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
+    .plan-name {
+      color: #2c285b;
+      font-weight: 600;
+      flex: 1;
+      text-align: left;
+    }
 
-.action-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
+    .plan-price {
+      color: #4a2dbb;
+      font-weight: 700;
+      min-width: 80px;
+      text-align: right;
+    }
 
-/* ---------------------- Slots ---------------------- */
-.slot-tabs {
-  display: flex;
-  overflow-x: auto;
-  gap: 12px;
-  padding-bottom: 10px;
-}
 
-.slot-tab {
-  padding: 10px 16px;
-  border-radius: 14px;
-  background: var(--secondary-color);
-  color: var(--primary-color);
-  cursor: pointer;
-  font-weight: 600;
-  white-space: nowrap;
-  border: none;
-  transition: 0.3s;
-}
+    /* --- Modal Panel --- */
+    /* This is the main white container for the modal content */
+    .modal-panel {
+      background-color: var(--background-color);
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px var(--shadow-color);
+      width: 90%;
+      /* Responsive width for mobile */
+      max-width: 500px;
+      /* Maximum width on larger screens */
+      position: relative;
+      /* Needed for positioning the close button */
+      box-sizing: border-box;
+      /* Ensures padding is included in the width */
+      transform: scale(0.95);
+      /* Start slightly smaller for the pop-in effect */
+      transition: transform 0.3s ease;
+    }
 
-.slot-tab.selected {
-  background: var(--primary-color);
-  color: #fff;
-}
+    .modal-overlay.visible .modal-panel {
+      transform: scale(1);
+      /* "Pop-in" animation effect */
+    }
 
-.slots-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
+    /* --- Modal Header & Title --- */
+    .modal-title {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      color: var(--text-color);
+      text-align: center;
+    }
 
-.slot-btn {
-  flex: 1 1 48%;
-  padding: 12px;
-  border-radius: 14px;
-  border: 1px solid var(--input-border);
-  cursor: pointer;
-  background: #fff;
-  font-weight: 500;
-  text-align: center;
-  transition: 0.3s;
-  margin: 2px;
-}
+    /* --- Close Button --- */
+    .close-btn {
+      position: absolute;
+      /* Positions it relative to the .modal-panel */
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.75rem;
+      /* Makes the 'x' larger and easier to click */
+      color: #888;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.25rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
 
-.slot-btn:hover:not(.booked) {
-  background: var(--primary-color);
-  color: #fff;
-  transform: translateY(-2px);
-}
+    /* Close button for the first modal with text "close" */
+    #addressOverlay .close-btn {
+      font-size: 1rem;
+      font-weight: bold;
+      top: 15px;
+      right: 20px;
+    }
 
-.slot-btn.selected {
-  background: var(--accent-color);
-  color: #fff;
-  border-color: var(--accent-color);
-}
+    .close-btn:hover,
+    .close-btn:focus {
+      color: #000;
+      transform: scale(1.1);
+      /* Slight zoom on hover */
+    }
 
-.slot-btn.booked {
-  background: #cb1616;
-  color: #ffffff;
-  cursor: not-allowed;
-}
 
-/* ADD TO YOUR CSS FILE OR <style> BLOCK */
-.payment-portal {
-  position: fixed;
-  inset: 0;
-  background: rgba(44,40,91,0.17);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-.payment-portal.show { display: flex; }
+    /* --- Address Selection Modal Specifics --- */
+    .address-list {
+      margin-bottom: 1.5rem;
+      /* (Styles for individual addresses would go here) */
+      text-align: left;
 
-.payment-card {
-  width: 340px;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(74,45,187,0.17);
-  padding: 32px 26px 24px 26px;
-  display: flex;
-  flex-direction: column;
-  animation: fadeInUp 0.32s cubic-bezier(.77,0,.175,1);
-  position: relative;
-}
-@keyframes fadeInUp {
-  from { transform: translateY(44px); opacity: 0; }
-  to { transform: none; opacity: 1;}
-}
-.payment-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
-}
-.payment-title {
-  font-size: 1.22rem;
-  font-weight: 700;
-  color: #4a2dbb;
-  margin: 0;
-}
-.payment-body label {
-  display: block;
-  margin-bottom: 5px;
-  margin-top: 14px;
-  color: #2c285b;
-  font-weight: 500;
-  font-size: 1.05rem;
-}
-.payment-input,
-.payment-select {
-  width: 100%;
-  font-size: 1rem;
-  padding: 11px 13px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  margin-bottom: 4px;
-  outline: none;
-  box-sizing: border-box;
-  background: #faf7ff;
-  color: #2c285b;
-  margin-top: 2px;
-  appearance: none;
-  transition: border 0.18s, box-shadow 0.18s;
-}
-.payment-input:focus, .payment-select:focus {
-  border-color: #4a2dbb;
-  box-shadow: 0 0 0 2.5px #e5deff;
-}
-.payment-btn {
-  background: #4a2dbb;
-  color: #fff;
-  width: 100%;
-  padding: 11px 0 11px 0;
-  margin-top: 20px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1.07rem;
-  letter-spacing: 0.03em;
-  transition: background 0.14s, transform 0.11s;
-  cursor: pointer;
-}
-.payment-btn:hover, .payment-btn:focus {
-  background: #351e87;
-  transform: scale(1.012);
-}
-.close-btn {
-  color: #db3535;
-  font-size: 1.58rem;
-  background: none;
-  border: none;
-  margin-right: -6px;
-  cursor: pointer;
-  transition: color 0.2s;
-  line-height: 1;
-}
-.close-btn:hover { color: #4a2dbb; }
-.success-msg, .error-msg {
-  margin-top: 8px;
-  min-height: 22px;
-  font-size: 0.97rem;
-  line-height: 1.35;
-}
-.success-msg { color: #1f8b3a; }
-.error-msg { color: #db3535; }
+      color: #666;
+    }
 
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(44,40,91,0.18);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-.modal-overlay.show {
-  display: flex;
-}
+    .add-address-link {
+      display: block;
+      text-align: center;
+      padding: 0.75rem;
+      border: 2px dashed var(--primary-color);
+      border-radius: 5px;
+      color: var(--primary-color);
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
 
-/* ---------------------- Responsive Design ---------------------- */
-@media (max-width: 768px) {
-  .slot-btn {
-    flex: 1 1 100%;
-  }
+    .add-address-link:hover,
+    .add-address-link:focus {
+      background-color: var(--primary-color);
+      color: var(--background-color);
+    }
 
-  .top-bar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
 
-  .check-row,
-  .address-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
+    /* --- Add Address Form --- */
+    #addressForm {
+      display: flex;
+      flex-direction: column;
+      /* Stacks form elements vertically */
+      gap: 1rem;
+      /* Creates space between form elements */
+    }
 
-  .main-title {
-    margin-top: 5px;
-  }
-}
+    #addressForm input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
 
-.modal-panel{
-  background-color: var(--bg-color);
-}
-</style>
+    #addressForm input::placeholder {
+      color: #999;
+    }
+
+    #addressForm input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+      /* Focus ring for accessibility */
+    }
+
+    /* --- Action Button (Submit) --- */
+    .action-btn {
+      background-color: var(--primary-color);
+      color: var(--background-color);
+      border: none;
+      padding: 0.8rem 1rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-top: 0.5rem;
+    }
+
+    .address-item {
+      margin-top: 3px;
+      padding: 5px;
+    }
+
+    .action-btn:hover,
+    .action-btn:focus {
+      background-color: var(--primary-hover-color);
+    }
+
+
+    /* --- Error Message --- */
+    .error-msg {
+      color: var(--error-color);
+      text-align: center;
+      font-weight: bold;
+      min-height: 1.2em;
+      /* Prevents layout shift when message appears */
+    }
+
+
+    /* ---------------------- Slots ---------------------- */
+    .slot-tabs {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      padding-bottom: 10px;
+    }
+
+    .slot-tab {
+      padding: 10px 16px;
+      border-radius: 14px;
+      background: var(--secondary-color);
+      color: var(--primary-color);
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+      border: none;
+      transition: 0.3s;
+    }
+
+    .slot-tab.selected {
+      background: var(--primary-color);
+      color: #fff;
+    }
+
+    .slots-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .slot-btn {
+      flex: 1 1 48%;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--input-border);
+      cursor: pointer;
+      background: #fff;
+      font-weight: 500;
+      text-align: center;
+      transition: 0.3s;
+      margin: 2px;
+    }
+
+    .slot-btn:hover:not(.booked) {
+      background: var(--primary-color);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .slot-btn.selected {
+      background: var(--accent-color);
+      color: #fff;
+      border-color: var(--accent-color);
+    }
+
+    .slot-btn.booked {
+      background: #cb1616;
+      color: #ffffff;
+      cursor: not-allowed;
+    }
+
+    /* ADD TO YOUR CSS FILE OR <style> BLOCK */
+    .payment-portal {
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 40, 91, 0.17);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .payment-portal.show {
+      display: flex;
+    }
+
+    .payment-card {
+      width: 340px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(74, 45, 187, 0.17);
+      padding: 32px 26px 24px 26px;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInUp 0.32s cubic-bezier(.77, 0, .175, 1);
+      position: relative;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(44px);
+        opacity: 0;
+      }
+
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+
+    .payment-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .payment-title {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: #4a2dbb;
+      margin: 0;
+    }
+
+    .payment-body label {
+      display: block;
+      margin-bottom: 5px;
+      margin-top: 14px;
+      color: #2c285b;
+      font-weight: 500;
+      font-size: 1.05rem;
+    }
+
+    .payment-input,
+    .payment-select {
+      width: 100%;
+      font-size: 1rem;
+      padding: 11px 13px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      margin-bottom: 4px;
+      outline: none;
+      box-sizing: border-box;
+      background: #faf7ff;
+      color: #2c285b;
+      margin-top: 2px;
+      appearance: none;
+      transition: border 0.18s, box-shadow 0.18s;
+    }
+
+    .payment-input:focus,
+    .payment-select:focus {
+      border-color: #4a2dbb;
+      box-shadow: 0 0 0 2.5px #e5deff;
+    }
+
+    .payment-btn {
+      background: #4a2dbb;
+      color: #fff;
+      width: 100%;
+      padding: 11px 0 11px 0;
+      margin-top: 20px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.07rem;
+      letter-spacing: 0.03em;
+      transition: background 0.14s, transform 0.11s;
+      cursor: pointer;
+    }
+
+    .payment-btn:hover,
+    .payment-btn:focus {
+      background: #351e87;
+      transform: scale(1.012);
+    }
+
+    .close-btn {
+      color: #db3535;
+      font-size: 1.85rem;
+      background: none;
+      margin-right: -6px;
+      cursor: pointer;
+      transition: color 0.2s;
+      line-height: 1;
+      text-align: end;
+    }
+
+    .close-btn:hover {
+      color: #4a2dbb;
+    }
+
+    .success-msg,
+    .error-msg {
+      margin-top: 8px;
+      min-height: 22px;
+      font-size: 0.97rem;
+      line-height: 1.35;
+    }
+
+    .success-msg {
+      color: #1f8b3a;
+    }
+
+    .error-msg {
+      color: #db3535;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 40, 91, 0.18);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    /* ---------------------- Responsive Design ---------------------- */
+    @media (max-width: 768px) {
+      .slot-btn {
+        flex: 1 1 100%;
+      }
+
+      .top-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .check-row,
+      .address-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .main-title {
+        margin-top: 5px;
+      }
+    }
+
+    .modal-panel {
+      background-color: var(--bg-color);
+      padding: 2%;
+      border-radius: 15px;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container-main" id="bookingPanel">
-        <div class="top-bar">
-            <button class="back-btn" onclick="goBack()" aria-label="Go back">
-                <i class="bi bi-arrow-left"></i>
-            </button>
-            <div class="main-title" id="modalTitle">Service Booking</div>
-        </div>
-
-        <form id="bookingForm" class="form-section" autocomplete="off">
-            <label for="selectCar">Select Car</label>
-            <select id="selectCar" name="car_id" required></select>
-
-            <label for="selectEmp">Select Employee</label>
-            <select id="selectEmp" name="employee_id" required></select>
-
-            <div id="slotMsg" class="slot-label">Please select an employee to view available slots.</div>
-
-            <div id="slotDateTabs" class="slot-tabs" aria-label="Select date"></div>
-            <div id="slotTimes" class="slots-container" aria-label="Select slots"></div>
-
-            <div class="check-row">
-                <span>Pick up and Drop</span>
-                <label><input type="radio" name="pickup_drop" value="1"> Yes</label>
-                <label><input type="radio" name="pickup_drop" value="0" checked> No</label>
-            </div>
-
-            <div class="address-row" id="addressRow" style="display: none;">
-                <span>Select Address</span>
-                <button type="button" class="action-btn" style="width:auto;padding: 2 15px"
-                    onclick="showAddressOverlay()">
-                    Choose
-                </button>
-            </div>
-            <input type="hidden" id="selectedAddressId" name="address_id" required />
-            <div id="selectedAddressText" style="color:#4a2dbb; font-weight:600; margin-top:3px;"></div>
-            <div id="planOptions" style="margin-bottom: 12px;"></div>
-
-
-            <button type="submit" class="action-btn">Confirm Booking</button>
-
-            <div id="bookingError" class="error-msg"></div>
-            <div id="bookingSuccess" class="success-msg"></div>
-        </form>
+  <div class="container-main" id="bookingPanel">
+    <div class="top-bar">
+      <button class="back-btn" onclick="goBack()" aria-label="Go back">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <div class="main-title" id="modalTitle">Service Booking</div>
     </div>
 
-    <!-- Address Selection Modal -->
-    <div class="modal-overlay" id="addressOverlay" aria-modal="true" role="dialog" aria-labelledby="addressModalTitle">
-        <div class="modal-panel">
-            <h2 id="addressModalTitle" class="modal-title">Select Address</h2>
-            <div id="addressList" class="address-list"></div>
-            <div class="add-address-link" tabindex="0" role="button" onclick="showAddAddressModal()">
-                + Add New Address
-            </div>
-            <div class="close-btn" role="button" tabindex="0" aria-label="Close" onclick="closeAddressOverlay()">
-                &times;
-            </div>
-        </div>
+    <form id="bookingForm" class="form-section" autocomplete="off">
+      <label for="selectCar">Select Car</label>
+      <select id="selectCar" name="car_id" required></select>
+
+      <label for="selectEmp">Select Employee</label>
+      <select id="selectEmp" name="employee_id" required></select>
+
+      <div id="slotMsg" class="slot-label">Please select an employee to view available slots.</div>
+
+      <div id="slotDateTabs" class="slot-tabs" aria-label="Select date"></div>
+      <div id="slotTimes" class="slots-container" aria-label="Select slots"></div>
+
+      <div class="check-row">
+        <span>Pick up and Drop</span>
+        <label><input type="radio" name="pickup_drop" value="1"> Yes</label>
+        <label><input type="radio" name="pickup_drop" value="0" checked> No</label>
+      </div>
+
+      <div class="address-row" id="addressRow" style="display: none; justify-content: space-between;">
+        <span>Select Address</span>
+        <button type="button" class="action-btn" style="width:auto;padding: 2 15px" onclick="showAddressOverlay()">
+          Choose
+        </button>
+      </div>
+      <input type="hidden" id="selectedAddressId" name="address_id" required />
+      <div id="selectedAddressText" style="color:#4a2dbb; font-weight:600; margin-top:3px;"></div>
+      <div id="planOptions" style="margin-bottom: 12px;"></div>
+
+
+      <button type="submit" class="action-btn">Confirm Booking</button>
+
+      <div id="bookingError" class="error-msg"></div>
+      <div id="bookingSuccess" class="success-msg"></div>
+    </form>
+  </div>
+
+  <!-- Address Selection Modal -->
+  <div class="modal-overlay" id="addressOverlay" aria-modal="true" role="dialog" aria-labelledby="addressModalTitle">
+    <div class="modal-panel">
+      <h2 id="addressModalTitle" class="modal-title">Select Address</h2>
+      <div id="addressList" class="address-list"></div>
+      <div class="add-address-link" tabindex="0" role="button" onclick="showAddAddressModal()">
+        + Add New Address
+      </div>
+      <div class="close-btn" role="button" tabindex="0" aria-label="Close" onclick="closeAddressOverlay()">
+        &times;
+      </div>
     </div>
+  </div>
 
-    <!-- Add Address Modal -->
-    <div class="modal-overlay" id="addAddressModal" aria-modal="true" role="dialog"
-        aria-labelledby="addAddressModalTitle">
-        <form id="addressForm" class="modal-panel" autocomplete="off">
-            <h2 id="addAddressModalTitle" class="modal-title">Add New Address</h2>
-            <button type="button" class="close-btn" aria-label="Close" onclick="closeAddAddressModal()">&times;</button>
+  <!-- Add Address Modal -->
+  <div class="modal-overlay" id="addAddressModal" aria-modal="true" role="dialog"
+    aria-labelledby="addAddressModalTitle">
+    <form id="addressForm" class="modal-panel" autocomplete="off">
+      <h2 id="addAddressModalTitle" class="modal-title">Add New Address</h2>
+      <button type="button" class="close-btn" aria-label="Close" onclick="closeAddAddressModal()">&times;</button>
 
-            <input name="address_line1" placeholder="Address Line 1" required />
-            <input name="address_line2" placeholder="Address Line 2 (Optional)" />
-            <input name="city" placeholder="City" required />
-            <input name="state" placeholder="State" required />
-            <input name="pin_code" placeholder="Pin Code" />
+      <input name="address_line1" placeholder="Address Line 1" required />
+      <input name="address_line2" placeholder="Address Line 2 (Optional)" />
+      <input name="city" placeholder="City" required />
+      <input name="state" placeholder="State" required />
+      <input name="pin_code" placeholder="Pin Code" />
 
-            <button type="submit" class="action-btn">Add Address</button>
-            <div id="addAddressErr" class="error-msg"></div>
-        </form>
-    </div>
+      <button type="submit" class="action-btn">Add Address</button>
+      <div id="addAddressErr" class="error-msg"></div>
+    </form>
+  </div>
 
-   <!-- Payment Portal Modal -->
-<div class="payment-portal" id="paymentPanel" aria-modal="true" role="dialog" aria-labelledby="paymentModalTitle">
-  <form id="paymentForm" class="payment-card" autocomplete="off">
-    <div class="payment-card-header">
-      <h2 id="paymentModalTitle" class="payment-title">Payment Portal</h2>
-      <button type="button" class="close-btn" aria-label="Close" onclick="hidePaymentPanel()">&times;</button>
-    </div>
-    <div class="payment-body">
-      <label for="paymentAmount" class="payment-label">Amount</label>
-      <input id="paymentAmount" type="number" min="1" required class="payment-input" readonly />
+  <!-- Payment Portal Modal -->
+  <div class="payment-portal" id="paymentPanel" aria-modal="true" role="dialog" aria-labelledby="paymentModalTitle">
+    <form id="paymentForm" class="payment-card" autocomplete="off">
+      <div class="payment-card-header">
+        <h2 id="paymentModalTitle" class="payment-title">Payment Portal</h2>
+        <button type="button" class="close-btn" aria-label="Close" onclick="hidePaymentPanel()">&times;</button>
+      </div>
+      <div class="payment-body">
+        <label for="paymentAmount" class="payment-label">Amount</label>
+        <input id="paymentAmount" type="number" min="1" required class="payment-input" readonly />
 
-      <label for="paymentMethod" class="payment-label">Payment Method</label>
-      <select id="paymentMethod" required class="payment-select">
-        <option value="">Select Method</option>
-        <option value="Cash">Cash</option>
-        <option value="Card">Card</option>
-        <option value="UPI">UPI</option>
-      </select>
-      <div id="paymentError" class="error-msg"></div>
-      <div id="paymentSuccess" class="success-msg"></div>
-    </div>
-    <button type="submit" class="payment-btn">Pay & Confirm Order</button>
-  </form>
-</div>
+        <label for="paymentMethod" class="payment-label">Payment Method</label>
+        <select id="paymentMethod" required class="payment-select">
+          <option value="">Select Method</option>
+          <option value="Cash">Cash</option>
+          <option value="Card">Card</option>
+          <option value="UPI">UPI</option>
+        </select>
+        <div id="paymentError" class="error-msg"></div>
+        <div id="paymentSuccess" class="success-msg"></div>
+      </div>
+      <button type="submit" class="payment-btn">Pay & Confirm Order</button>
+    </form>
+  </div>
 
-   <script>
-        // --- DATA & PAGE SETUP VARIABLES ---
-        const baseApiUrl = '/Baseera_app/Backend/';
-        const urlParams = new URLSearchParams(window.location.search);
-        const serviceId = urlParams.get('service_id');
-        const serviceName = decodeURIComponent(urlParams.get('service_name') || '');
-        const currentCustomerId = 1; // Set your actual logged-in customer ID here
-        document.getElementById('modalTitle').textContent = serviceName
-            ? `Book: ${serviceName}` : 'Service Booking';
-        let selectedAddressId = null;
-        let selectedAddressText = null;
-        let bookedOrderId = null;
-        let paymentId = null;
-        let branchId = null; // Will be set dynamically from localStorage
+  <script>
+    // --- DATA & PAGE SETUP VARIABLES ---
+    const baseApiUrl = '/Baseera_app/Backend/';
+    const urlParams = new URLSearchParams(window.location.search);
+    const serviceId = urlParams.get('service_id');
+    const serviceName = decodeURIComponent(urlParams.get('service_name') || '');
+    const currentCustomerId = 1; // Set your actual logged-in customer ID here
+    document.getElementById('modalTitle').textContent = serviceName
+      ? `Book: ${serviceName}` : 'Service Booking';
+    let selectedAddressId = null;
+    let selectedAddressText = null;
+    let bookedOrderId = null;
+    let paymentId = null;
+    let branchId = null; // Will be set dynamically from localStorage
 
-        // --- DATA LOADING FUNCTIONS ---
-        async function fetchJson(url, options = {}) {
-            try {
-                const res = await fetch(url, options);
-                return await res.json();
-            } catch (e) {
-                console.error('Fetch error:', e);
-                return null;
-            }
+    // --- DATA LOADING FUNCTIONS ---
+    async function fetchJson(url, options = {}) {
+      try {
+        const res = await fetch(url, options);
+        return await res.json();
+      } catch (e) {
+        console.error('Fetch error:', e);
+        return null;
+      }
+    }
+
+    // Load customer's cars
+    async function loadCars() {
+      const data = await fetchJson(`${baseApiUrl}get_car.php?customer_id=${currentCustomerId}`);
+      const select = document.getElementById('selectCar');
+      select.innerHTML = '';
+      if (data?.status === 'success' && Array.isArray(data.cars)) {
+        data.cars.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.car_id;
+          opt.textContent = `${c.car_name} (${c.car_number})`;
+          select.appendChild(opt);
+        });
+      } else {
+        select.innerHTML = '<option value="">No cars found</option>';
+      }
+    }
+
+    // Load plans and set payment amount (readonly)
+    async function loadPlans() {
+      const container = document.getElementById('planOptions');
+      container.innerHTML = '';
+      if (!serviceId) {
+        container.innerHTML = '<p style="color: #db3535; font-weight: 600;">No service selected to show plans.</p>';
+        console.warn("No service ID found in URL parameters.");
+        return;
+      }
+
+      try {
+        const response = await fetch('/Baseera_app/Backend/get_all_service_plans.php');
+        if (!response.ok) {
+          container.innerHTML = '<p style="color: #db3535;">Failed to load service plans.</p>';
+          return;
+        }
+        const data = await response.json();
+        if (data.status !== 'success' || !Array.isArray(data.plans)) {
+          container.innerHTML = '<p style="color: #db3535;">Failed to load service plans (invalid data).</p>';
+          return;
         }
 
-        // Load customer's cars
-        async function loadCars() {
-            const data = await fetchJson(`${baseApiUrl}get_car.php?customer_id=${currentCustomerId}`);
-            const select = document.getElementById('selectCar');
-            select.innerHTML = '';
-            if (data?.status === 'success' && Array.isArray(data.cars)) {
-                data.cars.forEach(c => {
-                    const opt = document.createElement('option');
-                    opt.value = c.car_id;
-                    opt.textContent = `${c.car_name} (${c.car_number})`;
-                    select.appendChild(opt);
-                });
-            } else {
-                select.innerHTML = '<option value="">No cars found</option>';
-            }
+        const filteredPlans = data.plans.filter(plan => {
+          return plan.service_id && plan.service_id.toString().trim() === serviceId.toString().trim();
+        });
+
+        if (filteredPlans.length === 0) {
+          container.innerHTML = '<p style="color: #888;">No plans available for this service.</p>';
+          return;
         }
 
-        // Load plans and set payment amount (readonly)
-        async function loadPlans() {
-            const container = document.getElementById('planOptions');
-            container.innerHTML = '';
-            if (!serviceId) {
-                container.innerHTML = '<p style="color: #db3535; font-weight: 600;">No service selected to show plans.</p>';
-                console.warn("No service ID found in URL parameters.");
-                return;
-            }
-
-            try {
-                const response = await fetch('/Baseera_app/Backend/get_all_service_plans.php');
-                if (!response.ok) {
-                    container.innerHTML = '<p style="color: #db3535;">Failed to load service plans.</p>';
-                    return;
-                }
-                const data = await response.json();
-                if (data.status !== 'success' || !Array.isArray(data.plans)) {
-                    container.innerHTML = '<p style="color: #db3535;">Failed to load service plans (invalid data).</p>';
-                    return;
-                }
-
-                const filteredPlans = data.plans.filter(plan => {
-                    return plan.service_id && plan.service_id.toString().trim() === serviceId.toString().trim();
-                });
-
-                if (filteredPlans.length === 0) {
-                    container.innerHTML = '<p style="color: #888;">No plans available for this service.</p>';
-                    return;
-                }
-
-                filteredPlans.forEach((plan, idx) => {
-                    const label = document.createElement('div');
-                    label.style.display = 'block';
-                    label.style.marginBottom = '8px';
-                    label.innerHTML =  `<div class="plan-radio-row">
+        filteredPlans.forEach((plan, idx) => {
+          const label = document.createElement('div');
+          label.style.display = 'block';
+          label.style.marginBottom = '8px';
+          label.innerHTML = `<div class="plan-radio-row">
       <input type="radio" name="plan_id" id="plan${plan.plan_id}" value="${plan.plan_id}">
       <label for="plan${plan.plan_id}" class="plan-label">
         <span class="plan-name">${plan.plan_name}</span>
         <span class="plan-price">₹ ${parseFloat(plan.plan_price).toFixed(2)}</span>
       </label>
     </div>`
-                    container.appendChild(label);
+          container.appendChild(label);
 
-                    // Listener: update payment amount field readonly
-                    const radio = label.querySelector('input[type="radio"]');
-                    radio.addEventListener("change", function() {
-                        document.getElementById('paymentAmount').value = plan.plan_price;
-                    });
+          // Listener: update payment amount field readonly
+          const radio = label.querySelector('input[type="radio"]');
+          radio.addEventListener("change", function () {
+            document.getElementById('paymentAmount').value = plan.plan_price;
+          });
 
-                    // Select and set default payment amount if first plan
-                    if (idx === 0) {
-                        radio.checked = true;
-                        document.getElementById('paymentAmount').value = plan.plan_price;
-                    }
-                });
-            } catch (error) {
-                container.innerHTML = '<p style="color: #db3535;">Error loading service plans.</p>';
-            }
-        }
+          // Select and set default payment amount if first plan
+          if (idx === 0) {
+            radio.checked = true;
+            document.getElementById('paymentAmount').value = plan.plan_price;
+          }
+        });
+      } catch (error) {
+        container.innerHTML = '<p style="color: #db3535;">Error loading service plans.</p>';
+      }
+    }
 
-        // Load employees
-        async function loadEmployees() {
-            const data = await fetchJson(`${baseApiUrl}get_employee.php`);
-            const select = document.getElementById('selectEmp');
-            select.innerHTML = '<option value="">Select Employee</option>';
-            if (data?.status === 'success' && Array.isArray(data.employees)) {
-                data.employees.forEach(emp => {
-                    const opt = document.createElement('option');
-                    opt.value = emp.employee_id;
-                    opt.textContent = emp.employee_name;
-                    select.appendChild(opt);
-                });
-            }
-        }
+    // Load employees
+    async function loadEmployees() {
+      const data = await fetchJson(`${baseApiUrl}get_employee.php`);
+      const select = document.getElementById('selectEmp');
+      select.innerHTML = '<option value="">Select Employee</option>';
+      if (data?.status === 'success' && Array.isArray(data.employees)) {
+        data.employees.forEach(emp => {
+          const opt = document.createElement('option');
+          opt.value = emp.employee_id;
+          opt.textContent = emp.employee_name;
+          select.appendChild(opt);
+        });
+      }
+    }
 
-        // Load addresses
-        async function loadAddresses(callback) {
-            const addressList = document.getElementById('addressList');
-            addressList.innerHTML = '';
-            const data = await fetchJson(`${baseApiUrl}get_addresses.php?customer_id=${currentCustomerId}`);
-            if (data?.status === 'success' && Array.isArray(data.addresses)) {
-                data.addresses.forEach(addr => {
-                    const div = document.createElement('div');
-                    div.className = 'address-item' + (addr.address_id === selectedAddressId ? ' selected' : '');
-                    div.textContent = `${addr.address_line1}, ${addr.city}, ${addr.state}`;
-                    div.onclick = () => {
-                        selectedAddressId = addr.address_id;
-                        selectedAddressText = div.textContent;
-                        document.getElementById('selectedAddressId').value = selectedAddressId;
-                        document.getElementById('selectedAddressText').textContent = selectedAddressText;
-                        closeAddressOverlay();
-                    };
-                    addressList.appendChild(div);
-                });
-            } else {
-                addressList.innerHTML = '<div>No addresses found.</div>';
-            }
-            if (callback) callback();
-        }
-
-        // Slot handling: unchanged from your code
-        function renderSlotDates(employeeId) {
-            const tabs = document.getElementById('slotDateTabs');
-            tabs.innerHTML = '';
-            const today = new Date();
-            for (let i = 0; i < 7; i++) {
-                const d = new Date();
-                d.setDate(today.getDate() + i);
-                const dd = String(d.getDate()).padStart(2, '0');
-                const mm = String(d.getMonth() + 1).padStart(2, '0');
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'slot-tab';
-                btn.textContent = `${dd}/${mm}`;
-                btn.onclick = () => {
-                    [...tabs.children].forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    renderSlots(employeeId, `${d.getFullYear()}-${mm}-${dd}`);
-                };
-                tabs.appendChild(btn);
-                if (i === 0) btn.click();
-            }
-        }
-
-        async function renderSlots(employeeId, dateStr) {
-            const container = document.getElementById('slotTimes');
-            container.innerHTML = '';
-            if (!employeeId) {
-                document.getElementById('slotMsg').textContent = 'Please select an employee to view slots.';
-                return;
-            } else {
-                document.getElementById('slotMsg').textContent = '';
-            }
-            const slotData = await fetchJson(`${baseApiUrl}get_slot.php`);
-            const bookedData = await fetchJson(`${baseApiUrl}get_booked_slots_for_an_employee_and_date.php?employee_id=${employeeId}&date=${dateStr}`);
-            const bookedSlots = new Set((bookedData?.booked_slots || []).map(bs => String(bs.slot_id)));
-            // Filter for today, etc... unchanged
-            const now = new Date();
-            const todayStr = now.toISOString().split('T')[0];
-            let filteredSlots = [];
-            if (slotData?.slots) {
-                filteredSlots = slotData.slots.filter(slot => {
-                    if (dateStr === todayStr) {
-                        let slotEndTime = slot.end_time.split(':').slice(0, 2).join(':');
-                        let slotEnd = new Date(`${dateStr}T${slotEndTime}:00`);
-                        if (slotEnd <= now) return false;
-                    }
-                    return true;
-                });
-            }
-            if (!filteredSlots.length) {
-                container.textContent = 'No available slots for this date.';
-                return;
-            }
-            let row = null;
-            filteredSlots.forEach((slot, i) => {
-                if (i % 2 === 0) {
-                    row = document.createElement('div');
-                    row.className = 'slots-row';
-                    container.appendChild(row);
-                }
-                const isBooked = bookedSlots.has(String(slot.slot_id));
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'slot-btn' + (isBooked ? ' booked' : '');
-                const formatTime = t => {
-                    let [hour, minute] = t.split(':').map(Number);
-                    const ampm = hour >= 12 ? 'PM' : 'AM';
-                    hour = hour % 12 || 12;
-                    return `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
-                };
-                btn.textContent = `${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`;
-                btn.disabled = isBooked;
-                if (!isBooked) {
-                    btn.onclick = () => {
-                        container.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
-                        btn.classList.add('selected');
-                        btn.setAttribute('data-slot-id', slot.slot_id);
-                    };
-                }
-                row.appendChild(btn);
-            });
-        }
-
-        // Address modal functions: unchanged
-        function showAddressOverlay() {
-            document.getElementById('addressOverlay').classList.add('show');
-            loadAddresses();
-        }
-        function closeAddressOverlay() {
-            document.getElementById('addressOverlay').classList.remove('show');
-        }
-        function showAddAddressModal() {
+    // Load addresses
+    async function loadAddresses(callback) {
+      const addressList = document.getElementById('addressList');
+      addressList.innerHTML = '';
+      const data = await fetchJson(`${baseApiUrl}get_addresses.php?customer_id=${currentCustomerId}`);
+      if (data?.status === 'success' && Array.isArray(data.addresses)) {
+        data.addresses.forEach(addr => {
+          const div = document.createElement('div');
+          div.className = 'address-item' + (addr.address_id === selectedAddressId ? ' selected' : '');
+          div.textContent = `${addr.address_line1}, ${addr.city}, ${addr.state}`;
+          div.onclick = () => {
+            selectedAddressId = addr.address_id;
+            selectedAddressText = div.textContent;
+            document.getElementById('selectedAddressId').value = selectedAddressId;
+            document.getElementById('selectedAddressText').textContent = selectedAddressText;
             closeAddressOverlay();
-            document.getElementById('addAddressErr').textContent = '';
-            document.getElementById('addAddressModal').classList.add('show');
-            document.getElementById('addressForm').reset();
-        }
-        function closeAddAddressModal() {
-            document.getElementById('addAddressModal').classList.remove('show');
-        }
-        document.getElementById('addressForm').onsubmit = async function (e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            formData.append('customer_id', currentCustomerId);
-            const response = await fetch(`${baseApiUrl}add_address.php`, {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await response.json();
-            if (data.status === 'success') {
-                closeAddAddressModal();
-                showAddressOverlay();
-            } else {
-                document.getElementById('addAddressErr').textContent = data.message || 'Error adding address';
-            }
-        };
-
-        // Pick up/Drop logic: unchanged
-        function handlePickupDropChange() {
-            const pickupYes = document.querySelector('input[name="pickup_drop"][value="1"]').checked;
-            document.getElementById('addressRow').style.display = pickupYes ? 'flex' : 'none';
-            if (!pickupYes) {
-                selectedAddressId = null;
-                document.getElementById('selectedAddressId').value = '';
-                document.getElementById('selectedAddressText').textContent = '';
-            }
-        }
-        document.querySelectorAll('input[name="pickup_drop"]').forEach(radio => {
-            radio.addEventListener('change', handlePickupDropChange);
+          };
+          addressList.appendChild(div);
         });
-        document.getElementById('selectEmp').addEventListener('change', function () {
-            const empId = this.value;
-            if (empId) renderSlotDates(empId);
-        });
+      } else {
+        addressList.innerHTML = '<div>No addresses found.</div>';
+      }
+      if (callback) callback();
+    }
 
-        // Booking form handling (unchanged except removing manual amount!)
-        document.getElementById('bookingForm').onsubmit = async function (e) {
-            e.preventDefault();
-            branchId = localStorage.getItem("selectedBranchId") || null;
-            // Assume confirmation step is handled elsewhere if wanted
-            const carId = document.getElementById('selectCar').value;
-            const employeeId = document.getElementById('selectEmp').value;
-            const slotBtn = document.querySelector('.slot-btn.selected');
-            const pickupDrop = document.querySelector('input[name="pickup_drop"]:checked').value;
-            const addressId = document.getElementById('selectedAddressId').value || null;
-            const planCheckbox = document.querySelector('input[name="plan_id"]:checked');
-            const planId = planCheckbox ? planCheckbox.value : null;
-            if (!planId) return setError('Please select a plan.');
-            if (!carId) return setError('Please select a car.');
-            if (!employeeId) return setError('Please select an employee.');
-            if (!slotBtn) return setError('Please select a time slot.');
-            if (pickupDrop === '1' && !addressId) return setError('Please select an address.');
-            if (!branchId) return setError('Branch not selected or saved. Please select a branch.');
-            setError("");
-            const slotId = slotBtn.getAttribute('data-slot-id');
-            const selectedDateBtn = document.querySelector('#slotDateTabs .slot-tab.selected');
-            if (!selectedDateBtn) return setError('Please select a date.');
-            const selectedDateText = selectedDateBtn.textContent;
-            const [day, month] = selectedDateText.split('/').map(s => parseInt(s, 10));
-            let year = new Date().getFullYear();
-            if (month < (new Date().getMonth() + 1)) year++;
-            const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-            try {
-                // Book slot
-                const formData = new URLSearchParams();
-                formData.append('employee_id', employeeId);
-                formData.append('slot_id', slotId);
-                formData.append('date', formattedDate);
-                const response = await fetch(`${baseApiUrl}book_slot.php`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: formData.toString()
-                });
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                const result = await response.json();
-                if (result.status !== "success") {
-                    alert(result.message || "Slot booking failed. Please select another slot.");
-                    return;
-                }
-                const bookedSlotId = result.booked_slot_id;
-                window.currentOrderData = {
-                    customer_id: currentCustomerId,
-                    employee_id: Number(employeeId),
-                    booked_slot_id: Number(bookedSlotId),
-                    car_id: Number(carId),
-                    service_id: Number(serviceId),
-                    plan_id: Number(planId),
-                    address_id: addressId ? Number(addressId) : null,
-                    branch_id: branchId
-                };
-                // Show payment panel, fill price from selected plan radio:
-                showPaymentPanel();
-            } catch (error) {
-                alert("Network error occurred or server is unreachable. Please try again.");
-            }
+    // Slot handling: unchanged from your code
+    function renderSlotDates(employeeId) {
+      const tabs = document.getElementById('slotDateTabs');
+      tabs.innerHTML = '';
+      const today = new Date();
+      for (let i = 0; i < 7; i++) {
+        const d = new Date();
+        d.setDate(today.getDate() + i);
+        const dd = String(d.getDate()).padStart(2, '0');
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'slot-tab';
+        btn.textContent = `${dd}/${mm}`;
+        btn.onclick = () => {
+          [...tabs.children].forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          renderSlots(employeeId, `${d.getFullYear()}-${mm}-${dd}`);
         };
+        tabs.appendChild(btn);
+        if (i === 0) btn.click();
+      }
+    }
 
-        // Show payment panel & fill value from selected plan price
-        function showPaymentPanel() {
-            const checkedPlan = document.querySelector('input[name="plan_id"]:checked');
-            if (checkedPlan) {
-                const priceSpan = checkedPlan.parentElement.querySelector('span#plan-price');
-                if (priceSpan) {
-                    const price = priceSpan.textContent.replace(/[^0-9.]/g, '');
-                    document.getElementById('paymentAmount').value = price;
-                }
-            }
-            document.getElementById('paymentPanel').classList.add('show');
-            document.getElementById('bookingPanel').style.display = 'none';
-        }
-        function hidePaymentPanel() {
-            document.getElementById('paymentPanel').classList.remove('show');
-            document.getElementById('bookingPanel').style.display = '';
-        }
-
-        document.getElementById('paymentForm').onsubmit = async function (e) {
-            e.preventDefault();
-            // Now input is always readonly, always has correct price!
-            const amount = parseFloat(document.getElementById('paymentAmount').value);
-            const method = document.getElementById('paymentMethod').value;
-            if (!amount || amount <= 0)
-                return setPaymentError('Enter a valid payment amount.');
-            if (!method)
-                return setPaymentError('Select a payment method.');
-            setPaymentError('');
-            const now = new Date();
-            const paymentDate = now.toISOString().slice(0, 19).replace('T', ' ');
-            const paymentPayload = new FormData();
-            paymentPayload.append('customer_id', currentCustomerId);
-            paymentPayload.append('payment_amount', amount); // DYNAMIC!
-            paymentPayload.append('payment_method', method);
-            paymentPayload.append('payment_status', 'Paid');
-            paymentPayload.append('payment_date', paymentDate);
-            try {
-                const resp = await fetch(`${baseApiUrl}add_payment.php`, {
-                    method: 'POST',
-                    body: paymentPayload,
-                });
-                const data = await resp.json();
-                if (data.status === 'success') {
-                    document.getElementById('paymentSuccess').textContent = 'Payment successful! Processing booking...';
-                    paymentId = data.payment_id;
-                    window.currentOrderData.payment_id = paymentId;
-                    await submitOrder(amount);
-                } else {
-                    setPaymentError(data.message || 'Payment failed');
-                }
-            } catch (e) {
-                setPaymentError('Network error');
-            }
-        };
-
-        // Submit order: keep as in your code (get amount from param, not input)
-        async function submitOrder(paymentAmount) {
-            if (!window.currentOrderData) {
-                alert("Missing order data. Please try again.");
-                return;
-            }
-            const data = window.currentOrderData;
-            const payload = new FormData();
-            payload.append('customer_id', data.customer_id ?? '');
-            payload.append('employee_id', data.employee_id ?? '');
-            payload.append('booked_slot_id', data.booked_slot_id ?? '');
-            payload.append('car_id', data.car_id ?? '');
-            payload.append('service_id', data.service_id ?? '');
-            payload.append('plan_id', data.plan_id ?? '');
-            payload.append('payment_id', data.payment_id ?? '');
-            payload.append('order_status', data.order_status ?? 'pending');
-            payload.append('total_amount', paymentAmount ?? 0);
-            payload.append('address_id', data.address_id ?? '');
-            payload.append('branch_id', data.branch_id ?? '');
-            try {
-                const response = await fetch(`${baseApiUrl}add_order.php`, {
-                    method: 'POST',
-                    body: payload
-                });
-                const text = await response.text();
-                let json;
-                try {
-                    json = JSON.parse(text);
-                } catch (e) {
-                    alert("Received invalid server response. Please try again later.");
-                    return;
-                }
-                if (json.status === "success") {
-                    alert("Order placed successfully!");
-                    setTimeout(() => window.location.href = '../customer_dashboard.html', 2000);
-                } else {
-                    alert("Order failed: " + (json.message || "Unknown error"));
-                }
-            } catch (error) {
-                alert("Network error while submitting order. Please try again.");
-            }
-        }
-
-        function setError(msg) {
-            document.getElementById('bookingError').textContent = msg || '';
-        }
-        function setPaymentError(msg) {
-            document.getElementById('paymentError').textContent = msg || '';
-        }
-
-        // Navigation
-        function goBack() { history.back(); }
-
-        // Show/hide Address on pickup/drop
-        document.querySelectorAll('input[name="pickup_drop"]').forEach(el => {
-            el.addEventListener('change', e => {
-                document.getElementById('addressRow').style.display = e.target.value === '1' ? 'flex' : 'none';
-                if (e.target.value !== '1') {
-                    selectedAddressId = null;
-                    document.getElementById('selectedAddressId').value = '';
-                    document.getElementById('selectedAddressText').textContent = '';
-                }
-            });
+    async function renderSlots(employeeId, dateStr) {
+      const container = document.getElementById('slotTimes');
+      container.innerHTML = '';
+      if (!employeeId) {
+        document.getElementById('slotMsg').textContent = 'Please select an employee to view slots.';
+        return;
+      } else {
+        document.getElementById('slotMsg').textContent = '';
+      }
+      const slotData = await fetchJson(`${baseApiUrl}get_slot.php`);
+      const bookedData = await fetchJson(`${baseApiUrl}get_booked_slots_for_an_employee_and_date.php?employee_id=${employeeId}&date=${dateStr}`);
+      const bookedSlots = new Set((bookedData?.booked_slots || []).map(bs => String(bs.slot_id)));
+      // Filter for today, etc... unchanged
+      const now = new Date();
+      const todayStr = now.toISOString().split('T')[0];
+      let filteredSlots = [];
+      if (slotData?.slots) {
+        filteredSlots = slotData.slots.filter(slot => {
+          if (dateStr === todayStr) {
+            let slotEndTime = slot.end_time.split(':').slice(0, 2).join(':');
+            let slotEnd = new Date(`${dateStr}T${slotEndTime}:00`);
+            if (slotEnd <= now) return false;
+          }
+          return true;
         });
-
-        // Initial load
-        loadPlans();
-        loadCars();
-        loadEmployees();
-        handlePickupDrop_init();
-
-        function handlePickupDrop_init() {
-            const checked = document.querySelector('input[name="pickup_drop"]:checked');
-            if (checked) {
-                document.getElementById('addressRow').style.display = checked.value === '1' ? 'flex' : 'none';
-            }
+      }
+      if (!filteredSlots.length) {
+        container.textContent = 'No available slots for this date.';
+        return;
+      }
+      let row = null;
+      filteredSlots.forEach((slot, i) => {
+        if (i % 2 === 0) {
+          row = document.createElement('div');
+          row.className = 'slots-row';
+          container.appendChild(row);
         }
-    </script>
+        const isBooked = bookedSlots.has(String(slot.slot_id));
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'slot-btn' + (isBooked ? ' booked' : '');
+        const formatTime = t => {
+          let [hour, minute] = t.split(':').map(Number);
+          const ampm = hour >= 12 ? 'PM' : 'AM';
+          hour = hour % 12 || 12;
+          return `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
+        };
+        btn.textContent = `${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`;
+        btn.disabled = isBooked;
+        if (!isBooked) {
+          btn.onclick = () => {
+            container.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            btn.setAttribute('data-slot-id', slot.slot_id);
+          };
+        }
+        row.appendChild(btn);
+      });
+    }
+
+    // Address modal functions: unchanged
+    function showAddressOverlay() {
+      document.getElementById('addressOverlay').classList.add('show');
+      loadAddresses();
+    }
+    function closeAddressOverlay() {
+      document.getElementById('addressOverlay').classList.remove('show');
+    }
+    function showAddAddressModal() {
+      closeAddressOverlay();
+      document.getElementById('addAddressErr').textContent = '';
+      document.getElementById('addAddressModal').classList.add('show');
+      document.getElementById('addressForm').reset();
+    }
+    function closeAddAddressModal() {
+      document.getElementById('addAddressModal').classList.remove('show');
+    }
+    document.getElementById('addressForm').onsubmit = async function (e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      formData.append('customer_id', currentCustomerId);
+      const response = await fetch(`${baseApiUrl}add_address.php`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.status === 'success') {
+        closeAddAddressModal();
+        showAddressOverlay();
+      } else {
+        document.getElementById('addAddressErr').textContent = data.message || 'Error adding address';
+      }
+    };
+
+    // Pick up/Drop logic: unchanged
+    function handlePickupDropChange() {
+      const pickupYes = document.querySelector('input[name="pickup_drop"][value="1"]').checked;
+      document.getElementById('addressRow').style.display = pickupYes ? 'flex' : 'none';
+      if (!pickupYes) {
+        selectedAddressId = null;
+        document.getElementById('selectedAddressId').value = '';
+        document.getElementById('selectedAddressText').textContent = '';
+      }
+    }
+    document.querySelectorAll('input[name="pickup_drop"]').forEach(radio => {
+      radio.addEventListener('change', handlePickupDropChange);
+    });
+    document.getElementById('selectEmp').addEventListener('change', function () {
+      const empId = this.value;
+      if (empId) renderSlotDates(empId);
+    });
+
+    // Booking form handling (unchanged except removing manual amount!)
+    document.getElementById('bookingForm').onsubmit = async function (e) {
+      e.preventDefault();
+      branchId = localStorage.getItem("selectedBranchId") || null;
+      // Assume confirmation step is handled elsewhere if wanted
+      const carId = document.getElementById('selectCar').value;
+      const employeeId = document.getElementById('selectEmp').value;
+      const slotBtn = document.querySelector('.slot-btn.selected');
+      const pickupDrop = document.querySelector('input[name="pickup_drop"]:checked').value;
+      const addressId = document.getElementById('selectedAddressId').value || null;
+      const planCheckbox = document.querySelector('input[name="plan_id"]:checked');
+      const planId = planCheckbox ? planCheckbox.value : null;
+      if (!planId) return setError('Please select a plan.');
+      if (!carId) return setError('Please select a car.');
+      if (!employeeId) return setError('Please select an employee.');
+      if (!slotBtn) return setError('Please select a time slot.');
+      if (pickupDrop === '1' && !addressId) return setError('Please select an address.');
+      if (!branchId) return setError('Branch not selected or saved. Please select a branch.');
+      setError("");
+      const slotId = slotBtn.getAttribute('data-slot-id');
+      const selectedDateBtn = document.querySelector('#slotDateTabs .slot-tab.selected');
+      if (!selectedDateBtn) return setError('Please select a date.');
+      const selectedDateText = selectedDateBtn.textContent;
+      const [day, month] = selectedDateText.split('/').map(s => parseInt(s, 10));
+      let year = new Date().getFullYear();
+      if (month < (new Date().getMonth() + 1)) year++;
+      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      try {
+        // Book slot
+        const formData = new URLSearchParams();
+        formData.append('employee_id', employeeId);
+        formData.append('slot_id', slotId);
+        formData.append('date', formattedDate);
+        const response = await fetch(`${baseApiUrl}book_slot.php`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString()
+        });
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const result = await response.json();
+        if (result.status !== "success") {
+          Swal.fire({
+            icon: 'error',
+            title: 'Booking Failed',
+            text: "This slot might have just been booked. Please select another slot."
+          });
+          return;
+        }
+        const bookedSlotId = result.booked_slot_id;
+        window.currentOrderData = {
+          customer_id: currentCustomerId,
+          employee_id: Number(employeeId),
+          booked_slot_id: Number(bookedSlotId),
+          car_id: Number(carId),
+          service_id: Number(serviceId),
+          plan_id: Number(planId),
+          address_id: addressId ? Number(addressId) : null,
+          branch_id: branchId
+        };
+        // Show payment panel, fill price from selected plan radio:
+        showPaymentPanel();
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Networking Problem',
+          text: "Please try again"
+        });
+      }
+    };
+
+    // Show payment panel & fill value from selected plan price
+    function showPaymentPanel() {
+      const checkedPlan = document.querySelector('input[name="plan_id"]:checked');
+      if (checkedPlan) {
+        const priceSpan = checkedPlan.parentElement.querySelector('span#plan-price');
+        if (priceSpan) {
+          const price = priceSpan.textContent.replace(/[^0-9.]/g, '');
+          document.getElementById('paymentAmount').value = price;
+        }
+      }
+      document.getElementById('paymentPanel').classList.add('show');
+      document.getElementById('bookingPanel').style.display = 'none';
+    }
+    function hidePaymentPanel() {
+      document.getElementById('paymentPanel').classList.remove('show');
+      document.getElementById('bookingPanel').style.display = '';
+    }
+
+    document.getElementById('paymentForm').onsubmit = async function (e) {
+      e.preventDefault();
+      // Now input is always readonly, always has correct price!
+      const amount = parseFloat(document.getElementById('paymentAmount').value);
+      const method = document.getElementById('paymentMethod').value;
+      if (!amount || amount <= 0)
+        return setPaymentError('Enter a valid payment amount.');
+      if (!method)
+        return setPaymentError('Select a payment method.');
+      setPaymentError('');
+      const now = new Date();
+      const paymentDate = now.toISOString().slice(0, 19).replace('T', ' ');
+      const paymentPayload = new FormData();
+      paymentPayload.append('customer_id', currentCustomerId);
+      paymentPayload.append('payment_amount', amount); // DYNAMIC!
+      paymentPayload.append('payment_method', method);
+      paymentPayload.append('payment_status', 'Paid');
+      paymentPayload.append('payment_date', paymentDate);
+      try {
+        const resp = await fetch(`${baseApiUrl}add_payment.php`, {
+          method: 'POST',
+          body: paymentPayload,
+        });
+        const data = await resp.json();
+        if (data.status === 'success') {
+          document.getElementById('paymentSuccess').textContent = 'Payment successful! Processing booking...';
+          paymentId = data.payment_id;
+          window.currentOrderData.payment_id = paymentId;
+          await submitOrder(amount);
+        } else {
+          setPaymentError(data.message || 'Payment failed');
+        }
+      } catch (e) {
+        setPaymentError('Network error');
+      }
+    };
+
+    // Submit order: keep as in your code (get amount from param, not input)
+    async function submitOrder(paymentAmount) {
+      if (!window.currentOrderData) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Missing order data',
+          text: "Please try again."
+        });
+        return;
+      }
+      const data = window.currentOrderData;
+      const payload = new FormData();
+      payload.append('customer_id', data.customer_id ?? '');
+      payload.append('employee_id', data.employee_id ?? '');
+      payload.append('booked_slot_id', data.booked_slot_id ?? '');
+      payload.append('car_id', data.car_id ?? '');
+      payload.append('service_id', data.service_id ?? '');
+      payload.append('plan_id', data.plan_id ?? '');
+      payload.append('payment_id', data.payment_id ?? '');
+      payload.append('order_status', data.order_status ?? 'pending');
+      payload.append('total_amount', paymentAmount ?? 0);
+      payload.append('address_id', data.address_id ?? '');
+      payload.append('branch_id', data.branch_id ?? '');
+      try {
+        const response = await fetch(`${baseApiUrl}add_order.php`, {
+          method: 'POST',
+          body: payload
+        });
+        const text = await response.text();
+        let json;
+        try {
+          json = JSON.parse(text);
+        } catch (e) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Networking Problems',
+            text: "Please try again."
+          }); return;
+        }
+        if (json.status === "success") {
+Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: 'Your order has been placed successfully.',
+    timer: 2000, // Auto close after 2 seconds
+    showConfirmButton: false
+}).then(() => {
+    // This runs after the alert closes
+    window.location.href = '../customer_dashboard.html';
+});
+        } else {
+Swal.fire({
+    icon: 'error',
+    title: 'Order Failed',
+    text: " Please try again."
+});        }
+      } catch (error) {
+ Swal.fire({
+            icon: 'error',
+            title: 'Networking Problems',
+            text: "Please try again."
+          });      }
+    }
+
+    function setError(msg) {
+      document.getElementById('bookingError').textContent = msg || '';
+    }
+    function setPaymentError(msg) {
+      document.getElementById('paymentError').textContent = msg || '';
+    }
+
+    // Navigation
+    function goBack() { history.back(); }
+
+    // Show/hide Address on pickup/drop
+    document.querySelectorAll('input[name="pickup_drop"]').forEach(el => {
+      el.addEventListener('change', e => {
+        document.getElementById('addressRow').style.display = e.target.value === '1' ? 'flex' : 'none';
+        if (e.target.value !== '1') {
+          selectedAddressId = null;
+          document.getElementById('selectedAddressId').value = '';
+          document.getElementById('selectedAddressText').textContent = '';
+        }
+      });
+    });
+
+    // Initial load
+    loadPlans();
+    loadCars();
+    loadEmployees();
+    handlePickupDrop_init();
+
+    function handlePickupDrop_init() {
+      const checked = document.querySelector('input[name="pickup_drop"]:checked');
+      if (checked) {
+        document.getElementById('addressRow').style.display = checked.value === '1' ? 'flex' : 'none';
+      }
+    }
+  </script>
 
 </body>
 

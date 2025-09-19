@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <style>
     :root {
       --font-family-base: 'Poppins', Arial, "Segoe UI", sans-serif;
@@ -328,8 +330,14 @@
     // Assuming the user needs to be redirected to a login page on logout
     function logout() {
          sessionStorage.clear();
-         alert("suessfully logouted")
-         window.location.href = "../index.php"; }
+Swal.fire({
+    icon: 'success',
+    title: 'Logout!',
+    text: 'logout successfully.',
+    timer: 2000, // Auto close after 2 seconds
+    showConfirmButton: false
+});
+        window.location.href = "../index.php"; }
 
     window.onload = function() {
       // You should ideally get the specific customer's ID from a session or URL parameter.

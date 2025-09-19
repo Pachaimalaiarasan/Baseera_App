@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         :root {
             --primary-color: #007BFF;
@@ -734,6 +736,13 @@
         async function handleBuyNow(productId) {
             await handleAddToCart(productId);
             alert('"Buy Now" process initiated! This would typically redirect to a checkout page.');
+            Swal.fire({
+    icon: 'success',
+    title: 'Buy Know',
+    text: 'successfully.',
+    timer: 2000, // Auto close after 2 seconds
+    showConfirmButton: false
+});
         }
 
         function updateQuantity(amount) {

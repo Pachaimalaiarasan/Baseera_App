@@ -5,6 +5,8 @@
   <title>Products Admin Panel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <style>
   :root {
     /* Theme Colors - Easily Customizable */
@@ -588,7 +590,12 @@
           await loadProductMappings();
           await loadProducts();
       } catch (err) {
-          alert("Error: " + (err.message || "Could not delete product."));
+         Swal.fire({
+            icon: 'error',
+            title: 'Delete',
+            text: "Could not delete product."
+          });
+          // alert("Error: " + (err.message || "Could not delete product."));
       }
   }
 </script>
