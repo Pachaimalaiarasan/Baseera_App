@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
- <style>
-      :root {
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <style>
+    :root {
       --font-family-base: 'Poppins', Arial, "Segoe UI", sans-serif;
       --c-primary: #0062E6;
       --c-primary-light: #4D94FF;
@@ -116,9 +116,9 @@
     }
 
     .main-content-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
     }
 
     .section-title {
@@ -127,10 +127,12 @@
       margin: 2rem 0 1rem 0;
       color: var(--c-section-title);
     }
-    a{
+
+    a {
       text-decoration: none;
       color: var(--c-primary);
     }
+
     .welcome-header {
       font-size: 1.8rem;
       font-weight: 700;
@@ -607,7 +609,7 @@
       }
     }
   </style>
- </style>
+  </style>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
@@ -695,7 +697,7 @@
   <script>
     let currentBranchId = null, currentCustomerId = 1;
 
-window.onload = function() {
+    window.onload = function () {
       // NOTE: This code is for a page with a branch dropdown, like your homepage.
       // It has replaced the original profile loading code.
       let selectionTimeout;
@@ -705,7 +707,7 @@ window.onload = function() {
         .then(data => {
           let dropdown = document.getElementById("branchDropdown");
           // If there is no dropdown on the page, this code will do nothing and stop.
-          if (!dropdown) { 
+          if (!dropdown) {
             console.error("'branchDropdown' not found. This script is intended for the home page.");
             return;
           }
@@ -724,7 +726,7 @@ window.onload = function() {
               // Check if the user hasn't selected a branch yet
               if (dropdown.selectedIndex === 0) {
                 dropdown.selectedIndex = 1; // Select the first actual branch
-                
+
                 // Trigger the function to load content, if it exists
                 if (typeof onBranchChange === "function") {
                   onBranchChange();
@@ -876,6 +878,8 @@ window.onload = function() {
       document.body.style.overflow = "";
     }
 
+
+
     document.getElementById("addCarForm").onsubmit = function (e) {
       e.preventDefault();
       const formData = new FormData(this);
@@ -893,7 +897,24 @@ window.onload = function() {
           document.getElementById("addCarError").innerText = "A network error occurred.";
         });
     };
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const productsContainer = document.getElementById('productsList');
+        
+        if (productsContainer) {
+            productsContainer.addEventListener('click', function(event) {
+                // Find the product card that was clicked on, even if the user clicks an element inside it
+                const card = event.target.closest('.product-card');
+                
+                // If a product card was indeed clicked, redirect
+                if (card) {
+                    window.location.href = 'Customer/customer_product.html';
+                }
+            });
+        }
+    });
   </script>
+
 </body>
 
 </html>
